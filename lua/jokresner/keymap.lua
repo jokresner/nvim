@@ -7,7 +7,7 @@ end
 -- Keymaps for better default experience
 -- See `:help map()`
 map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-map('n', 'q', ':quit<cr>', { desc = 'Exit nvim' })
+map('n', 'q', vim.cmd.exit, { desc = 'Exit nvim' })
 
 -- Remap for dealing with word wrap
 map('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
