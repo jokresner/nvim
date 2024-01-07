@@ -46,4 +46,11 @@ map('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]ea
 map('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 
 -- formatting
-map('n', '<leader>f', vim.lsp.buf.format, { desc = ' [F]ormat document' })
+map('n', '<leader>f', vim.lsp.buf.format, { desc = '[F]ormat document' })
+
+-- Lazy.nvim
+local lazy = require("lazy")
+local util = require("lazy.util")
+map('n', '<leader>l', lazy.home, { desc = 'Open Lazy UI' })
+map('n', '<leader>gu', function() util.float_term({'lazygit'}) end, {desc = 'Open lay[g]it [U]I'})
+map('n', '<leader>ft', util.float_term, { desc = 'Open [f]loating [t]erminal'}) 
