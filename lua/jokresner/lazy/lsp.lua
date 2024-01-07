@@ -57,6 +57,10 @@ return {
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
+    init = function ()
+      vim.keymap.set('n', '<leader>m', ':Mason<cr>', { desc = 'Open [M]ason UI' })
+      vim.keymap.set('n', '<leader>mu', ':MasonUpdate<cr>', { desc = 'Trigget [M]ason [U]pdate' })
+    end,
     config = function()
       local lspconfig = require("mason-lspconfig")
       require("mason").setup()
