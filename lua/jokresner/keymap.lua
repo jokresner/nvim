@@ -8,6 +8,10 @@ end
 -- See `:help map()`
 map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 map('n', 'q', vim.cmd.exit, { desc = 'Exit nvim' })
+map('n', 'n', 'nzzzv')
+map('n', 'N', 'Nzzzv')
+map('n', '<C-u>', '<C-u>zz')
+map('n', '<C-d>', '<C-d>zz')
 
 -- Remap for dealing with word wrap
 map('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
