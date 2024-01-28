@@ -10,6 +10,13 @@ Clone the repo and start neovim. Lazyvim is installed automatically.
 nvim
 ```
 
+## Dependencies
+
+- luarocks
+- gcc
+- ripgrep
+- fd (fd-find)
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
