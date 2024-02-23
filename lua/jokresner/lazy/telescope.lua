@@ -9,12 +9,16 @@ return {
       -- requirements installed.
       {
         'nvim-telescope/telescope-fzf-native.nvim',
-        -- NOTE: If you are having trouble with this installation,
-        --       refer to the README for telescope-fzf-native for more instructions.
         build = 'make',
         cond = function()
           return vim.fn.executable 'make' == 1
         end,
+      },
+      {
+        "jvgrootveld/telescope-zoxide",
+      },
+      {
+        "ghassan0/telescope-glyph.nvim",
       },
     },
     opts = {
@@ -30,7 +34,7 @@ return {
     config = function()
       local telescope = require('telescope')
       telescope.load_extension('fzf')
-      telescope.load_extension('z')
+      telescope.load_extension('zoxide')
       telescope.load_extension('glyph')
       telescope.load_extension('noice')
 
