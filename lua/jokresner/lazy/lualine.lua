@@ -1,217 +1,215 @@
-local colors = {
-  bg       = '#202328',
-  fg       = '#bbc2cf',
-  yellow   = '#ECBE7B',
-  cyan     = '#008080',
-  darkblue = '#081633',
-  green    = '#98be65',
-  orange   = '#FF8800',
-  violet   = '#a9a1e1',
-  magenta  = '#c678dd',
-  blue     = '#51afef',
-  red      = '#ec5f67',
-}
-
-local conditions = {
-  buffer_not_empty = function()
-    return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
-  end,
-  hide_in_width = function()
-    return vim.fn.winwidth(0) > 80
-  end,
-  check_git_workspace = function()
-    local filepath = vim.fn.expand('%:p:h')
-    local gitdir = vim.fn.finddir('.git', filepath .. ';')
-    return gitdir and #gitdir > 0 and #gitdir < #filepath
-  end,
-}
-
--- Config
-local config = {
-  options = {
-    -- Disable sections and component separators
-    component_separators = '',
-    section_separators = '',
-    theme = {
-      -- We are going to use lualine_c an lualine_x as left and
-      -- right section. Both are highlighted by c theme .  So we
-      -- are just setting default looks o statusline
-      normal = { c = { fg = colors.fg, bg = colors.bg } },
-      inactive = { c = { fg = colors.fg, bg = colors.bg } },
-    },
-  },
-  sections = {
-    -- these are to remove the defaults
-    lualine_a = {},
-    lualine_b = {},
-    lualine_y = {},
-    lualine_z = {},
-    -- These will be filled later
-    lualine_c = {},
-    lualine_x = {},
-  },
-  inactive_sections = {
-    -- these are to remove the defaults
-    lualine_a = {},
-    lualine_b = {},
-    lualine_y = {},
-    lualine_z = {},
-    lualine_c = {},
-    lualine_x = {},
-  },
-}
-
--- Inserts a component in lualine_c at left section
-local function ins_left(component)
-  table.insert(config.sections.lualine_c, component)
-end
-
--- Inserts a component in lualine_x at right section
-local function ins_right(component)
-  table.insert(config.sections.lualine_x, component)
-end
-
-ins_left {
-  function()
-    return '▊'
-  end,
-  color = { fg = colors.blue }, -- Sets highlighting of component
-  padding = { left = 0, right = 1 }, -- We don't need space before this
-}
-
-ins_left {
-  -- mode component
-  function()
-    return ''
-  end,
-  color = function()
-    -- auto change color according to neovims mode
-    local mode_color = {
-      n = colors.red,
-      i = colors.green,
-      v = colors.blue,
-      [''] = colors.blue,
-      V = colors.blue,
-      c = colors.magenta,
-      no = colors.red,
-      s = colors.orange,
-      S = colors.orange,
-      [''] = colors.orange,
-      ic = colors.yellow,
-      R = colors.violet,
-      Rv = colors.violet,
-      cv = colors.red,
-      ce = colors.red,
-      r = colors.cyan,
-      rm = colors.cyan,
-      ['r?'] = colors.cyan,
-      ['!'] = colors.red,
-      t = colors.red,
-    }
-    return { fg = mode_color[vim.fn.mode()] }
-  end,
-  padding = { right = 1 },
-}
-
-ins_left {
-  -- filesize component
-  'filesize',
-  cond = conditions.buffer_not_empty,
-}
-
-ins_left {
-  'filename',
-  cond = conditions.buffer_not_empty,
-  color = { fg = colors.magenta, gui = 'bold' },
-}
-
-ins_left { 'location' }
-
-ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
-
-ins_left {
-  'diagnostics',
-  sources = { 'nvim_diagnostic' },
-  symbols = { error = ' ', warn = ' ', info = ' ' },
-  diagnostics_color = {
-    color_error = { fg = colors.red },
-    color_warn = { fg = colors.yellow },
-    color_info = { fg = colors.cyan },
-  },
-}
-
--- Insert mid section. You can make any number of sections in neovim :)
--- for lualine it's any number greater then 2
-ins_left {
-  function()
-    return '%='
-  end,
-}
-
-ins_left {
-  -- Lsp server name .
-  function()
-    local msg = 'No Active Lsp'
-    local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-    local clients = vim.lsp.get_active_clients()
-    if next(clients) == nil then
-      return msg
-    end
-    for _, client in ipairs(clients) do
-      local filetypes = client.config.filetypes
-      if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-        return client.name
-      end
-    end
-    return msg
-  end,
-  icon = ' LSP:',
-  color = { fg = '#ffffff', gui = 'bold' },
-}
-
--- Add components to right sections
-ins_right {
-  'o:encoding', -- option component same as &encoding in viml
-  fmt = string.upper, -- I'm not sure why it's upper case either ;)
-  cond = conditions.hide_in_width,
-  color = { fg = colors.green, gui = 'bold' },
-}
-
-ins_right {
-  'fileformat',
-  fmt = string.upper,
-  icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-  color = { fg = colors.green, gui = 'bold' },
-}
-
-ins_right {
-  'branch',
-  icon = '',
-  color = { fg = colors.violet, gui = 'bold' },
-}
-
-ins_right {
-  'diff',
-  -- Is it me or the symbol for modified us really weird
-  symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
-  diff_color = {
-    added = { fg = colors.green },
-    modified = { fg = colors.orange },
-    removed = { fg = colors.red },
-  },
-  cond = conditions.hide_in_width,
-}
-
-ins_right {
-  function()
-    return '▊'
-  end,
-  color = { fg = colors.blue },
-  padding = { left = 1 },
-}
-
 return {
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    opts = config
+  "nvim-lualine/lualine.nvim",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  config = function()
+    local lualine = require("lualine")
+    local icons = require("nvim-web-devicons")
+
+    -- Color table for highlights
+    local colors = {
+      _nc = "#16141f",
+      base = "#191724",
+      surface = "#1f1d2e",
+      overlay = "#26233a",
+      muted = "#6e6a86",
+      subtle = "#908caa",
+      text = "#e0def4",
+      love = "#eb6f92",
+      gold = "#f6c177",
+      rose = "#ebbcba",
+      pine = "#31748f",
+      foam = "#9ccfd8",
+      iris = "#c4a7e7",
+      highlight_low = "#21202e",
+      highlight_med = "#403d52",
+      highlight_high = "#524f67",
+      none = "NONE",
+    }
+
+    local conditions = {
+      buffer_not_empty = function()
+        return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
+      end,
+    }
+
+    -- Function to get file icon based on filetype with color
+    local function get_file_icon()
+      local icon, iconhl = webdevicons.get_icon(vim.fn.expand('%:t'), vim.fn.expand('%:e'),
+        { default = true, color = true })
+      return icon or '', iconhl -- fallback to a generic icon if not found
+    end
+
+    -- Config
+    local config = {
+      options = {
+        component_separators = '',
+        section_separators = '',
+        theme = {
+          normal = { a = { fg = colors.text, bg = colors.none } },
+          inactive = { a = { fg = colors.text, bg = colors.none } },
+        },
+      },
+      sections = {
+        lualine_a = {}, -- Remove defaults
+        lualine_b = {},
+        lualine_c = {}, -- Custom section
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      },
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      },
+    }
+
+    -- Inserts a component in lualine_a at left section
+    local function insert_left_component(component)
+      table.insert(config.sections.lualine_a, component)
+    end
+
+    -- Inserts a component in lualine_z at right section
+    local function insert_right_component(component)
+      table.insert(config.sections.lualine_z, component)
+    end
+
+    insert_left_component {
+      function()
+        return ' ' -- Custom mode indicator icon
+      end,
+      color = { fg = colors.base, bg = colors.base }, -- Set branch color to rose
+      padding = { left = 0, right = 0 }
+    }
+
+    insert_left_component {
+      function()
+        return '  ' -- Custom mode indicator icon
+      end,
+      color = function()
+        -- Auto change color according to Neovim's mode
+        local mode_color = {
+          n = colors.rose,
+          i = colors.foam,
+          v = colors.iris,
+          V = colors.iris,
+          c = colors.love,
+          no = colors.rose,
+          s = colors.rose,
+          S = colors.rose,
+          ic = colors.gold,
+          R = colors.iris,
+          Rv = colors.iris,
+          cv = colors.love,
+          ce = colors.love,
+          r = colors.foam,
+          rm = colors.foam,
+          ['r?'] = colors.foam,
+          ['!'] = colors.love,
+          t = colors.love,
+        }
+        return { fg = mode_color[vim.fn.mode()], bg = colors.surface }
+      end,
+      padding = { left = 0, right = 0 },
+      separator = { right = ' ', left = '' },
+    }
+
+    -- File icon and name component with color
+    insert_left_component {
+      function()
+        local icon, iconhl = get_file_icon()
+        return '%#' .. iconhl .. '#' .. icon .. ' ' .. vim.fn.expand('%:t') .. '%*'
+      end,
+      padding = { left = 0, right = 0 }
+    }
+
+    -- Branch component with fixed color
+    insert_left_component {
+      "branch",
+      icon = "󰊢",
+      color = { fg = colors.gold, bg = colors.surface }, -- Set branch color to rose
+      separator = { right = ' ', left = ' ' },
+      padding = { left = 0, right = 0 },               -- Adjust the right padding to 1
+    }
+
+    insert_left_component {
+      'diff',
+      -- Is it me or the symbol for modified us really weird
+      symbols = { added = ' ', modified = ' ', removed = ' ' },
+      diff_color = {
+        added = { fg = colors.foam },
+        modified = { fg = colors.iris },
+        removed = { fg = colors.love },
+      },
+      color = { bg = colors.surface }, -- Set branch color to rose
+      cond = conditions.hide_in_width,
+      separator = { right = ' ', left = ' ' },
+      padding = { left = 1, right = 0 }
+    }
+
+    insert_left_component {
+      function()
+        return ' '                                  -- Custom mode indicator icon
+      end,
+      color = { fg = colors.base, bg = colors.base }, -- Set branch color to rose
+      padding = { left = 0, right = 0 }
+    }
+
+    insert_left_component {
+      'diagnostics',
+      sources = { 'nvim_diagnostic' },
+      symbols = { error = ' ', warn = ' ', hint = '⚑ ', info = '󰌵 ' },
+      diagnostics_color = {
+        color_error = { fg = colors.love },
+        color_warn = { fg = colors.gold },
+        color_info = { fg = colors.foam },
+      },
+      padding = { left = 0, right = 0 }
+    }
+
+    insert_right_component {
+      'progress',
+      -- Is it me or the symbol for modified us really weird
+      cond = conditions.hide_in_width,
+      padding = { left = 0, right = 0 }
+    }
+
+    insert_right_component {
+      function()
+        return ' 󱞇 ' -- Custom mode indicator icon
+      end,
+      color = { fg = colors.text, bg = colors.surface }, -- Set branch color to rose
+      separator = { right = ' ', left = ' ' },
+      padding = { left = 0, right = 0 }
+    }
+
+    insert_right_component {
+      'location',
+      -- Is it me or the symbol for modified us really weird
+      cond = conditions.hide_in_width,
+      padding = { left = 0, right = 0 }
+    }
+
+    insert_right_component {
+      function()
+        return '  ' -- Custom mode indicator icon
+      end,
+      color = { fg = colors.text, bg = colors.surface }, -- Set branch color to rose
+      separator = { right = ' ', left = ' ' },
+      padding = { left = 0, right = 0 }
+    }
+
+    insert_right_component {
+      function()
+        return ' '                                  -- Custom mode indicator icon
+      end,
+      color = { fg = colors.base, bg = colors.base }, -- Set branch color to rose
+      padding = { left = 0, right = 0 }
+    }
+
+    lualine.setup(config)
+  end,
 }
