@@ -1,10 +1,8 @@
 -- enable autoformat
 vim.g.autoformat = true
 
--- sync clipboard with system
-vim.opt.clipboard = "unnamedplus"
-
-vim.opt.completeopt = "menu,menuone,noselect"
+-- setup completion promt
+vim.opt.completeopt = "menu,menuone,preview,noinsert,noselect"
 
 -- setup numbers
 vim.opt.number = true

@@ -13,6 +13,11 @@ map('n', 'N', 'Nzzzv')
 map('n', '<C-u>', '<C-u>zz')
 map('n', '<C-d>', '<C-d>zz')
 
+-- copy and paste from clipboard
+map({ 'n', 'v' }, '<leader>y', '"+yg_', { desc = 'copy to clipboard' })
+map({ 'n', 'v' }, '<leader>p', '"+p', { desc = 'Paste from clipboard' })
+map({ 'n', 'v' }, '<leader>p', '"+p', { desc = 'Paste from clipboard' })
+
 -- Remap for dealing with word wrap
 map('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -57,5 +62,5 @@ map('n', '<leader>f', vim.lsp.buf.format, { desc = '[F]ormat document' })
 local lazy = require("lazy")
 local util = require("lazy.util")
 map('n', '<leader>l', lazy.home, { desc = 'Open Lazy UI' })
-map('n', '<leader>gu', function() util.float_term({'lazygit'}) end, {desc = 'Open lay[g]it [U]I'})
-map('n', '<leader>ft', util.float_term, { desc = 'Open [f]loating [t]erminal'}) 
+map('n', '<leader>gu', function() util.float_term({ 'lazygit' }) end, { desc = 'Open lay[g]it [U]I' })
+map('n', '<leader>ft', util.float_term, { desc = 'Open [f]loating [t]erminal' })
