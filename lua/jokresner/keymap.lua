@@ -23,8 +23,8 @@ map('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Diagnostic keymaps
-map('n', '<leader>dp', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-map('n', '<leader>dn', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+map('n', '<leader>cp', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+map('n', '<leader>cn', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 
 -- See `:help telescope.builtin`
