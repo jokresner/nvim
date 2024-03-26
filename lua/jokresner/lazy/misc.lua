@@ -57,4 +57,9 @@ return {
 
   { "ThePrimeagen/vim-be-good"},
 
+  {
+    "lukas-reineke/headlines.nvim",
+    config = true,
+  }
+
 }
