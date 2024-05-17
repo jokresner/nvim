@@ -15,6 +15,31 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("jokresner.lazy")
+require("lazy").setup({
+  spec = {
+    { import = "jokresner.lazy" },
+  },
+  install = {
+    missing = true,
+    colorscheme = { "catppuccin" },
+  },
+  checker = {
+    enable = true,
+    notify = true,
+  },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
+})
 
 require("jokresner")
