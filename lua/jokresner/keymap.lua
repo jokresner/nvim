@@ -7,7 +7,6 @@ end
 -- Keymaps for better default experience
 -- See `:help map()`
 map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-map('n', 'q', vim.cmd.exit, { desc = 'Exit nvim' })
 map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
 map('n', '<C-u>', '<C-u>zz')
