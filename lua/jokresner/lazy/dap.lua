@@ -68,6 +68,8 @@ return {
         },
       },
     },
+
+    { "nvim-neotest/nvim-nio" },
   },
 
   -- stylua: ignore
