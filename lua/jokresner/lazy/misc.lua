@@ -17,20 +17,29 @@ return {
     },
     config = function()
       -- document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ebug', _ = 'which_key_ignore' },
-        ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-        ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-      }
+      local wk = require("which-key")
+      wk.add({
+        { "<leader>c",  group = "[C]ode" },
+        { "<leader>c_", hidden = true },
+        { "<leader>d",  group = "[D]ebug" },
+        { "<leader>d_", hidden = true },
+        { "<leader>g",  group = "[G]it" },
+        { "<leader>g_", hidden = true },
+        { "<leader>h",  group = "Git [H]unk" },
+        { "<leader>h_", hidden = true },
+        { "<leader>r",  group = "[R]ename" },
+        { "<leader>r_", hidden = true },
+        { "<leader>s",  group = "[S]earch" },
+        { "<leader>s_", hidden = true },
+        { "<leader>t",  group = "[T]oggle" },
+        { "<leader>t_", hidden = true },
+        { "<leader>w",  group = "[W]orkspace" },
+        { "<leader>w_", hidden = true },
+      })
     end,
   },
 
-  { 'echasnovski/mini.nvim', version = false },
+  { 'echasnovski/mini.nvim',   version = false },
 
   {
     -- Add indentation guides even on blank lines
@@ -53,9 +62,9 @@ return {
     opts = nil,
   },
 
-  { "nvim-lua/plenary.nvim", lazy = true },
+  { "nvim-lua/plenary.nvim",   lazy = true },
 
-  { "ThePrimeagen/vim-be-good"},
+  { "ThePrimeagen/vim-be-good" },
 
   {
     "lukas-reineke/headlines.nvim",
