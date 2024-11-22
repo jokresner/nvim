@@ -1,9 +1,9 @@
 return {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    vscode = true,
-    ---@type Flash.Config
-    opts = {},
+	"folke/flash.nvim",
+	event = "VeryLazy",
+	vscode = true,
+	---@type Flash.Config
+	opts = {},
     -- stylua: ignore
     keys = {
       { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
@@ -13,3 +13,5 @@ return {
       { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
     },
 }
+
+-- vim: ts=2 sts=2 sw=2 et
