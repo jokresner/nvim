@@ -36,6 +36,10 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.smartindent = true
 
+-- Word wrap
+vim.opt.wrap = true
+vim.opt.linebreak = true
+
 -- Keep signcolumn on by default
 vim.opt.signcolumn = "yes"
 
