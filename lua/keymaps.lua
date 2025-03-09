@@ -27,6 +27,10 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right win
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
+-- Keybinds for window splitting
+vim.keymap.set("n", "<leader>dv", "<cmd>vsplit<cr>", { desc = "Split window vertically" })
+vim.keymap.set("n", "<leader>dh", "<cmd>split<cr>", { desc = "Split window horizontally" })
+
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 vim.api.nvim_create_autocmd("TextYankPost", {
