@@ -1,13 +1,16 @@
 -- Setting Options
-require 'options'
+require("options")
 
 -- Setting Keymaps
-require 'keymaps'
+require("keymaps")
+
+-- Setup Auto cmds
+require("autocmds")
 
 -- Bootstrap Lazyvim
-require 'lazy-bootstrap'
+require("lazy-bootstrap")
 
 -- Configure and Install Plugins
-require 'lazy-plugins'
+require("lazy-plugins")
 
 -- vim: ts=2 sts=2 sw=2 et
