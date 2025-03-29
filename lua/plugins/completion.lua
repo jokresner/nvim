@@ -1,100 +1,53 @@
 return {
-	{
-		"zbirenbaum/copilot.lua",
-		cmd = "Copilot",
-		build = ":Copilot auth",
-		event = "BufReadPost",
-		opts = {
-			suggestion = {
-				enabled = not vim.g.ai_cmp,
-				auto_trigger = true,
-				hide_during_completion = vim.g.ai_cmp,
-				keymap = {
-					accept = false, -- handled by nvim-cmp / blink.cmp
-					next = "<M-]>",
-					prev = "<M-[>",
-				},
-			},
-			panel = { enabled = false },
-			filetypes = {
-				markdown = true,
-				help = true,
-			},
-		},
-	},
+  'saghen/blink.cmp',
+  -- optional: provides snippets for the snippet source
+  dependencies = { 'rafamadriz/friendly-snippets' },
 
-	{ "giuxtaposition/blink-cmp-copilot" },
+  -- use a release tag to download pre-built binaries
+  version = '1.*',
+  -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
+  -- build = 'cargo build --release',
+  -- If you use nix, you can build from source using latest nightly rust with:
+  -- build = 'nix run .#build-plugin',
 
-	{
-		"CopilotC-Nvim/CopilotChat.nvim",
-		branch = "main",
-		cmd = "CopilotChat",
-		opts = function()
-			local user = vim.env.USER or "User"
-			user = user:sub(1, 1):upper() .. user:sub(2)
-			return {
-				auto_insert_mode = true,
-				question_header = "  " .. user .. " ",
-				answer_header = "  Copilot ",
-				window = {
-					width = 0.4,
-				},
-			}
-		end,
-		keys = {
-			{ "<c-s>", "<CR>", ft = "copilot-chat", desc = "Submit Prompt", remap = true },
-			{ "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
-			{
-				"<leader>aa",
-				function()
-					return require("CopilotChat").toggle()
-				end,
-				desc = "Toggle (CopilotChat)",
-				mode = { "n", "v" },
-			},
-			{
-				"<leader>ax",
-				function()
-					return require("CopilotChat").reset()
-				end,
-				desc = "Clear (CopilotChat)",
-				mode = { "n", "v" },
-			},
-			{
-				"<leader>aq",
-				function()
-					vim.ui.input({
-						prompt = "Quick Chat: ",
-					}, function(input)
-						if input ~= "" then
-							require("CopilotChat").ask(input)
-						end
-					end)
-				end,
-				desc = "Quick Chat (CopilotChat)",
-				mode = { "n", "v" },
-			},
-			{
-				"<leader>ap",
-				function()
-					require("CopilotChat").select_prompt()
-				end,
-				desc = "Prompt Actions (CopilotChat)",
-				mode = { "n", "v" },
-			},
-		},
-		config = function(_, opts)
-			local chat = require("CopilotChat")
+  ---@module 'blink.cmp'
+  ---@type blink.cmp.Config
+  opts = {
+    -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
+    -- 'super-tab' for mappings similar to vscode (tab to accept)
+    -- 'enter' for enter to accept
+    -- 'none' for no mappings
+    --
+    -- All presets have the following mappings:
+    -- C-space: Open menu or open docs if already open
+    -- C-n/C-p or Up/Down: Select next/previous item
+    -- C-e: Hide menu
+    -- C-k: Toggle signature help (if signature.enabled = true)
+    --
+    -- See :h blink-cmp-config-keymap for defining your own keymap
+    keymap = { preset = 'default' },
 
-			vim.api.nvim_create_autocmd("BufEnter", {
-				pattern = "copilot-chat",
-				callback = function()
-					vim.opt_local.relativenumber = false
-					vim.opt_local.number = false
-				end,
-			})
+    appearance = {
+      -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+      -- Adjusts spacing to ensure icons are aligned
+      nerd_font_variant = 'mono'
+    },
 
-			chat.setup(opts)
-		end,
-	},
+    -- (Default) Only show the documentation popup when manually triggered
+    completion = { documentation = { auto_show = false } },
+
+    -- Default list of enabled providers defined so that you can extend it
+    -- elsewhere in your config, without redefining it, due to `opts_extend`
+    sources = {
+      default = { 'lsp', 'path', 'snippets', 'buffer' },
+    },
+
+    -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
+    -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
+    -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
+    --
+    -- See the fuzzy documentation for more information
+    fuzzy = { implementation = "prefer_rust_with_warning" }
+  },
+  opts_extend = { "sources.default" }
 }

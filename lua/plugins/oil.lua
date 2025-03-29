@@ -1,28 +1,41 @@
 return {
-	"stevearc/oil.nvim",
-	config = function()
-		local oil = require("oil")
-		oil.setup({
-			default_file_explorer = true,
-			columns = {
-				"icon",
-				"size",
-			},
-			win_options = {
-				signcolumn = "yes",
-				spell = true,
-				list = true,
-			},
-			delete_to_trash = true,
-			promt_save_on_select_new_entry = true,
-			experimental_watch_for_changes = true,
-			view_options = {
-				show_hidden = true,
-			},
-		})
+  {
+    "stevearc/oil.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      CustomOilBar = function()
+        local path = vim.fn.expand "%"
+        path = path:gsub("oil://", "")
 
-		vim.keymap.set("n", "-", oil.open, { desc = "Open parent directory" })
-	end,
+        return "  " .. vim.fn.fnamemodify(path, ":.")
+      end
+
+      require("oil").setup {
+        columns = { "icon" },
+        keymaps = {
+          ["<C-h>"] = false,
+          ["<C-l>"] = false,
+          ["<C-k>"] = false,
+          ["<C-j>"] = false,
+          ["<M-h>"] = "actions.select_split",
+        },
+        win_options = {
+          winbar = "%{v:lua.CustomOilBar()}",
+        },
+        view_options = {
+          show_hidden = true,
+          is_always_hidden = function(name, _)
+            local folder_skip = { "dev-tools.locks", "dune.lock", "_build" }
+            return vim.tbl_contains(folder_skip, name)
+          end,
+        },
+      }
+
+      -- Open parent directory in current window
+      vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
+      -- Open parent directory in floating window
+      vim.keymap.set("n", "<space>-", require("oil").toggle_float)
+    end,
+  },
 }
-
--- vim: ts=2 sts=2 sw=2 et
