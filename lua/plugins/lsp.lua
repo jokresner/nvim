@@ -252,6 +252,8 @@ return {
         end,
       })
 
+      require("config.autoformat").setup()
+
       require("lsp_lines").setup()
       vim.diagnostic.config { virtual_text = true, virtual_lines = false }
 

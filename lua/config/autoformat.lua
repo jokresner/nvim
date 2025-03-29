@@ -2,8 +2,14 @@ local setup = function()
   -- Autoformatting Setup
   local conform = require "conform"
   conform.setup {
+    format_on_save = {
+      pattern = "*",
+      timeotu_ms = 500,
+      lsp_format = "fallback",
+    },
     formatters_by_ft = {
       lua = { "stylua" },
+      rust = { "rustfmt", lsp_format = "fallback" },
     },
   }
 
