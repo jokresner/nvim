@@ -13,6 +13,7 @@ return {
           enabled = true,
           indentscope_color = "",
         },
+        overseer = true,
       },
     },
     config = function()

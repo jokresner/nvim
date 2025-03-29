@@ -61,7 +61,6 @@ return {
       local lspconfig = require "lspconfig"
 
       local servers = {
-        bashls = true,
         gopls = {
           manual_install = true,
           settings = {
@@ -84,95 +83,6 @@ return {
           },
         },
         rust_analyzer = true,
-        svelte = true,
-        templ = true,
-        taplo = true,
-        intelephense = true,
-
-        pyright = true,
-        ruff = { manual_install = true },
-
-        -- Enabled biome formatting, turn off all the other ones generally
-        biome = true,
-        -- ts_ls = {
-        --   root_dir = require("lspconfig").util.root_pattern "package.json",
-        --   single_file = false,
-        --   server_capabilities = {
-        --     documentFormattingProvider = false,
-        --   },
-        -- },
-        vtsls = {
-          server_capabilities = {
-            documentFormattingProvider = false,
-          },
-        },
-        -- denols = true,
-        jsonls = {
-          server_capabilities = {
-            documentFormattingProvider = false,
-          },
-          settings = {
-            json = {
-              schemas = require("schemastore").json.schemas(),
-              validate = { enable = true },
-            },
-          },
-        },
-
-        -- cssls = {
-        --   server_capabilities = {
-        --     documentFormattingProvider = false,
-        --   },
-        -- },
-
-        yamlls = {
-          settings = {
-            yaml = {
-              schemaStore = {
-                enable = false,
-                url = "",
-              },
-              -- schemas = require("schemastore").yaml.schemas(),
-            },
-          },
-        },
-
-        ols = {},
-        racket_langserver = { manual_install = true },
-        roc_ls = { manual_install = true },
-
-        lexical = {
-          cmd = { "~/.local/share/nvim/mason/bin/lexical", "server" },
-          root_dir = require("lspconfig.util").root_pattern { "mix.exs" },
-          server_capabilities = {
-            completionProvider = vim.NIL,
-            definitionProvider = true,
-          },
-        },
-
-        clangd = {
-          -- cmd = { "clangd", unpack(require("custom.clangd").flags) },
-          -- TODO: Could include cmd, but not sure those were all relevant flags.
-          --    looks like something i would have added while i was floundering
-          init_options = { clangdFileStatus = true },
-
-          filetypes = { "c" },
-        },
-
-        tailwindcss = {
-          filetypes = extend("tailwindcss", "filetypes", { "ocaml.mlx" }),
-          settings = {
-            tailwindCSS = {
-              experimental = {
-                classRegex = {
-                  [[class: "([^"]*)]],
-                  [[className="([^"]*)]],
-                },
-              },
-              includeLanguages = extend("tailwindcss", "settings.tailwindCSS.includeLanguages", {}),
-            },
-          },
-        },
       }
 
       local servers_to_install = vim.tbl_filter(function(key)
