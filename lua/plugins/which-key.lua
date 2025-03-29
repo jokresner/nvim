@@ -12,6 +12,7 @@ return {
       { "<leader>d", group = "[D]ocument" },
       { "<leader>f", group = "[F]ind" },
       { "<leader>g", group = "[G]it" },
+      { "<leader>q", group = "Session Management" },
       { "<leader>r", group = "[R]eference" },
       { "<leader>s", group = "[S]earch" },
       { "<leader>u", group = "+Toggle" },
