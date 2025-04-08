@@ -16,7 +16,7 @@ return {
   },
   {
     "echasnovski/mini.animate",
-    enabled = true,
+    enabled = false,
     event = "VeryLazy",
     cond = vim.g.neovide == nil,
     opts = function(_, opts)

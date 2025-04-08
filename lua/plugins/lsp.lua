@@ -30,29 +30,6 @@ return {
       "b0o/SchemaStore.nvim",
     },
     config = function()
-      local extend = function(name, key, values)
-        local mod = require(string.format("lspconfig.configs.%s", name))
-        local default = mod.default_config
-        local keys = vim.split(key, ".", { plain = true })
-        while #keys > 0 do
-          local item = table.remove(keys, 1)
-          default = default[item]
-        end
-
-        if vim.islist(default) then
-          for _, value in ipairs(default) do
-            table.insert(values, value)
-          end
-        else
-          for item, value in pairs(default) do
-            if not vim.tbl_contains(values, item) then
-              values[item] = value
-            end
-          end
-        end
-        return values
-      end
-
       local capabilities = nil
       if pcall(require, "cmp_nvim_lsp") then
         capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -99,7 +76,6 @@ return {
         "stylua",
         "lua_ls",
         "delve",
-        -- "tailwind-language-server",
       }
 
       vim.list_extend(ensure_installed, servers_to_install)
@@ -133,15 +109,15 @@ return {
           local builtin = require "telescope.builtin"
 
           vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
-          vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = 0 })
-          vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = 0 })
-          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
-          vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
+          vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = 0, desc = "Goto Definition" })
+          vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = 0, desc = "Goto Reference" })
+          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0, desc = "Goto Declaration" })
+          vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0, desc = "Goto Type Definition" })
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0, desc = "Hover Documentation" })
 
-          vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
-          vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
-          vim.keymap.set("n", "<space>wd", builtin.lsp_document_symbols, { buffer = 0 })
+          vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0, desc = "Code Rename" })
+          vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0, desc = "Code Action" })
+          vim.keymap.set("n", "<space>wd", builtin.lsp_document_symbols, { buffer = 0, "Symbols in current document" })
 
           local filetype = vim.bo[bufnr].filetype
           if disable_semantic_tokens[filetype] then
