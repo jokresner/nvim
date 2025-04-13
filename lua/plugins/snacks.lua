@@ -31,6 +31,8 @@ return {
   lazy = false,
   ---@type snacks.Config
   opts = {
+    animate = { enabled = true },
+    bigfile = { enabled = true },
     dashboard = {
       enabled = true,
       sections = {
@@ -41,25 +43,25 @@ return {
         { section = "startup" },
       },
     },
-    bigfile = { enabled = true },
-    explorer = { enabled = true },
+    debug = { enabled = false },
+    git = { enabled = true },
+    image = { enabled = true },
     indent = { enabled = true },
     input = { enabled = true },
+    lazygit = { enabled = true },
     notifier = {
       enabled = true,
       timeout = 3000,
     },
+    notify = { enabled = true },
     picker = { enabled = true },
     quickfile = { enabled = true },
     scope = { enabled = true },
+    scratch = { enabled = true },
     scroll = { enabled = true },
     statuscolumn = { enabled = true },
-    words = { enabled = true },
-    styles = {
-      notification = {
-        -- wo = { wrap = true } -- Wrap notifications
-      },
-    },
+    toggle = { enabled = true },
+    zen = { enabled = true },
   },
   keys = {
     -- Top Pickers & Explorer
