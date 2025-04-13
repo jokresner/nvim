@@ -4,6 +4,7 @@ return {
     cmd = "Copilot",
     build = ":Copilot auth",
     event = "BufReadPost",
+    vscode = false,
     opts = {
       suggestion = {
         enabled = not vim.g.ai_cmp,
@@ -26,6 +27,8 @@ return {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "main",
     cmd = "CopilotChat",
+    vscode = false,
+    event = "VeryLazy",
     opts = function()
       local user = vim.env.USER or "User"
       user = user:sub(1, 1):upper() .. user:sub(2)

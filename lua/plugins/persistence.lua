@@ -1,7 +1,8 @@
 return {
   "folke/persistence.nvim",
   event = "BufReadPre",
-  opts = {},
+  lazy = true,
+  vscode = false,
   -- stylua: ignore
   keys = {
     { "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },

@@ -15,6 +15,7 @@ return {
     "OverseerTaskAction",
     "OverseerClearCache",
   },
+  vscode = false,
   opts = {
     dap = false,
     task_list = {

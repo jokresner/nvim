@@ -1,6 +1,7 @@
 return {
   "folke/which-key.nvim",
   event = "VimEnter", -- Sets the loading event to 'VimEnter'
+  vscode = false,
   opts = {
     icons = {
       mappings = vim.g.have_nerd_font,

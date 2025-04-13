@@ -1,6 +1,7 @@
 return {
   "mfussenegger/nvim-lint",
   event = "VeryLazy",
+  vscode = false,
   opts = {
     -- Event to trigger linters
     events = { "BufWritePost", "BufReadPost", "InsertLeave" },

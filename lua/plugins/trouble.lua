@@ -1,6 +1,6 @@
 return {
   "folke/trouble.nvim",
-  optional = true,
+  vscode = false,
   specs = {
     "folke/snacks.nvim",
     opts = function(_, opts)

@@ -1,16 +1,16 @@
 return {
   "folke/todo-comments.nvim",
-  optional = true,
+  vscode = false,
   keys = {
     {
-      "<leader>st",
+      "<leader>ct",
       function()
         Snacks.picker.todo_comments()
       end,
       desc = "Todo",
     },
     {
-      "<leader>sT",
+      "<leader>cT",
       function()
         Snacks.picker.todo_comments { keywords = { "TODO", "FIX", "FIXME" } }
       end,

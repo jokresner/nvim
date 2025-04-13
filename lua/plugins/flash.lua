@@ -1,6 +1,7 @@
 return {
   "folke/flash.nvim",
-  optional = true,
+  event = "VeryLazy",
+  vscode = true,
   specs = {
     {
       "folke/snacks.nvim",
