@@ -1,6 +1,6 @@
 return {
   "folke/trouble.nvim",
-  vscode = false,
+  cond = vim.g.vscode == nil,
   specs = {
     "folke/snacks.nvim",
     opts = function(_, opts)

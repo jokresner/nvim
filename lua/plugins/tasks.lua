@@ -15,7 +15,7 @@ return {
     "OverseerTaskAction",
     "OverseerClearCache",
   },
-  vscode = false,
+  cond = vim.g.vscode == nil,
   opts = {
     dap = false,
     task_list = {

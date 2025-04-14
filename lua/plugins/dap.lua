@@ -2,7 +2,7 @@ return {
   {
     "mfussenegger/nvim-dap",
     event = "VeryLazy",
-    vscode = false,
+    cond = vim.g.vscode == nil,
     dependencies = {
       "leoluz/nvim-dap-go",
       "rcarriga/nvim-dap-ui",

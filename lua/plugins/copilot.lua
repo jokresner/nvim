@@ -5,6 +5,7 @@ return {
     build = ":Copilot auth",
     event = "BufReadPost",
     vscode = false,
+    cond = vim.g.vscode == nil,
     opts = {
       suggestion = {
         enabled = not vim.g.ai_cmp,
@@ -27,7 +28,7 @@ return {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "main",
     cmd = "CopilotChat",
-    vscode = false,
+    cond = vim.g.vscode == nil,
     event = "VeryLazy",
     opts = function()
       local user = vim.env.USER or "User"

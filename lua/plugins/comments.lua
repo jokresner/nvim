@@ -1,6 +1,6 @@
 return {
   "folke/todo-comments.nvim",
-  vscode = false,
+  cond = vim.g.vscode == nil,
   keys = {
     {
       "<leader>ct",

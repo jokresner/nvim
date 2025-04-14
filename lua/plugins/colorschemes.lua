@@ -3,7 +3,7 @@ return {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
-    vscode = false,
+    cond = vim.g.vscode == nil,
     opts = {
       integrations = {
         blink_cmp = true,

@@ -5,7 +5,7 @@ return {
     "giuxtaposition/blink-cmp-copilot",
   },
   version = "1.*",
-  vscode = false,
+  cond = vim.g.vscode == nil,
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
@@ -21,7 +21,7 @@ return {
     -- C-k: Toggle signature help (if signature.enabled = true)
     --
     -- See :h blink-cmp-config-keymap for defining your own keymap
-    keymap = { preset = "super-tab" },
+    keymap = { preset = "enter" },
     appearance = {
       nerd_font_variant = "mono",
     },
