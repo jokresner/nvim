@@ -66,6 +66,12 @@ return {
         "stylua",
         "lua_ls",
         "delve",
+        "gopls",
+        "rust_analyzer",
+        "bacon",
+        "golangci-lint",
+        "luacheck",
+        "lua-language-server",
       }
 
       vim.list_extend(ensure_installed, servers_to_install)
