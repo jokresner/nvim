@@ -59,7 +59,7 @@ return {
     quickfile = { enabled = true },
     scope = { enabled = true },
     scratch = { enabled = true },
-    scroll = { enabled = true },
+    scroll = { enabled = vim.g.vscode == nil },
     statuscolumn = { enabled = true },
     toggle = { enabled = true },
     zen = { enabled = true },
