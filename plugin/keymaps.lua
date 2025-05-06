@@ -1,5 +1,8 @@
 local set = vim.keymap.set
 
+set("i", "jj", "<Esc>", { noremap = true, silent = true })
+set("i", "jk", "<Esc>", { noremap = true, silent = true })
+
 -- Basic movement keybinds, these make navigating splits easy
 set("n", "<c-j>", "<c-w><c-j>")
 set("n", "<c-k>", "<c-w><c-k>")
