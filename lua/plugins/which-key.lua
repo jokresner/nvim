@@ -7,7 +7,7 @@ return {
       mappings = vim.g.have_nerd_font,
     },
     spec = {
-      { "<leader>a", group = "[A]vante AI" },
+      { "<leader>a", group = "[A]I Chat" },
       { "<leader>b", group = "[B]uffer" },
       { "<leader>c", group = "[C]ode", mode = { "n", "x" } },
       { "<leader>d", group = "[D]ocument" },
