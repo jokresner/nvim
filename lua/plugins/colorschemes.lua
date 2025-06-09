@@ -21,4 +21,22 @@ return {
       vim.cmd.colorscheme "catppuccin"
     end,
   },
+  {
+    "rebelot/kanagawa.nvim",
+    name = "kanagawa",
+    priority = 1000,
+    cond = vim.g.vscode == nil,
+    opts = {
+      transparent = true,
+      colors = {
+        theme = {
+          all = {
+            ui = {
+              bg_gutter = "none",
+            },
+          },
+        },
+      },
+    },
+  },
 }
