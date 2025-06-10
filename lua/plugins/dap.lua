@@ -17,8 +17,8 @@ return {
       require("dapui").setup()
       require("dap-go").setup()
 
-      vim.keymap.set("n", "<space>b", dap.toggle_breakpoint)
-      vim.keymap.set("n", "<space>gb", dap.run_to_cursor)
+      vim.keymap.set("n", "<space>rb", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
+      vim.keymap.set("n", "<space>rc", dap.run_to_cursor, { desc = "Run to Cursor" })
 
       -- Eval var under cursor
       vim.keymap.set("n", "<space>?", function()

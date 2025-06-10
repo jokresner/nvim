@@ -16,7 +16,7 @@ return {
       { "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
       { "<leader>m", group = "Tests" },
       { "<leader>q", group = "Session Management" },
-      { "<leader>r", group = "[R]eference" },
+      { "<leader>r", group = "[R]un" },
       { "<leader>s", group = "[S]earch" },
       { "<leader>u", group = "+Toggle" },
       { "<leader>w", group = "[W]orkspace" },
