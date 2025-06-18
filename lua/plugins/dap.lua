@@ -14,23 +14,31 @@ return {
       local dap = require "dap"
       local ui = require "dapui"
 
-      require("dapui").setup()
+      local config = require "config.dap"
+
+      ui.setup()
       require("dap-go").setup()
 
-      vim.keymap.set("n", "<space>rb", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
-      vim.keymap.set("n", "<space>rc", dap.run_to_cursor, { desc = "Run to Cursor" })
+      config.setupGo()
+
+      -- DAP UI keymaps
+      vim.keymap.set("n", "<leader>duo", ui.open, { desc = "Open DAP UI" })
+      vim.keymap.set("n", "<leader>duc", ui.close, { desc = "Close DAP UI" })
 
       -- Eval var under cursor
-      vim.keymap.set("n", "<space>?", function()
+      vim.keymap.set("n", "<leader>?", function()
         require("dapui").eval(nil, { enter = true })
       end)
 
-      vim.keymap.set("n", "<F1>", dap.continue)
-      vim.keymap.set("n", "<F2>", dap.step_into)
-      vim.keymap.set("n", "<F3>", dap.step_over)
-      vim.keymap.set("n", "<F4>", dap.step_out)
-      vim.keymap.set("n", "<F5>", dap.step_back)
-      vim.keymap.set("n", "<F13>", dap.restart)
+      -- DAP keymaps
+      vim.keymap.set("n", "<leader>dt", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
+      vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Continue" })
+      vim.keymap.set("n", "<leader>dr", dap.repl.open, { desc = "Inspect REPL" })
+      vim.keymap.set("n", "<leader>dk", dap.kill, { desc = "Kill DAP Session" })
+      vim.keymap.set("n", "<leader>dso", dap.step_over, { desc = "Step Over" })
+      vim.keymap.set("n", "<leader>dsi", dap.step_into, { desc = "Step Into" })
+      vim.keymap.set("n", "<leader>dsu", dap.step_out, { desc = "Step Out" })
+      vim.keymap.set("n", "<leader>dl", dap.run_last, { desc = "Run Last" })
 
       dap.listeners.before.attach.dapui_config = function()
         ui.open()

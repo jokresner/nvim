@@ -9,6 +9,7 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
+      "jay-babu/mason-nvim-dap.nvim",
 
       { "j-hui/fidget.nvim", lazy = true },
       { "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
@@ -73,6 +74,8 @@ return {
         "luacheck",
         "lua-language-server",
       }
+
+      require("mason-nvim-dap").setup()
 
       vim.list_extend(ensure_installed, servers_to_install)
       require("mason-tool-installer").setup { ensure_installed = ensure_installed }

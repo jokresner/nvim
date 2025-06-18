@@ -10,7 +10,7 @@ return {
       { "<leader>a", group = "[A]I Chat" },
       { "<leader>b", group = "[B]uffer" },
       { "<leader>c", group = "[C]ode", mode = { "n", "x" } },
-      { "<leader>d", group = "[D]ocument" },
+      { "<leader>d", group = "[D]ebug" },
       { "<leader>f", group = "[F]ind" },
       { "<leader>g", group = "[G]it" },
       { "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
