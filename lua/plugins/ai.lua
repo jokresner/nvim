@@ -27,6 +27,18 @@ return {
           telemetry = { telemetryLevel = "off" },
         },
       },
+      disabled_tools = {
+        "list_files", -- Built-in file operations
+        "search_files",
+        "read_file",
+        "create_file",
+        "rename_file",
+        "delete_file",
+        "create_dir",
+        "rename_dir",
+        "delete_dir",
+        "bash", -- Built-in terminal access
+      },
     },
   },
   {
@@ -42,6 +54,15 @@ return {
           icon = " ",
         },
       },
+      system_prompt = function()
+        local hub = require("mcphub").get_hub_instance()
+        return hub and hub:get_active_servers_prompt() or ""
+      end,
+      custom_tools = function()
+        return {
+          require("mcphub.extensions.avante").mcp_tool(),
+        }
+      end,
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = "make",
@@ -50,6 +71,17 @@ return {
       "nvim-treesitter/nvim-treesitter",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
+      {
+        "ravitemer/mcphub.nvim",
+        build = "pnpm i -g mcp-hub@latest",
+        opts = {
+          extensions = {
+            avante = {
+              make_slash_commands = true,
+            },
+          },
+        },
+      },
       {
         -- support for image pasting
         "HakonHarnes/img-clip.nvim",

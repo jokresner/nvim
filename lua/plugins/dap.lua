@@ -34,7 +34,7 @@ return {
       vim.keymap.set("n", "<leader>dt", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
       vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Continue" })
       vim.keymap.set("n", "<leader>dr", dap.repl.open, { desc = "Inspect REPL" })
-      vim.keymap.set("n", "<leader>dk", dap.kill, { desc = "Kill DAP Session" })
+      vim.keymap.set("n", "<leader>dk", dap.terminate, { desc = "Terminate DAP Session" })
       vim.keymap.set("n", "<leader>dso", dap.step_over, { desc = "Step Over" })
       vim.keymap.set("n", "<leader>dsi", dap.step_into, { desc = "Step Into" })
       vim.keymap.set("n", "<leader>dsu", dap.step_out, { desc = "Step Out" })
