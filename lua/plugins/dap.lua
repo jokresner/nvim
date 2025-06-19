@@ -20,6 +20,15 @@ return {
       require("dap-go").setup()
 
       config.setupGo()
+      config.setupPHP()
+
+      -- Configure Signs
+      local sign = vim.fn.sign_define
+      sign("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+      sign("DapBreakpointCondition", { text = "", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
+      sign("DapBreakpointRejected", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+      sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
+      sign("DapStopped", { texthl = "DapStopped" })
 
       -- DAP UI keymaps
       vim.keymap.set("n", "<leader>duo", ui.open, { desc = "Open DAP UI" })
