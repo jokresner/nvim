@@ -3,6 +3,7 @@ return {
   dependencies = {
     "rafamadriz/friendly-snippets",
     "giuxtaposition/blink-cmp-copilot",
+    "kaiser-Yang/blink-cmp-avante",
   },
   version = "1.*",
   cond = vim.g.vscode == nil,
@@ -45,13 +46,17 @@ return {
       },
     },
     sources = {
-      default = { "lsp", "path", "snippets", "buffer", "copilot" },
+      default = { "avante", "lsp", "path", "snippets", "buffer", "copilot" },
       providers = {
         copilot = {
           name = "copilot",
           module = "blink-cmp-copilot",
           score_offset = 100,
           async = true,
+        },
+        avante = {
+          module = "blink-cmp-avante",
+          name = "Avante",
         },
       },
     },
