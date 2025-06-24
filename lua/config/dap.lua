@@ -47,8 +47,7 @@ end
 function M.setupPHP()
   dap.adapters.php = {
     type = "executable",
-    command = "node",
-    args = { vim.fn.stdpath "data" .. "/mason/packages/php-debug-adapter/extension/out/phpDebug.js" },
+    command = vim.env.HOME .. "/.config/nvim/xdebug.sh",
   }
 
   dap.configurations.php = {
@@ -57,6 +56,16 @@ function M.setupPHP()
       request = "launch",
       name = "Listen for Xdebug",
       port = 9001,
+      pathMappings = {
+        ["/var/www/urlaub/testing/releases/51097"] = "${workspaceFolder}",
+      },
+      proxy = {
+        enable = true,
+        host = "10.111.205.100",
+        port = 9001,
+        key = "johannes.kresner",
+        timeout = 3000,
+      },
     },
     {
       type = "php",
