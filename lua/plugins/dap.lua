@@ -5,18 +5,16 @@ return {
     cond = vim.g.vscode == nil,
     dependencies = {
       "leoluz/nvim-dap-go",
-      "rcarriga/nvim-dap-ui",
+      "igorlfs/nvim-dap-view",
       "theHamsta/nvim-dap-virtual-text",
       "nvim-neotest/nvim-nio",
       "williamboman/mason.nvim",
     },
     config = function()
       local dap = require "dap"
-      local ui = require "dapui"
 
       local config = require "config.dap"
 
-      ui.setup()
       require("dap-go").setup()
 
       config.setupGo()
@@ -31,13 +29,8 @@ return {
       sign("DapStopped", { texthl = "DapStopped" })
 
       -- DAP UI keymaps
-      vim.keymap.set("n", "<leader>duo", ui.open, { desc = "Open DAP UI" })
-      vim.keymap.set("n", "<leader>duc", ui.close, { desc = "Close DAP UI" })
-
-      -- Eval var under cursor
-      vim.keymap.set("n", "<leader>?", function()
-        require("dapui").eval(nil, { enter = true })
-      end)
+      vim.keymap.set("n", "<leader>duo", "<CMD>DapViewOpen<CR>", { desc = "Open DAP UI" })
+      vim.keymap.set("n", "<leader>duc", "<CMD>DapViewClose<CR>", { desc = "Close DAP UI" })
 
       -- DAP keymaps
       vim.keymap.set("n", "<leader>dt", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
