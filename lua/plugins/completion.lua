@@ -46,6 +46,7 @@ return {
       },
     },
     sources = {
+      snippets = { preset = "luasnip" },
       default = { "avante", "lsp", "path", "snippets", "buffer", "copilot" },
       providers = {
         copilot = {
