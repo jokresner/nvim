@@ -4,7 +4,6 @@ return {
     cmd = "Copilot",
     build = ":Copilot auth",
     event = "BufReadPost",
-    vscode = false,
     cond = vim.g.vscode == nil,
     opts = {
       suggestion = {
@@ -45,6 +44,7 @@ return {
     "yetone/avante.nvim",
     event = "VeryLazy",
     version = false, -- Never set this value to "*"! Never!
+    cond = vim.g.vscode == nil,
     opts = {
       provider = "copilot",
       input = {
