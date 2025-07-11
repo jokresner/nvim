@@ -44,6 +44,7 @@ return {
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
+    cond = vim.g.vscode == nil,
     version = false, -- Never set this value to "*"! Never!
     opts = {
       provider = "copilot",
