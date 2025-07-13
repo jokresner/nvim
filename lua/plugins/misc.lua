@@ -5,4 +5,7 @@ return {
     dependencies = { "MunifTanjim/nui.nvim" },
     opts = {},
   },
+  {
+    "alex-popov-tech/store.nvim",
+  },
 }
