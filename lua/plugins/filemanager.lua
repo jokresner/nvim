@@ -1,6 +1,7 @@
 return {
   {
     "stevearc/oil.nvim",
+    enabled = false,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     cond = vim.g.vscode == nil,
     config = function()
@@ -37,6 +38,18 @@ return {
 
       -- Open parent directory in floating window
       vim.keymap.set("n", "<space>-", require("oil").toggle_float)
+    end,
+  },
+  {
+    "A7Lavinraj/fyler.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      local fyler = require "fyler"
+      fyler.setup {
+        icon_provider = "nvim-web-devicons",
+      }
+
+      vim.keymap.set("n", "-", fyler.open)
     end,
   },
 }

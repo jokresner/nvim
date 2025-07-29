@@ -44,7 +44,7 @@ return {
       },
     },
     debug = { enabled = false },
-    explorer = { enabled = true },
+    explorer = { enabled = false },
     git = { enabled = true },
     image = { enabled = true },
     indent = { enabled = true },
