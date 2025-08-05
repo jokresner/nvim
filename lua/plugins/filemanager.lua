@@ -42,6 +42,7 @@ return {
   },
   {
     "A7Lavinraj/fyler.nvim",
+    enabled = false,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       local fyler = require "fyler"
@@ -53,6 +54,38 @@ return {
       }
 
       vim.keymap.set("n", "-", fyler.open)
+    end,
+  },
+  {
+    "mikavilpas/yazi.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      { "nvim-lua/plenary.nvim", lazy = true },
+    },
+    keys = {
+      {
+        "-",
+        mode = { "n", "v" },
+        "<cmd>Yazi<cr>",
+        desc = "Open yazi at the current file",
+      },
+      {
+        -- Open in the current working directory
+        "<leader>-",
+        "<cmd>Yazi cwd<cr>",
+        desc = "Open the file manager in nvim's working directory",
+      },
+    },
+    ---@type YaziConfig | {}
+    opts = {
+      open_for_directories = true,
+      keymaps = {
+        show_help = "<f1>",
+      },
+    },
+    init = function()
+      -- mark netrw as loaded so it's not loaded at all.
+      vim.g.loaded_netrwPlugin = 1
     end,
   },
 }
