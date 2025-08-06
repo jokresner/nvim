@@ -47,6 +47,7 @@ return {
   -- Auto dark mode plugin
   {
     "f-person/auto-dark-mode.nvim",
+    enabled = false,
     config = {
       update_interval = 1000,
       set_dark_mode = function()
