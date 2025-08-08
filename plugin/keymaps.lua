@@ -28,3 +28,9 @@ end)
 
 set("n", "<C-u>", "<C-u>zz", { silent = true })
 set("n", "<C-d>", "<C-d>zz", { silent = true })
+
+-- Clipboard copy and paste
+set("n", "<leader>y", '"+y', { desc = "Copy to clipboard" })
+set("v", "<leader>y", '"+y', { desc = "Copy to clipboard" })
+set("n", "<leader>p", '"+p', { desc = "Paste from clipboard" })
+set("v", "<leader>p", '"+p', { desc = "Paste from clipboard" })
