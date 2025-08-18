@@ -3,6 +3,7 @@ return {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
+    lazy = false,
     cond = vim.g.vscode == nil,
     opts = {
       integrations = {

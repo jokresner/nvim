@@ -6,7 +6,7 @@ return {
     },
     build = ":TSUpdate",
     branch = "main",
-    lazy = false,
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("config.treesitter").setup()
     end,

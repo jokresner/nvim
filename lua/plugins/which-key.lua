@@ -1,6 +1,6 @@
 return {
   "folke/which-key.nvim",
-  event = "VimEnter", -- Sets the loading event to 'VimEnter'
+  event = "VeryLazy",
   cond = vim.g.vscode == nil,
   opts = {
     icons = {

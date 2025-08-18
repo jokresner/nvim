@@ -4,7 +4,7 @@ local setup = function()
   conform.setup {
     format_on_save = {
       pattern = "*",
-      timeotu_ms = 500,
+      timeout_ms = 500,
       lsp_format = "fallback",
     },
     formatters_by_ft = {

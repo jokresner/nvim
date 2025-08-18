@@ -1,6 +1,7 @@
 return {
   {
     "neovim/nvim-lspconfig",
+    event = "BufReadPre",
     dependencies = {
       {
         "folke/lazydev.nvim",
@@ -78,7 +79,12 @@ return {
       require("mason-nvim-dap").setup()
 
       vim.list_extend(ensure_installed, servers_to_install)
-      require("mason-tool-installer").setup { ensure_installed = ensure_installed }
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "VeryLazy",
+        callback = function()
+          require("mason-tool-installer").setup { ensure_installed = ensure_installed }
+        end,
+      })
 
       for name, config in pairs(servers) do
         if config == true then

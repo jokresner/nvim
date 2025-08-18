@@ -18,4 +18,20 @@ return {
     --   If not available, we use `mini` as the fallback
     "rcarriga/nvim-notify",
   },
+  keys = {
+    {
+      "<leader>n",
+      function()
+        require("noice").cmd("dismiss")
+      end,
+      desc = "Dismiss Notification",
+    },
+    {
+      "<leader>N",
+      function()
+        require("noice").cmd("last")
+      end,
+      desc = "Show Last Notification",
+    },
+  },
 }
