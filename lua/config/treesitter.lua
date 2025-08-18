@@ -3,50 +3,23 @@
 local M = {}
 
 M.setup = function()
-  local group = vim.api.nvim_create_augroup("custom-treesitter", { clear = true })
+  local ok, ts_configs = pcall(require, "nvim-treesitter.configs")
+  if not ok then return end
 
-  require("nvim-treesitter").setup {
-    ensure_install = {
-      "core",
-      "stable",
-    },
-  }
-
-  local syntax_on = {
-    php = true,
-  }
-
-  vim.api.nvim_create_autocmd("FileType", {
-    group = group,
-    callback = function(args)
-      local bufnr = args.buf
-      local ok, parser = pcall(vim.treesitter.get_parser, bufnr)
-      if not ok or not parser then
-        return
-      end
-      pcall(vim.treesitter.start)
-
-      local ft = vim.bo[bufnr].filetype
-      if syntax_on[ft] then
-        vim.bo[bufnr].syntax = "on"
-      end
-    end,
+  ts_configs.setup({
+    ensure_installed = { "lua", "go", "rust", "vim", "vimdoc", "markdown", "markdown_inline", "bash", "json", "toml", "yaml" },
+    highlight = { enable = true },
+    indent = { enable = true },
+    incremental_selection = { enable = true },
   })
 
-  vim.api.nvim_create_autocmd("User", {
-    group = group,
-    pattern = "TSUpdate",
-    callback = function()
-      local parsers = require "nvim-treesitter.parsers"
-
-      parsers.lua = {
-        tier = 0,
-      }
-
+  -- Enable treesitter highlighting for buffers with a parser
+  vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("custom-treesitter", { clear = true }),
+    callback = function(args)
+      pcall(vim.treesitter.start, args.buf)
     end,
   })
 end
-
--- M.setup()
 
 return M
