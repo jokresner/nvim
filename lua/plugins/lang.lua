@@ -87,4 +87,7 @@ return {
       end
     end,
   },
+  { -- TypeScript Error Translator
+    "dmmulroy/ts-error-translator.nvim",
+  },
 }
