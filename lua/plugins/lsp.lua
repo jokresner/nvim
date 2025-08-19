@@ -2,182 +2,75 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
+    cond = vim.g.vscode == nil,
     dependencies = {
-      {
-        "folke/lazydev.nvim",
-        ft = "lua",
-      },
+      { "folke/lazydev.nvim", ft = "lua" },
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
       "jay-babu/mason-nvim-dap.nvim",
-
       { "j-hui/fidget.nvim", lazy = true },
-      { "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
-
-      -- Autoformatting
-      "stevearc/conform.nvim",
-
-      -- Schema information
       "b0o/SchemaStore.nvim",
     },
+    keys = {
+      {
+        "K",
+        function()
+          vim.lsp.buf.hover()
+        end,
+        desc = "Hover Documentation",
+      },
+      {
+        "<space>cR",
+        function()
+          vim.lsp.buf.rename()
+        end,
+        desc = "Code Rename",
+      },
+      {
+        "<space>ca",
+        function()
+          vim.lsp.buf.code_action()
+        end,
+        desc = "Code Action",
+      },
+      {
+        "<space>wd",
+        function()
+          Snacks.picker.lsp_symbols()
+        end,
+        desc = "Symbols in current document",
+      },
+      {
+        "<space>tt",
+        function()
+          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 }, { bufnr = 0 })
+        end,
+        desc = "Toggle Inlay Hints",
+      },
+    },
     config = function()
-      local capabilities = nil
-      if pcall(require, "cmp_nvim_lsp") then
-        capabilities = require("cmp_nvim_lsp").default_capabilities()
-      end
-
-      local lspconfig = require "lspconfig"
-
-      local servers = {
-        gopls = {
-          manual_install = true,
-          settings = {
-            gopls = {
-              hints = {
-                assignVariableTypes = true,
-                compositeLiteralFields = true,
-                compositeLiteralTypes = true,
-                constantValues = true,
-                functionTypeParameters = true,
-                parameterNames = true,
-                rangeVariableTypes = true,
-              },
-            },
-          },
-        },
-        lua_ls = {
-          server_capabilities = {
-            semanticTokensProvider = vim.NIL,
-          },
-        },
-        rust_analyzer = true,
-      }
-
-      local servers_to_install = vim.tbl_filter(function(key)
-        local t = servers[key]
-        if type(t) == "table" then
-          return not t.manual_install
-        else
-          return t
-        end
-      end, vim.tbl_keys(servers))
-
-      require("mason").setup()
-      local ensure_installed = {
-        "stylua",
-        "lua_ls",
-        "delve",
-        "gopls",
-        "rust_analyzer",
-        "bacon",
-        "golangci-lint",
-        "luacheck",
-        "lua-language-server",
-      }
-
-      require("mason-nvim-dap").setup()
-
-      vim.list_extend(ensure_installed, servers_to_install)
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "VeryLazy",
-        callback = function()
-          require("mason-tool-installer").setup { ensure_installed = ensure_installed }
-        end,
-      })
-
-      for name, config in pairs(servers) do
-        if config == true then
-          config = {}
-        end
-        config = vim.tbl_deep_extend("force", {}, {
-          capabilities = capabilities,
-        }, config)
-
-        lspconfig[name].setup(config)
-      end
-
-      local disable_semantic_tokens = {
-        lua = true,
-      }
-
-      vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(args)
-          local bufnr = args.buf
-          local client = assert(vim.lsp.get_client_by_id(args.data.client_id), "must have valid client")
-
-          local settings = servers[client.name]
-          if type(settings) ~= "table" then
-            settings = {}
-          end
-
-          local builtin = require "telescope.builtin"
-
-          vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
-          vim.keymap.set("n", "cd", builtin.lsp_definitions, { buffer = 0, desc = "Goto Definition" })
-          vim.keymap.set("n", "cr", builtin.lsp_references, { buffer = 0, desc = "Goto Reference" })
-          vim.keymap.set("n", "cD", vim.lsp.buf.declaration, { buffer = 0, desc = "Goto Declaration" })
-          vim.keymap.set("n", "cT", vim.lsp.buf.type_definition, { buffer = 0, desc = "Goto Type Definition" })
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0, desc = "Hover Documentation" })
-
-          vim.keymap.set("n", "<space>cR", vim.lsp.buf.rename, { buffer = 0, desc = "Code Rename" })
-          vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0, desc = "Code Action" })
-          vim.keymap.set(
-            "n",
-            "<space>wd",
-            builtin.lsp_document_symbols,
-            { buffer = 0, desc = "Symbols in current document" }
-          )
-
-          local filetype = vim.bo[bufnr].filetype
-          if disable_semantic_tokens[filetype] then
-            client.server_capabilities.semanticTokensProvider = nil
-          end
-
-          -- Override server capabilities
-          if settings.server_capabilities then
-            for k, v in pairs(settings.server_capabilities) do
-              if v == vim.NIL then
-                ---@diagnostic disable-next-line: cast-local-type
-                v = nil
-              end
-
-              client.server_capabilities[k] = v
-            end
-          end
-        end,
-      })
-
-      require("config.autoformat").setup()
-
-      require("lsp_lines").setup()
-      vim.diagnostic.config {
-        virtual_text = true,
-        virtual_lines = false,
-        signs = {
-          text = {
-            [vim.diagnostic.severity.ERROR] = "",
-            [vim.diagnostic.severity.WARN] = "",
-            [vim.diagnostic.severity.INFO] = "",
-            [vim.diagnostic.severity.HINT] = "",
-          },
-          numhl = {
-            [vim.diagnostic.severity.WARN] = "WarningMsg",
-            [vim.diagnostic.severity.ERROR] = "ErrorMsg",
-            [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
-            [vim.diagnostic.severity.HINT] = "DiagnosticHint",
-          },
-        },
-      }
-
-      vim.keymap.set("", "<leader>l", function()
-        local config = vim.diagnostic.config() or {}
-        if config.virtual_text then
-          vim.diagnostic.config { virtual_text = false, virtual_lines = true }
-        else
-          vim.diagnostic.config { virtual_text = true, virtual_lines = false }
-        end
-      end, { desc = "Toggle lsp_lines" })
+      require("config.lsp").setup()
     end,
+  },
+  {
+    "stevearc/conform.nvim",
+    cond = vim.g.vscode == nil,
+    event = "BufReadPre",
+    init = function()
+      vim.api.nvim_create_user_command("Format", function()
+        require("conform").format { lsp_fallback = true, async = true }
+      end, { desc = "Format current buffer" })
+    end,
+    config = function()
+      require("config.autoformat").setup()
+    end,
+    keys = {
+      {
+        "<leader>lf",
+        ":Format<CR>",
+        desc = "Format code (Conform)",
+      },
+    },
   },
 }

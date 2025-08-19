@@ -39,6 +39,6 @@ require("lazy").setup({ import = "plugins" }, {
         "tutor",
         "zipPlugin",
       },
-    }
-  }
+    },
+  },
 })

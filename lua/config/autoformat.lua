@@ -5,11 +5,14 @@ local setup = function()
     format_on_save = {
       pattern = "*",
       timeout_ms = 500,
-      lsp_format = "fallback",
+      lsp_fallback = true,
     },
     formatters_by_ft = {
       lua = { "stylua" },
-      rust = { "rustfmt", lsp_format = "fallback" },
+      rust = { "rustfmt" },
+      go = { "gofumpt", "gofmt" },
+      json = { "jq" },
+      yaml = { "prettierd", "prettier" },
     },
   }
 
