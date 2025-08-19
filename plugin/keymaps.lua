@@ -22,10 +22,6 @@ set("n", "<CR>", function()
   end
 end, { expr = true })
 
-set("n", "<space>tt", function()
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 }, { bufnr = 0 })
-end)
-
 set("n", "<C-u>", "<C-u>zz", { silent = true })
 set("n", "<C-d>", "<C-d>zz", { silent = true })
 
