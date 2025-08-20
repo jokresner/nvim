@@ -5,6 +5,9 @@ local dap = require "dap"
 function M.setup()
   local ui = require "dapui"
   ui.setup()
+  pcall(function()
+    require("dapview").setup()
+  end)
   require("dap-go").setup()
 
   M.setupGo()
