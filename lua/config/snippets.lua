@@ -1,50 +1,37 @@
-local ls = require "luasnip"
+local snippy = require "snippy"
 
--- TODO: Think about `locally_jumpable`, etc.
--- Might be nice to send PR to luasnip to use filters instead for these functions ;)
-
-vim.snippet.expand = ls.lsp_expand
+vim.snippet.expand = function(body)
+  snippy.expand_snippet(body)
+end
 
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.snippet.active = function(filter)
   filter = filter or {}
-  filter.direction = filter.direction or 1
-
-  if filter.direction == 1 then
-    return ls.expand_or_jumpable()
+  local dir = filter.direction or 1
+  if dir == 1 then
+    return snippy.can_expand_or_advance()
   else
-    return ls.jumpable(filter.direction)
+    return snippy.can_jump(-1)
   end
 end
 
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.snippet.jump = function(direction)
   if direction == 1 then
-    if ls.expandable() then
-      return ls.expand_or_jump()
-    else
-      return ls.jumpable(1) and ls.jump(1)
+    if snippy.can_expand_or_advance() then
+      snippy.expand_or_advance()
+      return true
     end
+    return false
   else
-    return ls.jumpable(-1) and ls.jump(-1)
+    if snippy.can_jump(-1) then
+      snippy.previous()
+      return true
+    end
+    return false
   end
 end
 
-vim.snippet.stop = ls.unlink_current
-
--- ================================================
---      My Configuration
--- ================================================
-ls.config.set_config {
-  history = true,
-  updateevents = "TextChanged,TextChangedI",
-  override_builtin = true,
-}
-
-vim.keymap.set({ "i", "s" }, "<c-k>", function()
-  return vim.snippet.active { direction = 1 } and vim.snippet.jump(1)
-end, { silent = true })
-
-vim.keymap.set({ "i", "s" }, "<c-j>", function()
-  return vim.snippet.active { direction = -1 } and vim.snippet.jump(-1)
-end, { silent = true })
+vim.snippet.stop = function()
+  snippy.stop_all()
+end

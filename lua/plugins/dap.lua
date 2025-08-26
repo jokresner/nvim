@@ -1,7 +1,6 @@
 return {
   {
     "mfussenegger/nvim-dap",
-    event = "VeryLazy",
     cond = vim.g.vscode == nil,
     dependencies = {
       "leoluz/nvim-dap-go",
@@ -10,57 +9,95 @@ return {
       "nvim-neotest/nvim-nio",
       "williamboman/mason.nvim",
     },
+    keys = {
+      {
+        "<leader>duo",
+        function()
+          require("dapui").open()
+        end,
+        desc = "Open DAP UI",
+      },
+      {
+        "<leader>duc",
+        function()
+          require("dapui").close()
+        end,
+        desc = "Close DAP UI",
+      },
+      {
+        "<leader>?",
+        function()
+          require("dapui").eval(nil, { enter = true })
+        end,
+        desc = "DAP Eval Under Cursor",
+      },
+      {
+        "<space>td",
+        function()
+          require("dap-go").debug_test()
+        end,
+        ft = "go",
+        desc = "Debug Go Test",
+      },
+      {
+        "<leader>dt",
+        function()
+          require("dap").toggle_breakpoint()
+        end,
+        desc = "Toggle Breakpoint",
+      },
+      {
+        "<leader>dc",
+        function()
+          require("dap").continue()
+        end,
+        desc = "Continue",
+      },
+      {
+        "<leader>dr",
+        function()
+          require("dap").repl.open()
+        end,
+        desc = "Inspect REPL",
+      },
+      {
+        "<leader>dk",
+        function()
+          require("dap").terminate()
+        end,
+        desc = "Terminate DAP Session",
+      },
+      {
+        "<leader>dso",
+        function()
+          require("dap").step_over()
+        end,
+        desc = "Step Over",
+      },
+      {
+        "<leader>dsi",
+        function()
+          require("dap").step_into()
+        end,
+        desc = "Step Into",
+      },
+      {
+        "<leader>dsu",
+        function()
+          require("dap").step_out()
+        end,
+        desc = "Step Out",
+      },
+      {
+        "<leader>dl",
+        function()
+          require("dap").run_last()
+        end,
+        desc = "Run Last",
+      },
+    },
     config = function()
-      local dap = require "dap"
-      local ui = require "dapui"
-
-      local config = require "config.dap"
-
-      ui.setup()
-      require("dap-go").setup()
-
-      config.setupGo()
-      config.setupPHP()
-
-      -- Configure Signs
-      local sign = vim.fn.sign_define
-      sign("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
-      sign("DapBreakpointCondition", { text = "", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
-      sign("DapBreakpointRejected", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
-      sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
-      sign("DapStopped", { texthl = "DapStopped" })
-
-      -- DAP UI keymaps
-      vim.keymap.set("n", "<leader>duo", ui.open, { desc = "Open DAP UI" })
-      vim.keymap.set("n", "<leader>duc", ui.close, { desc = "Close DAP UI" })
-
-      -- Eval var under cursor
-      vim.keymap.set("n", "<leader>?", function()
-        require("dapui").eval(nil, { enter = true })
-      end)
-
-      -- DAP keymaps
-      vim.keymap.set("n", "<leader>dt", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
-      vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Continue" })
-      vim.keymap.set("n", "<leader>dr", dap.repl.open, { desc = "Inspect REPL" })
-      vim.keymap.set("n", "<leader>dk", dap.terminate, { desc = "Terminate DAP Session" })
-      vim.keymap.set("n", "<leader>dso", dap.step_over, { desc = "Step Over" })
-      vim.keymap.set("n", "<leader>dsi", dap.step_into, { desc = "Step Into" })
-      vim.keymap.set("n", "<leader>dsu", dap.step_out, { desc = "Step Out" })
-      vim.keymap.set("n", "<leader>dl", dap.run_last, { desc = "Run Last" })
-
-      dap.listeners.before.attach.dapui_config = function()
-        ui.open()
-      end
-      dap.listeners.before.launch.dapui_config = function()
-        ui.open()
-      end
-      dap.listeners.before.event_terminated.dapui_config = function()
-        ui.close()
-      end
-      dap.listeners.before.event_exited.dapui_config = function()
-        ui.close()
-      end
+      require("config.dap").setup()
     end,
   },
 }

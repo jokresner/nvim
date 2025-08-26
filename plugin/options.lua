@@ -1,3 +1,8 @@
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0
+vim.g.loaded_python_provider = 0
+
 local opt = vim.opt
 
 opt.inccommand = "split"
@@ -13,8 +18,6 @@ opt.splitright = true
 
 opt.signcolumn = "yes"
 opt.shada = { "'10", "<0", "s10", "h" }
-
-opt.clipboard = "unnamedplus"
 
 opt.swapfile = false
 

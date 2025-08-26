@@ -3,50 +3,70 @@
 local M = {}
 
 M.setup = function()
-  local group = vim.api.nvim_create_augroup("custom-treesitter", { clear = true })
-
-  require("nvim-treesitter").setup {
-    ensure_install = {
-      "core",
-      "stable",
+  require("nvim-treesitter.configs").setup {
+    ensure_installed = {
+      "lua", "vim", "vimdoc", "query",
+      "go", "rust", "php",
+      "json", "yaml", "toml",
+      "markdown", "markdown_inline",
+    },
+    sync_install = false,
+    auto_install = false,
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = { "php" },
+    },
+    indent = { enable = true },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "gnn",
+        node_incremental = "grn",
+        scope_incremental = "grc",
+        node_decremental = "grm",
+      },
+    },
+    textobjects = {
+      select = {
+        enable = true,
+        lookahead = true,
+        keymaps = {
+          ["af"] = { query = "@function.outer", desc = "Outer function" },
+          ["if"] = { query = "@function.inner", desc = "Inner function" },
+          ["ac"] = { query = "@class.outer", desc = "Outer class" },
+          ["ic"] = { query = "@class.inner", desc = "Inner class" },
+        },
+      },
+      move = {
+        enable = true,
+        set_jumps = true,
+        goto_next_start = {
+          ["]m"] = "@function.outer",
+          ["]c"] = "@class.outer",
+          ["gnf"] = "@function.outer",
+          ["gnc"] = "@class.outer",
+        },
+        goto_next_end = {
+          ["]M"] = "@function.outer",
+          ["]C"] = "@class.outer",
+          ["gnF"] = "@function.outer",
+          ["gnC"] = "@class.outer",
+        },
+        goto_previous_start = {
+          ["[m"] = "@function.outer",
+          ["[c"] = "@class.outer",
+          ["gpf"] = "@function.outer",
+          ["gpc"] = "@class.outer",
+        },
+        goto_previous_end = {
+          ["[M"] = "@function.outer",
+          ["[C"] = "@class.outer",
+          ["gpF"] = "@function.outer",
+          ["gpC"] = "@class.outer",
+        },
+      },
     },
   }
-
-  local syntax_on = {
-    php = true,
-  }
-
-  vim.api.nvim_create_autocmd("FileType", {
-    group = group,
-    callback = function(args)
-      local bufnr = args.buf
-      local ok, parser = pcall(vim.treesitter.get_parser, bufnr)
-      if not ok or not parser then
-        return
-      end
-      pcall(vim.treesitter.start)
-
-      local ft = vim.bo[bufnr].filetype
-      if syntax_on[ft] then
-        vim.bo[bufnr].syntax = "on"
-      end
-    end,
-  })
-
-  vim.api.nvim_create_autocmd("User", {
-    group = group,
-    pattern = "TSUpdate",
-    callback = function()
-      local parsers = require "nvim-treesitter.parsers"
-
-      parsers.lua = {
-        tier = 0,
-      }
-
-    end,
-  })
 end
-
--- M.setup()
 
 return M

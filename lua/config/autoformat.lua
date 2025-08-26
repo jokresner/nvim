@@ -4,12 +4,15 @@ local setup = function()
   conform.setup {
     format_on_save = {
       pattern = "*",
-      timeotu_ms = 500,
-      lsp_format = "fallback",
+      timeout_ms = 500,
+      lsp_fallback = true,
     },
     formatters_by_ft = {
       lua = { "stylua" },
-      rust = { "rustfmt", lsp_format = "fallback" },
+      rust = { "rustfmt" },
+      go = { "gofumpt", "gofmt" },
+      json = { "jq" },
+      yaml = { "prettierd", "prettier" },
     },
   }
 
