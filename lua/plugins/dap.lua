@@ -6,6 +6,7 @@ return {
       "leoluz/nvim-dap-go",
       "rcarriga/nvim-dap-ui",
       "theHamsta/nvim-dap-virtual-text",
+      "igorlfs/nvim-dap-view",
       "nvim-neotest/nvim-nio",
       "williamboman/mason.nvim",
     },
@@ -94,6 +95,27 @@ return {
           require("dap").run_last()
         end,
         desc = "Run Last",
+      },
+      {
+        "<leader>dvt",
+        function()
+          require("dapview").toggle()
+        end,
+        desc = "Toggle DAP View",
+      },
+      {
+        "<leader>dvo",
+        function()
+          require("dapview").open()
+        end,
+        desc = "Open DAP View",
+      },
+      {
+        "<leader>dvc",
+        function()
+          require("dapview").close()
+        end,
+        desc = "Close DAP View",
       },
     },
     config = function()
