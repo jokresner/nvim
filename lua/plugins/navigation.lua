@@ -35,6 +35,12 @@ return {
         desc = "Visits: add 'core' label",
       },
       {
+        "<leader>vd",
+        function()
+          require("mini.visits").delete_label "core"
+        end,
+      },
+      {
         "<leader>vY",
         function()
           require("mini.visits").select_path(nil, { filter = "core" })
