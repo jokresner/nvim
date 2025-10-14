@@ -5,7 +5,19 @@ return {
     cond = vim.g.vscode == nil,
     dependencies = {
       { "folke/lazydev.nvim", ft = "lua" },
-      "williamboman/mason.nvim",
+      {
+        "williamboman/mason.nvim",
+        opts = {
+          ui = {
+            border = "rounded",
+            icons = {
+              package_installed = "✓",
+              package_pending = "➜",
+              package_uninstalled = "✗",
+            },
+          },
+        },
+      },
       "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
       "jay-babu/mason-nvim-dap.nvim",
