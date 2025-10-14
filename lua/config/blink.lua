@@ -8,7 +8,11 @@ return {
     menu = { draw = { treesitter = { "lsp" } } },
   },
   sources = {
-    snippets = { preset = "default" },
+    snippets = {
+      expand = function(body)
+        require("snippy").expand_snippet(body)
+      end,
+    },
     default = { "avante", "lsp", "path", "snippets", "buffer", "copilot" },
     providers = {
       copilot = { name = "copilot", module = "blink-cmp-copilot", score_offset = 100, async = true },
@@ -18,5 +22,3 @@ return {
   fuzzy = { implementation = "prefer_rust_with_warning" },
   cmdline = { enabled = false },
 }
-
-

@@ -54,7 +54,7 @@ M.ensure_installed = {
   "yamlls",
   "golangci-lint",
   "luacheck",
-  "codelldb"
+  "codelldb",
 }
 
 local function compute_servers_to_install(servers)
@@ -69,8 +69,6 @@ local function compute_servers_to_install(servers)
 end
 
 function M.setup()
-  local lspconfig = require "lspconfig"
-
   require("mason").setup()
   require("mason-nvim-dap").setup()
 
@@ -88,8 +86,10 @@ function M.setup()
   })
 
   for name, config in pairs(servers) do
-    if config == true then config = {} end
-    lspconfig[name].setup(config)
+    if config == true then
+      config = {}
+    end
+    vim.lsp.config(name, config) -- Updated to use vim.lsp.config
   end
 
   local disable_semantic_tokens = { lua = true }
@@ -100,7 +100,9 @@ function M.setup()
       local client = assert(vim.lsp.get_client_by_id(args.data.client_id), "must have valid client")
 
       local settings = servers[client.name]
-      if type(settings) ~= "table" then settings = {} end
+      if type(settings) ~= "table" then
+        settings = {}
+      end
 
       vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
 
@@ -111,7 +113,9 @@ function M.setup()
 
       if settings.server_capabilities then
         for k, v in pairs(settings.server_capabilities) do
-          if v == vim.NIL then v = nil end
+          if v == vim.NIL then
+            v = nil
+          end
           client.server_capabilities[k] = v
         end
       end
@@ -139,5 +143,3 @@ function M.setup()
 end
 
 return M
-
-

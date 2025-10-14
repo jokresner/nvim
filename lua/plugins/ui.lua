@@ -122,7 +122,7 @@ return {
       vim.api.nvim_set_keymap("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
       vim.api.nvim_set_keymap("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
       vim.api.nvim_set_keymap("n", "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap("n", "<Leader>l", "<Cmd>noh<CR>", kopts)
+      vim.api.nvim_set_keymap("n", "<leader>lu", "<Cmd>noh<CR>", kopts)
     end,
   },
   {
@@ -172,6 +172,14 @@ return {
     event = "VeryLazy",
     config = function()
       require("pretty-fold").setup()
+    end,
+  },
+  {
+    "oribarilan/lensline.nvim",
+    tag = "1.1.2", -- or: branch = 'release/1.x' for latest non-breaking updates
+    event = "LspAttach",
+    config = function()
+      require("lensline").setup()
     end,
   },
 }
