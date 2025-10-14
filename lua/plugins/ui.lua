@@ -22,11 +22,12 @@ return {
     end,
   },
   {
-    "echasnovski/mini.icons",
+    "nvim-mini/mini.icons",
     event = "VeryLazy",
     cond = vim.g.vscode == nil,
     config = function()
       require("config.icons").setup()
+      MiniIcons.mock_nvim_web_devicons()
     end,
   },
   {
@@ -39,7 +40,7 @@ return {
     end,
   },
   {
-    "echasnovski/mini.clue",
+    "nvim-mini/mini.clue",
     event = "VeryLazy",
     cond = vim.g.vscode == nil,
     config = function()
@@ -61,7 +62,7 @@ return {
     ft = "help",
   },
   {
-    "echasnovski/mini.indentscope",
+    "nvim-mini/mini.indentscope",
     version = false,
     cond = vim.g.vscode == nil,
     event = { "BufReadPre", "BufNewFile" },
@@ -78,7 +79,7 @@ return {
     end,
   },
   {
-    "echasnovski/mini.hipatterns",
+    "nvim-mini/mini.hipatterns",
     version = false,
     cond = vim.g.vscode == nil,
     event = "VeryLazy",

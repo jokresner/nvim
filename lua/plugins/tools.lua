@@ -1,7 +1,6 @@
 return {
-  -- Replaced persistence.nvim with mini.sessions (loaded lazily via VeryLazy)
   {
-    "echasnovski/mini.sessions",
+    "nvim-mini/mini.sessions",
     version = false,
     cond = vim.g.vscode == nil,
     event = "VeryLazy",
@@ -64,7 +63,7 @@ return {
     end,
   },
   {
-    "echasnovski/mini.operators",
+    "nvim-mini/mini.operators",
     version = false,
     event = "VeryLazy",
     cond = vim.g.vscode == nil,
