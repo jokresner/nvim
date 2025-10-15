@@ -55,31 +55,31 @@ end
 
 M.indentscope = {
   symbol = "│",
-  options = { try_as_border = true }
+  options = { try_as_border = true },
 }
 
 M.hipatterns = function()
-  local hipatterns = require("mini.hipatterns")
+  local hipatterns = require "mini.hipatterns"
   return { highlighters = { hex_color = hipatterns.gen_highlighter.hex_color() } }
 end
 
-M.statuscol = function() 
-  local builtin = require("statuscol.builtin")
+M.statuscol = function()
+  local builtin = require "statuscol.builtin"
   return {
     segments = {
       { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
-      { text = { " %s" },           click = "v:lua.ScSa" },
+      { text = { " %s" }, click = "v:lua.ScSa" },
       { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
     },
   }
 end
 
 M.fidget = {
-  progress = { suppress_on_insert = true }
+  progress = { suppress_on_insert = true },
 }
 
 M.diagflow = {
-  { scope = "line", padding_right = 2 } 
+  { scope = "line", padding_right = 2 },
 }
 
 M.noice = {
@@ -100,6 +100,29 @@ M.noice = {
   notify = { enabled = true },
 }
 
+local function footer()
+  local version = vim.version()
+  return string.format("Neovim v%d.%d.%d", version.major, version.minor, version.patch)
+end
+
+local Snacks = require "snacks"
+M.starter = {
+  footer = footer(),
+  header = table.concat({
+    [[     __        __                                               ]],
+    [[    |__| ____ |  | _________   ____   ______ ____   ___________ ]],
+    [[    |  |/  _ \|  |/ /\_  __ \_/ __ \ /  ___//    \_/ __ \_  __ \]],
+    [[    |  (  <_> )    <  |  | \/\  ___/ \___ \|   |  \  ___/|  | \/]],
+    [[/\__|  |\____/|__|_ \ |__|    \___  >____  >___|  /\___  >__|   ]],
+    [[\______|           \/             \/     \/     \/     \/       ]],
+  }, "\n"),
+  items = {
+    { action = Snacks.picker.smart, name = "F:   Find File", section = "File" },
+    { action = Snacks.picker.recent, name = "R:   Recent Files", section = "File" },
+    { action = Snacks.picker.grep_word, name = "W:   Find Word", section = "Search" },
+    { action = Snacks.picker.grep, name = "G:   Grep", section = "Search" },
+    { action = "Lazy", name = "L: 󰒲  Lazy", section = "Plugins" },
+  },
+}
+
 return M
-
-

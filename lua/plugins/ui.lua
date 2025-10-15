@@ -183,4 +183,12 @@ return {
       require("lensline").setup()
     end,
   },
+  {
+    "nvim-mini/mini.starter",
+    cond = vim.g.vscode == nil,
+    event = "VimEnter",
+    opts = function()
+      return require("config.ui").starter
+    end,
+  },
 }
