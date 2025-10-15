@@ -20,7 +20,7 @@ return {
     end,
   },
   {
-    "echasnovski/mini.visits",
+    "nvim-mini/mini.visits",
     version = false,
     cond = vim.g.vscode == nil,
     config = function()

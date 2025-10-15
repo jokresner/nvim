@@ -1,6 +1,6 @@
 return {
   {
-    "echasnovski/mini.comment",
+    "nvim-mini/mini.comment",
     version = false,
     cond = vim.g.vscode == nil,
     event = "VeryLazy",
@@ -32,7 +32,7 @@ return {
     end,
   },
   {
-    "echasnovski/mini.surround",
+    "nvim-mini/mini.surround",
     version = false,
     event = "VeryLazy",
     cond = vim.g.vscode == nil,
@@ -72,7 +72,7 @@ return {
     },
   },
   {
-    "echasnovski/mini.ai",
+    "nvim-mini/mini.ai",
     version = false,
     event = "VeryLazy",
     cond = vim.g.vscode == nil,

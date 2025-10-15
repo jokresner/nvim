@@ -69,7 +69,6 @@ local function compute_servers_to_install(servers)
 end
 
 function M.setup()
-  require("mason").setup()
   require("mason-nvim-dap").setup()
 
   local servers = M.servers
@@ -89,7 +88,7 @@ function M.setup()
     if config == true then
       config = {}
     end
-    vim.lsp.config(name, config) -- Updated to use vim.lsp.config
+    vim.lsp.config(name, config)
   end
 
   local disable_semantic_tokens = { lua = true }
