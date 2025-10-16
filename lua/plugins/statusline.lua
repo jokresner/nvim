@@ -14,6 +14,12 @@ return {
     opts = {
       show_icons = true,
     },
-    keys = {},
+    keys = {
+      { "<leader>tn", vim.cmd.tabnext, desc = "Next Tab" },
+      { "<leader>tp", vim.cmd.tabprevious, desc = "Previous Tab" },
+      { "<leader>tc", vim.cmd.tabnew, desc = "New Tab" },
+      { "<leader>tx", vim.cmd.tabclose, desc = "Close Tab" },
+      { "<leader>to", vim.cmd.tabonly, desc = "Close Other Tabs" },
+    },
   },
 }

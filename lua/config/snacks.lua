@@ -33,7 +33,7 @@ M.opts = {
   animate = { enabled = false },
   bigfile = { enabled = true },
   dashboard = {
-    enabled = true,
+    enabled = false,
     sections = {
       { title = header },
       { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1 },
