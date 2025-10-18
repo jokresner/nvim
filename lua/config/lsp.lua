@@ -42,6 +42,30 @@ M.servers = {
       },
     },
   },
+  ["harper-ls"] = {
+    settings = {
+      ["harper-ls"] = {
+        linters = {
+          SpellCheck = true,
+          SpelledNumbers = false,
+          AnA = true,
+          SentenceCapitalization = true,
+          UnclosedQuotes = true,
+          WrongQuotes = false,
+          LongSentences = true,
+          RepeatedWords = true,
+          Spaces = true,
+          Matcher = true,
+          CorrectNumberSuffix = true,
+        },
+      },
+    },
+    diagnosticSeverity = "hint",
+    isolateEnglish = false,
+    dialect = "American",
+    maxFileLength = 120000,
+    ignoredLintsPath = {},
+  },
 }
 
 M.ensure_installed = {
@@ -49,12 +73,11 @@ M.ensure_installed = {
   "lua_ls",
   "delve",
   "gopls",
-  "vtsls",
-  "jsonls",
-  "yamlls",
   "golangci-lint",
   "luacheck",
   "codelldb",
+  "harper-ls",
+  "ast-grep",
 }
 
 local function compute_servers_to_install(servers)
@@ -90,6 +113,8 @@ function M.setup()
     end
     vim.lsp.config(name, config)
   end
+
+  vim.lsp.enable "harper-ls"
 
   local disable_semantic_tokens = { lua = true }
 
