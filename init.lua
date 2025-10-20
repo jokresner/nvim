@@ -3,14 +3,6 @@ vim.loader.enable()
 
 vim.g.mapleader = " "
 
-if not vim.uv.fs_stat "/tmp/nvim.sock" then
-  vim.fn.serverstart "/tmp/nvim.sock"
-end
-
-vim.env.NVIM_LISTEN_ADDRESS = "/tmp/nvim.sock"
-
-require "config.yazi"
-
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
   vim.fn.system {
