@@ -45,31 +45,20 @@ return {
     cond = vim.g.vscode == nil,
     event = "InsertEnter",
     config = function()
-      require("snippy").setup(require("config.editing").snippy)
-      require "config.snippets"
-    end,
-    keys = {
-      {
+      vim.keymap.set(
+        "i",
         "<c-k>",
-        function()
-          return vim.snippet.active { direction = 1 } and vim.snippet.jump(1)
-        end,
-        mode = { "i", "s" },
-        silent = true,
-        expr = true,
-        desc = "Snippet jump forward",
-      },
-      {
+        [[luaeval('vim.snippet.active { direction = 1 } and vim.snippet.jump(1)')]],
+        { silent = true, expr = true, desc = "Snippet jump forward" }
+      )
+
+      vim.keymap.set(
+        "i",
         "<c-j>",
-        function()
-          return vim.snippet.active { direction = -1 } and vim.snippet.jump(-1)
-        end,
-        mode = { "i", "s" },
-        silent = true,
-        expr = true,
-        desc = "Snippet jump backward",
-      },
-    },
+        [[luaeval('vim.snippet.active { direction = -1 } and vim.snippet.jump(-1)')]],
+        { silent = true, expr = true, desc = "Snippet jump backward" }
+      )
+    end,
   },
   {
     "nvim-mini/mini.ai",
