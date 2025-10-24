@@ -4,9 +4,7 @@ return {
     version = false,
     event = "VeryLazy",
     cond = vim.g.vscode == nil,
-    config = function()
-      require("mini.diff").setup()
-    end,
+    opts = {},
     keys = {
       {
         "[h",
@@ -106,20 +104,6 @@ return {
         end,
         desc = "Neogit",
       },
-    },
-  },
-  {
-    "dnlhc/glance.nvim",
-    cond = vim.g.vscode == nil,
-    cmd = { "Glance" },
-    opts = function()
-      return require("config.vcs").glance
-    end,
-    keys = {
-      { "gd", "<cmd>Glance definitions<CR>", desc = "Glance Definitions" },
-      { "gr", "<cmd>Glance references<CR>", desc = "Glance References" },
-      { "gi", "<cmd>Glance implementations<CR>", desc = "Glance Implementations" },
-      { "gt", "<cmd>Glance type_definitions<CR>", desc = "Glance Type Defs" },
     },
   },
 }

@@ -22,29 +22,52 @@ M.dressing = {
   select = { backend = { "nui", "builtin" } },
 }
 
-M.clue = function()
-  local clue = require "mini.clue"
-  return {
-    setup = {
-      triggers = {
-        { mode = "n", keys = "<Leader>" },
-        { mode = "x", keys = "<Leader>" },
-        { mode = "n", keys = "g" },
-        { mode = "x", keys = "g" },
-        { mode = "n", keys = "]" },
-        { mode = "n", keys = "[" },
-      },
-      clues = {
-        clue.gen_clues.builtin_completion(),
-        clue.gen_clues.marks(),
-        clue.gen_clues.registers(),
-        clue.gen_clues.windows(),
-        clue.gen_clues.z(),
-        clue.gen_clues.g(),
-      },
-    },
-  }
-end
+M.which_key = {
+  preset = "modern",
+  delay = 500,
+  icons = {
+    breadcrumb = "»",
+    separator = "➜",
+    group = "+",
+  },
+  spec = {
+    -- Top-level single keys
+    { "<leader><space>", desc = "Smart Find Files" },
+    { "<leader>,", desc = "Buffers" },
+    { "<leader>/", desc = "Grep" },
+    { "<leader>:", desc = "Command History" },
+    { "<leader>.", desc = "Scratch Buffer" },
+    { "<leader>-", desc = "Oil File Manager" },
+    { "<leader>?", desc = "DAP Eval" },
+    { "<leader>e", desc = "File Explorer" },
+    { "<leader>z", desc = "Zen Mode" },
+    { "<leader>Z", desc = "Zoom" },
+    { "<leader>S", desc = "Select Scratch" },
+    -- Groups
+    { "<leader>a", group = "AI/Assistant" },
+    { "<leader>b", group = "Buffers" },
+    { "<leader>c", group = "Code" },
+    { "<leader>d", group = "Debug" },
+    { "<leader>dv", group = "DAP View" },
+    { "<leader>ds", group = "Step" },
+    { "<leader>du", group = "DAP UI" },
+    { "<leader>f", group = "Find" },
+    { "<leader>g", group = "Git" },
+    { "<leader>h", group = "Hunks" },
+    { "<leader>l", group = "LSP" },
+    { "<leader>m", group = "Test" },
+    { "<leader>p", desc = "Paste from clipboard" },
+    { "<leader>q", group = "Session" },
+    { "<leader>s", group = "Search" },
+    { "<leader>t", group = "Toggle/Tab/Terminal" },
+    { "<leader>u", group = "UI Toggles" },
+    { "<leader>v", group = "Visits" },
+    { "<leader>w", group = "Workspace" },
+    { "<leader>x", group = "Tasks/Diagnostics" },
+    { "<leader>y", desc = "Copy to clipboard" },
+    { "g", group = "Go to" },
+  },
+}
 
 M.fold_cycle = function()
   vim.o.foldmethod = "indent"
@@ -57,6 +80,32 @@ M.indentscope = {
   symbol = "│",
   options = { try_as_border = true },
 }
+
+M.animate = function()
+  local animate = require "mini.animate"
+  return {
+    cursor = {
+      enable = true,
+      timing = animate.gen_timing.linear { duration = 80, unit = "total" },
+    },
+    scroll = {
+      enable = true,
+      timing = animate.gen_timing.linear { duration = 100, unit = "total" },
+      -- Disable animation for large jumps (gg, G, Ctrl-D, Ctrl-U, etc)
+      subscroll = animate.gen_subscroll.equal {
+        predicate = function(total_scroll)
+          return total_scroll > 1 and total_scroll < 50
+        end,
+      },
+    },
+    resize = {
+      enable = true,
+      timing = animate.gen_timing.linear { duration = 50, unit = "total" },
+    },
+    open = { enable = false },
+    close = { enable = false },
+  }
+end
 
 M.hipatterns = function()
   local hipatterns = require "mini.hipatterns"

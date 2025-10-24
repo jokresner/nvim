@@ -41,26 +41,6 @@ return {
     end,
   },
   {
-    "dcampos/nvim-snippy",
-    cond = vim.g.vscode == nil,
-    event = "InsertEnter",
-    config = function()
-      vim.keymap.set(
-        "i",
-        "<c-k>",
-        [[luaeval('vim.snippet.active { direction = 1 } and vim.snippet.jump(1)')]],
-        { silent = true, expr = true, desc = "Snippet jump forward" }
-      )
-
-      vim.keymap.set(
-        "i",
-        "<c-j>",
-        [[luaeval('vim.snippet.active { direction = -1 } and vim.snippet.jump(-1)')]],
-        { silent = true, expr = true, desc = "Snippet jump backward" }
-      )
-    end,
-  },
-  {
     "nvim-mini/mini.ai",
     version = false,
     event = "VeryLazy",
@@ -68,5 +48,11 @@ return {
     config = function()
       require("mini.ai").setup(require("config.editing").mini_ai)
     end,
+  },
+  {
+    "nvim-pack/nvim-spectre",
+    keys = {
+      { "<leader>sr", function() require("spectre").open() end, desc = "Replace in Files" },
+    },
   },
 }

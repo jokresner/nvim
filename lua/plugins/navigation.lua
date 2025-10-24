@@ -1,5 +1,14 @@
 return {
   {
+    "stevearc/oil.nvim",
+    cond = vim.g.vscode == nil,
+    lazy = false,
+    opts = {},
+    keys = {
+      { "<leader>-", "<cmd>Oil<cr>", desc = "Open Oil at the current file" },
+    },
+  },
+  {
     "mikavilpas/yazi.nvim",
     cond = vim.g.vscode == nil,
     lazy = false,
@@ -8,8 +17,6 @@ return {
     },
     keys = {
       { "-", mode = { "n", "v" }, "<cmd>Yazi<cr>", desc = "Open yazi at the current file" },
-      { "<leader>-", "<cmd>Yazi cwd<cr>", desc = "Open the file manager in nvim's working directory" },
-      { "<leader>fe", "<cmd>Yazi cwd<cr>", desc = "File Explorer (Yazi)" },
     },
     ---@type YaziConfig | {}
     opts = function()

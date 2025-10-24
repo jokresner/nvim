@@ -32,7 +32,9 @@ opt.shiftwidth = 4
 
 opt.more = false
 
-opt.foldmethod = "manual"
+opt.foldmethod = "expr"
+opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldenable = false
 
 opt.title = true
 opt.titlestring = '%t%( %M%)%( (%{expand("%:~:h")})%)%a (nvim)'

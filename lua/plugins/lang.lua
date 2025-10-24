@@ -21,7 +21,7 @@ return {
     },
     keys = {
       {
-        "<leader>cR",
+        "<leader>ca",
         function()
           vim.cmd.RustLsp "codeAction"
         end,

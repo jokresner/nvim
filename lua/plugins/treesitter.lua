@@ -8,9 +8,4 @@ return {
       require("config.treesitter").setup()
     end,
   },
-  {
-    "folke/ts-comments.nvim",
-    event = "VeryLazy",
-    cond = vim.g.vscode == nil,
-  },
 }
