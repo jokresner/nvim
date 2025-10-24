@@ -122,7 +122,9 @@ M.starter = {
     { action = Snacks.picker.grep_word, name = "W:   Find Word", section = "Search" },
     { action = Snacks.picker.grep, name = "G:   Grep", section = "Search" },
     { action = "Lazy", name = "L: 󰒲  Lazy", section = "Plugins" },
+    { action = "q", name = "Q:   Quit", section = "Exit" },
   },
+  evaluate_single = true,
 }
 
 return M
