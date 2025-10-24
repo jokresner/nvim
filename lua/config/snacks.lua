@@ -55,7 +55,7 @@ M.opts = {
   quickfile = { enabled = true },
   scope = { enabled = true },
   scratch = { enabled = true },
-  scroll = { enabled = vim.g.vscode == nil },
+  scroll = { enabled = false },
   statuscolumn = { enabled = false },
   toggle = { enabled = true },
   zen = { enabled = false },

@@ -1,5 +1,25 @@
 local M = {}
 
+local border = {
+  { "╭", "FloatBorder" },
+  { "─", "FloatBorder" },
+  { "╮", "FloatBorder" },
+  { "│", "FloatBorder" },
+  { "╯", "FloatBorder" },
+  { "─", "FloatBorder" },
+  { "╰", "FloatBorder" },
+  { "│", "FloatBorder" },
+}
+
+local handlers = {
+  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+    border = border,
+  }),
+  ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+    border = border,
+  }),
+}
+
 M.servers = {
   gopls = {
     settings = {
@@ -16,10 +36,6 @@ M.servers = {
       },
     },
   },
-  lua_ls = {
-    server_capabilities = { semanticTokensProvider = vim.NIL },
-  },
-  vtsls = true,
   jsonls = {
     settings = {
       json = {
@@ -43,6 +59,11 @@ M.servers = {
     },
   },
   ["harper-ls"] = {
+    filetypes = {
+      "markdown",
+      "gitcommit",
+      "text",
+    },
     settings = {
       ["harper-ls"] = {
         linters = {
@@ -111,10 +132,9 @@ function M.setup()
     if config == true then
       config = {}
     end
+    config.handlers = handlers
     vim.lsp.config(name, config)
   end
-
-  vim.lsp.enable "harper-ls"
 
   local disable_semantic_tokens = { lua = true }
 
@@ -147,7 +167,14 @@ function M.setup()
   })
 
   vim.diagnostic.config {
-    virtual_text = true,
+    virtual_text = {
+      prefix = "●",
+      source = "if_many",
+    },
+    float = {
+      border = "rounded",
+      source = "always",
+    },
     virtual_lines = false,
     signs = {
       text = {
@@ -163,6 +190,9 @@ function M.setup()
         [vim.diagnostic.severity.HINT] = "DiagnosticHint",
       },
     },
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
   }
 end
 

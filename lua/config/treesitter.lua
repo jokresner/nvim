@@ -5,13 +5,21 @@ local M = {}
 M.setup = function()
   require("nvim-treesitter.configs").setup {
     ensure_installed = {
-      "lua", "vim", "vimdoc", "query",
-      "go", "rust", "php",
-      "json", "yaml", "toml",
-      "markdown", "markdown_inline",
+      "lua",
+      "vim",
+      "vimdoc",
+      "query",
+      "go",
+      "rust",
+      "php",
+      "json",
+      "yaml",
+      "toml",
+      "markdown",
+      "markdown_inline",
     },
     sync_install = false,
-    auto_install = false,
+    auto_install = true,
     highlight = {
       enable = true,
       additional_vim_regex_highlighting = { "php" },

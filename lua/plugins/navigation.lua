@@ -3,7 +3,12 @@ return {
     "stevearc/oil.nvim",
     cond = vim.g.vscode == nil,
     lazy = false,
-    opts = {},
+    opts = {
+      default_file_explorer = false,
+      view_options = {
+        show_hidden = true,
+      },
+    },
     keys = {
       { "<leader>-", "<cmd>Oil<cr>", desc = "Open Oil at the current file" },
     },

@@ -149,14 +149,32 @@ M.noice = {
   notify = { enabled = true },
 }
 
-local function footer()
+function footer()
   local version = vim.version()
-  return string.format("Neovim v%d.%d.%d", version.major, version.minor, version.patch)
-end
+    local lazy_ok, lazy = pcall(require, "lazy")
+    local startup_ms = 0
+    
+    if vim.g.start_time then
+      -- Calculate elapsed time in milliseconds
+      startup_ms = (vim.loop.hrtime() - vim.g.start_time) / 1000000
+    end
+    
+    if lazy_ok then
+      local stats = lazy.stats()
+      return string.format(
+        "Neovim v%d.%d.%d | %d/%d Plugins | Startup %.2fms",
+        version.major, version.minor, version.patch,
+        stats.loaded, stats.count,
+        startup_ms
+      )
+    else
+      return string.format("Neovim v%d.%d.%d | Startup %.2fms", version.major, version.minor, version.patch, startup_ms)
+    end
+  end
 
 local Snacks = require "snacks"
 M.starter = {
-  footer = footer(),
+  footer = footer,
   header = table.concat({
     [[     __        __                                               ]],
     [[    |__| ____ |  | _________   ____   ______ ____   ___________ ]],
