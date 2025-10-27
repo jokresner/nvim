@@ -81,32 +81,6 @@ M.indentscope = {
   options = { try_as_border = true },
 }
 
-M.animate = function()
-  local animate = require "mini.animate"
-  return {
-    cursor = {
-      enable = true,
-      timing = animate.gen_timing.linear { duration = 80, unit = "total" },
-    },
-    scroll = {
-      enable = true,
-      timing = animate.gen_timing.linear { duration = 100, unit = "total" },
-      -- Disable animation for large jumps (gg, G, Ctrl-D, Ctrl-U, etc)
-      subscroll = animate.gen_subscroll.equal {
-        predicate = function(total_scroll)
-          return total_scroll > 1 and total_scroll < 50
-        end,
-      },
-    },
-    resize = {
-      enable = true,
-      timing = animate.gen_timing.linear { duration = 50, unit = "total" },
-    },
-    open = { enable = false },
-    close = { enable = false },
-  }
-end
-
 M.hipatterns = function()
   local hipatterns = require "mini.hipatterns"
   return { highlighters = { hex_color = hipatterns.gen_highlighter.hex_color() } }
@@ -151,26 +125,29 @@ M.noice = {
 
 function footer()
   local version = vim.version()
-    local lazy_ok, lazy = pcall(require, "lazy")
-    local startup_ms = 0
-    
-    if vim.g.start_time then
-      -- Calculate elapsed time in milliseconds
-      startup_ms = (vim.loop.hrtime() - vim.g.start_time) / 1000000
-    end
-    
-    if lazy_ok then
-      local stats = lazy.stats()
-      return string.format(
-        "Neovim v%d.%d.%d | %d/%d Plugins | Startup %.2fms",
-        version.major, version.minor, version.patch,
-        stats.loaded, stats.count,
-        startup_ms
-      )
-    else
-      return string.format("Neovim v%d.%d.%d | Startup %.2fms", version.major, version.minor, version.patch, startup_ms)
-    end
+  local lazy_ok, lazy = pcall(require, "lazy")
+  local startup_ms = 0
+
+  if vim.g.start_time then
+    -- Calculate elapsed time in milliseconds
+    startup_ms = (vim.loop.hrtime() - vim.g.start_time) / 1000000
   end
+
+  if lazy_ok then
+    local stats = lazy.stats()
+    return string.format(
+      "Neovim v%d.%d.%d | %d/%d Plugins | Startup %.2fms",
+      version.major,
+      version.minor,
+      version.patch,
+      stats.loaded,
+      stats.count,
+      startup_ms
+    )
+  else
+    return string.format("Neovim v%d.%d.%d | Startup %.2fms", version.major, version.minor, version.patch, startup_ms)
+  end
+end
 
 local Snacks = require "snacks"
 M.starter = {
