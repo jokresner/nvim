@@ -22,15 +22,6 @@ return {
     end,
   },
   {
-    "nvim-mini/mini.animate",
-    version = false,
-    event = "VeryLazy",
-    cond = vim.g.vscode == nil,
-    opts = function()
-      return require("config.ui").animate()
-    end,
-  },
-  {
     "stevearc/dressing.nvim",
     cmd = { "DressingSelect" },
     event = "VeryLazy",
@@ -182,7 +173,9 @@ return {
     dependencies = "kevinhwang91/promise-async",
     event = "BufReadPost",
     opts = {
-      provider_selector = function() return { "treesitter", "indent" } end,
+      provider_selector = function()
+        return { "treesitter", "indent" }
+      end,
     },
   },
 }
