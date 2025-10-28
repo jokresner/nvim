@@ -22,29 +22,52 @@ M.dressing = {
   select = { backend = { "nui", "builtin" } },
 }
 
-M.clue = function()
-  local clue = require "mini.clue"
-  return {
-    setup = {
-      triggers = {
-        { mode = "n", keys = "<Leader>" },
-        { mode = "x", keys = "<Leader>" },
-        { mode = "n", keys = "g" },
-        { mode = "x", keys = "g" },
-        { mode = "n", keys = "]" },
-        { mode = "n", keys = "[" },
-      },
-      clues = {
-        clue.gen_clues.builtin_completion(),
-        clue.gen_clues.marks(),
-        clue.gen_clues.registers(),
-        clue.gen_clues.windows(),
-        clue.gen_clues.z(),
-        clue.gen_clues.g(),
-      },
-    },
-  }
-end
+M.which_key = {
+  preset = "modern",
+  delay = 500,
+  icons = {
+    breadcrumb = "»",
+    separator = "➜",
+    group = "+",
+  },
+  spec = {
+    -- Top-level single keys
+    { "<leader><space>", desc = "Smart Find Files" },
+    { "<leader>,", desc = "Buffers" },
+    { "<leader>/", desc = "Grep" },
+    { "<leader>:", desc = "Command History" },
+    { "<leader>.", desc = "Scratch Buffer" },
+    { "<leader>-", desc = "Oil File Manager" },
+    { "<leader>?", desc = "DAP Eval" },
+    { "<leader>e", desc = "File Explorer" },
+    { "<leader>z", desc = "Zen Mode" },
+    { "<leader>Z", desc = "Zoom" },
+    { "<leader>S", desc = "Select Scratch" },
+    -- Groups
+    { "<leader>a", group = "AI/Assistant" },
+    { "<leader>b", group = "Buffers" },
+    { "<leader>c", group = "Code" },
+    { "<leader>d", group = "Debug" },
+    { "<leader>dv", group = "DAP View" },
+    { "<leader>ds", group = "Step" },
+    { "<leader>du", group = "DAP UI" },
+    { "<leader>f", group = "Find" },
+    { "<leader>g", group = "Git" },
+    { "<leader>h", group = "Hunks" },
+    { "<leader>l", group = "LSP" },
+    { "<leader>m", group = "Test" },
+    { "<leader>p", desc = "Paste from clipboard" },
+    { "<leader>q", group = "Session" },
+    { "<leader>s", group = "Search" },
+    { "<leader>t", group = "Toggle/Tab/Terminal" },
+    { "<leader>u", group = "UI Toggles" },
+    { "<leader>v", group = "Visits" },
+    { "<leader>w", group = "Workspace" },
+    { "<leader>x", group = "Tasks/Diagnostics" },
+    { "<leader>y", desc = "Copy to clipboard" },
+    { "g", group = "Go to" },
+  },
+}
 
 M.fold_cycle = function()
   vim.o.foldmethod = "indent"
@@ -100,14 +123,35 @@ M.noice = {
   notify = { enabled = true },
 }
 
-local function footer()
+function footer()
   local version = vim.version()
-  return string.format("Neovim v%d.%d.%d", version.major, version.minor, version.patch)
+  local lazy_ok, lazy = pcall(require, "lazy")
+  local startup_ms = 0
+
+  if vim.g.start_time then
+    -- Calculate elapsed time in milliseconds
+    startup_ms = (vim.loop.hrtime() - vim.g.start_time) / 1000000
+  end
+
+  if lazy_ok then
+    local stats = lazy.stats()
+    return string.format(
+      "Neovim v%d.%d.%d | %d/%d Plugins | Startup %.2fms",
+      version.major,
+      version.minor,
+      version.patch,
+      stats.loaded,
+      stats.count,
+      startup_ms
+    )
+  else
+    return string.format("Neovim v%d.%d.%d | Startup %.2fms", version.major, version.minor, version.patch, startup_ms)
+  end
 end
 
 local Snacks = require "snacks"
 M.starter = {
-  footer = footer(),
+  footer = footer,
   header = table.concat({
     [[     __        __                                               ]],
     [[    |__| ____ |  | _________   ____   ______ ____   ___________ ]],
@@ -122,7 +166,9 @@ M.starter = {
     { action = Snacks.picker.grep_word, name = "W:   Find Word", section = "Search" },
     { action = Snacks.picker.grep, name = "G:   Grep", section = "Search" },
     { action = "Lazy", name = "L: 󰒲  Lazy", section = "Plugins" },
+    { action = "q", name = "Q:   Quit", section = "Exit" },
   },
+  evaluate_single = true,
 }
 
 return M

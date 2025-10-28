@@ -53,13 +53,6 @@ return {
         end,
         desc = "Symbols in current document",
       },
-      {
-        "<space>tt",
-        function()
-          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 }, { bufnr = 0 })
-        end,
-        desc = "Toggle Inlay Hints",
-      },
     },
     config = function()
       require("config.lsp").setup()
@@ -83,6 +76,16 @@ return {
         ":Format<CR>",
         desc = "Format code (Conform)",
       },
+    },
+  },
+  {
+    "folke/trouble.nvim",
+    cmd = "Trouble",
+    keys = {
+      { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics" },
+      { "<leader>xd", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics" },
+      { "<leader>xl", "<cmd>Trouble loclist toggle<cr>", desc = "Location List" },
+      { "<leader>xq", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List" },
     },
   },
 }

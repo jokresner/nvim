@@ -45,14 +45,9 @@ return {
     cmd = "Store",
   },
   {
-    "vimichael/floatingtodo.nvim",
-    cond = vim.g.vscode == nil,
-    keys = {
-      { "<leader>td", ":Td<CR>", desc = "Open Floating Todo" },
-    },
-    opts = function()
-      return require("config.tools").floatingtodo
-    end,
+    "atiladefreitas/dooing",
+    lazy = false,
+    opts = {},
   },
   {
     "ten3roberts/qf.nvim",
@@ -75,5 +70,21 @@ return {
     "beauwilliams/focus.nvim",
     event = "VeryLazy",
     cond = vim.g.vscode == nil,
+  },
+  {
+    "mistweaverco/kulala.nvim",
+    cond = vim.g.vscode == nil,
+    lazy = false,
+    keys = {
+      { "<leader>Rs", desc = "Send request" },
+      { "<leader>Ra", desc = "Send all requests" },
+      { "<leader>Rb", desc = "Open scratchpad" },
+    },
+    ft = {"http", "rest"},
+    opts = {
+      global_keymaps = false,
+      global_keymaps_prefix = "<leader>R",
+      kulala_keymaps_prefix = "",
+    },
   },
 }

@@ -1,15 +1,17 @@
 -- Setup initial configuration, bootstrap lazy.nvim
+vim.g.start_time = vim.loop.hrtime()
 vim.loader.enable()
 
 vim.g.mapleader = " "
 
-if not vim.uv.fs_stat "/tmp/nvim.sock" then
-  vim.fn.serverstart "/tmp/nvim.sock"
+if vim.fn.argc(-1) == 0 then
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "VeryLazy",
+    callback = function()
+      require("lazy.core.util").track "Startup"
+    end,
+  })
 end
-
-vim.env.NVIM_LISTEN_ADDRESS = "/tmp/nvim.sock"
-
-require "config.yazi"
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then

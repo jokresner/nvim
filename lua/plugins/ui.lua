@@ -13,15 +13,6 @@ return {
     end,
   },
   {
-    "rebelot/kanagawa.nvim",
-    name = "kanagawa",
-    priority = 1000,
-    cond = vim.g.vscode == nil,
-    opts = function()
-      return require("config.ui").kanagawa
-    end,
-  },
-  {
     "nvim-mini/mini.icons",
     event = "VeryLazy",
     cond = vim.g.vscode == nil,
@@ -40,12 +31,11 @@ return {
     end,
   },
   {
-    "nvim-mini/mini.clue",
+    "folke/which-key.nvim",
     event = "VeryLazy",
     cond = vim.g.vscode == nil,
-    config = function()
-      local conf = require("config.ui").clue()
-      require("mini.clue").setup(conf.setup)
+    opts = function()
+      return require("config.ui").which_key
     end,
   },
   {
@@ -94,11 +84,6 @@ return {
     opts = function()
       return require("config.ui").statuscol()
     end,
-  },
-  {
-    "b0o/incline.nvim",
-    cond = vim.g.vscode == nil,
-    event = "VeryLazy",
   },
   {
     "kevinhwang91/nvim-hlslens",
@@ -168,14 +153,6 @@ return {
     },
   },
   {
-    "anuvyklack/pretty-fold.nvim",
-    cond = vim.g.vscode == nil,
-    event = "VeryLazy",
-    config = function()
-      require("pretty-fold").setup()
-    end,
-  },
-  {
     "oribarilan/lensline.nvim",
     tag = "1.1.2", -- or: branch = 'release/1.x' for latest non-breaking updates
     event = "LspAttach",
@@ -190,5 +167,15 @@ return {
     opts = function()
       return require("config.ui").starter
     end,
+  },
+  {
+    "kevinhwang91/nvim-ufo",
+    dependencies = "kevinhwang91/promise-async",
+    event = "BufReadPost",
+    opts = {
+      provider_selector = function()
+        return { "treesitter", "indent" }
+      end,
+    },
   },
 }

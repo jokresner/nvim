@@ -8,12 +8,7 @@ return {
     menu = { draw = { treesitter = { "lsp" } } },
   },
   sources = {
-    snippets = {
-      expand = function(body)
-        require("snippy").expand_snippet(body)
-      end,
-    },
-    default = { "avante", "lsp", "path", "snippets", "buffer", "copilot" },
+    default = { "avante", "lsp", "path", "buffer", "copilot" },
     providers = {
       copilot = { name = "copilot", module = "blink-cmp-copilot", score_offset = 100, async = true },
       avante = { module = "blink-cmp-avante", name = "Avante" },
