@@ -128,13 +128,20 @@ function M.setup()
     end,
   })
 
-  for name, config in pairs(servers) do
-    if config == true then
-      config = {}
-    end
-    config.handlers = handlers
-    vim.lsp.config(name, config)
-  end
+  -- Set up mason-lspconfig to automatically set up installed servers
+  require("mason-lspconfig").setup {
+    automatic_installation = true,
+    handlers = {
+      function(server_name)
+        local server_config = servers[server_name] or {}
+        if server_config == true then
+          server_config = {}
+        end
+        server_config.handlers = handlers
+        require("lspconfig")[server_name].setup(server_config)
+      end,
+    },
+  }
 
   local disable_semantic_tokens = { lua = true }
 

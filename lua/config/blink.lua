@@ -8,9 +8,8 @@ return {
     menu = { draw = { treesitter = { "lsp" } } },
   },
   sources = {
-    default = { "avante", "lsp", "path", "buffer", "copilot" },
+    default = { "avante", "lsp", "path", "buffer" },
     providers = {
-      copilot = { name = "copilot", module = "blink-cmp-copilot", score_offset = 100, async = true },
       avante = { module = "blink-cmp-avante", name = "Avante" },
     },
   },

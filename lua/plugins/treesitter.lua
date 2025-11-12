@@ -5,6 +5,7 @@ return {
     branch = "master",
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
+      "nvim-treesitter/nvim-treesitter-context",
     },
     lazy = false, -- Does not support lazy loading
     config = function()

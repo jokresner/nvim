@@ -2,9 +2,8 @@ return {
   {
     "saghen/blink.cmp",
     dependencies = {
-      "giuxtaposition/blink-cmp-copilot",
       "kaiser-Yang/blink-cmp-avante",
-      { 'yus-works/csc.nvim', opts = {} },
+      { "yus-works/csc.nvim", opts = {} },
     },
     version = "1.*",
     cond = vim.g.vscode == nil,

@@ -13,6 +13,8 @@ function M.setup()
   M.setupGo()
   M.setupPHP()
 
+  require("dap.ext.vscode").load_launchjs(nil, { include = { "php", "go" } })
+
   local sign = vim.fn.sign_define
   sign("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
   sign("DapBreakpointCondition", { text = "", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
@@ -20,10 +22,18 @@ function M.setup()
   sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
   sign("DapStopped", { texthl = "DapStopped" })
 
-  dap.listeners.before.attach.dapui_config = function() ui.open() end
-  dap.listeners.before.launch.dapui_config = function() ui.open() end
-  dap.listeners.before.event_terminated.dapui_config = function() ui.close() end
-  dap.listeners.before.event_exited.dapui_config = function() ui.close() end
+  dap.listeners.before.attach.dapui_config = function()
+    ui.open()
+  end
+  dap.listeners.before.launch.dapui_config = function()
+    ui.open()
+  end
+  dap.listeners.before.event_terminated.dapui_config = function()
+    ui.close()
+  end
+  dap.listeners.before.event_exited.dapui_config = function()
+    ui.close()
+  end
 end
 
 function M.setupGo()
@@ -42,30 +52,6 @@ function M.setupGo()
       }
     end
   end
-
-  dap.configurations.go = {
-    {
-      type = "delve",
-      name = "Debug",
-      request = "launch",
-      program = "${file}",
-    },
-    {
-      type = "delve",
-      name = "Debug test", -- configuration for debugging test files
-      request = "launch",
-      mode = "test",
-      program = "${file}",
-    },
-    -- works with go.mod packages and sub packages
-    {
-      type = "delve",
-      name = "Debug test (go.mod)",
-      request = "launch",
-      mode = "test",
-      program = "./${relativeFileDirname}",
-    },
-  }
 end
 
 function M.setupPHP()
