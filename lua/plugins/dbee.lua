@@ -2,6 +2,7 @@ return {
   {
     "kndndrj/nvim-dbee",
     cond = vim.g.vscode == nil,
+    cmd = "DBee",
     dependencies = {
       "MunifTanjim/nui.nvim",
     },

@@ -2,7 +2,6 @@ return {
   {
     "stevearc/oil.nvim",
     cond = vim.g.vscode == nil,
-    lazy = false,
     opts = {
       default_file_explorer = false,
       view_options = {
@@ -35,6 +34,7 @@ return {
     "nvim-mini/mini.visits",
     version = false,
     cond = vim.g.vscode == nil,
+    event = "VeryLazy",
     config = function()
       require("mini.visits").setup()
     end,

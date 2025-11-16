@@ -3,7 +3,11 @@ return {
     enabled = not vim.g.ai_cmp,
     auto_trigger = true,
     hide_during_completion = vim.g.ai_cmp,
-    keymap = { accept = "<tab>", next = "<C-j>", prev = "<C-p>" },
+    keymap = {
+      accept = false,
+      next = "<C-j>",
+      prev = "<C-p>",
+    },
   },
   panel = { enabled = false },
   filetypes = { markdown = true, help = true },

@@ -7,6 +7,7 @@ return {
       { "folke/lazydev.nvim", ft = "lua" },
       {
         "williamboman/mason.nvim",
+        event = "VeryLazy",
         opts = {
           ui = {
             border = "rounded",

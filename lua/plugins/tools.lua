@@ -46,7 +46,7 @@ return {
   },
   {
     "atiladefreitas/dooing",
-    lazy = false,
+    cmd = "Dooing",
     opts = {},
   },
   {
@@ -74,13 +74,12 @@ return {
   {
     "mistweaverco/kulala.nvim",
     cond = vim.g.vscode == nil,
-    lazy = false,
+    ft = {"http", "rest"},
     keys = {
       { "<leader>Rs", desc = "Send request" },
       { "<leader>Ra", desc = "Send all requests" },
       { "<leader>Rb", desc = "Open scratchpad" },
     },
-    ft = {"http", "rest"},
     opts = {
       global_keymaps = false,
       global_keymaps_prefix = "<leader>R",
