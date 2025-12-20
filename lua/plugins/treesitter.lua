@@ -2,10 +2,10 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    branch = "master",
+    branch = "main",
     dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      "nvim-treesitter/nvim-treesitter-context",
+      --      "nvim-treesitter/nvim-treesitter-textobjects",
+      --      "nvim-treesitter/nvim-treesitter-context",
     },
     lazy = false, -- Does not support lazy loading
     config = function()
