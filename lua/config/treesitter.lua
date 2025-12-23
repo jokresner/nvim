@@ -5,9 +5,6 @@ local M = {}
 M.setup = function()
   require("nvim-treesitter").install {
     "lua",
-    "vim",
-    "vimdoc",
-    "query",
     "go",
     "rust",
     "php",

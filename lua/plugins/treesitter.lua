@@ -7,7 +7,8 @@ return {
       --      "nvim-treesitter/nvim-treesitter-textobjects",
       --      "nvim-treesitter/nvim-treesitter-context",
     },
-    lazy = false, -- Does not support lazy loading
+    event = { "BufReadPost", "BufNewFile" },
+    cmd = { "TSUpdate", "TSInstall" },
     config = function()
       require("config.treesitter").setup()
     end,

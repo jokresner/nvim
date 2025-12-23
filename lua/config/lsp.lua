@@ -115,6 +115,9 @@ end
 function M.setup()
   require("mason-nvim-dap").setup()
 
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+
   local servers = M.servers
   local servers_to_install = compute_servers_to_install(servers)
 
@@ -138,6 +141,7 @@ function M.setup()
           server_config = {}
         end
         server_config.handlers = handlers
+        server_config.capabilities = capabilities
         require("lspconfig")[server_name].setup(server_config)
       end,
     },
