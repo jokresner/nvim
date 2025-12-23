@@ -18,6 +18,7 @@
   "fold-cycle.nvim": { "branch": "main", "commit": "6144567b3307bbcfed0e5b2dd23acb9576575d9e" },
   "hardtime.nvim": { "branch": "main", "commit": "b4e431934af1fe224a3a801f632c008278cb7628" },
   "helpview.nvim": { "branch": "main", "commit": "518789535a0cb146224a428edf93a70f98b795db" },
+  "jira.nvim": { "branch": "main", "commit": "302533a7e48502ea8b8a14fb7997edca4541bedc" },
   "kulala.nvim": { "branch": "main", "commit": "9fc4831a116fb32b0fd420ed483f5102a873446a" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "lazydev.nvim": { "branch": "main", "commit": "5231c62aa83c2f8dc8e7ba957aa77098cda1257d" },
