@@ -55,4 +55,25 @@ return {
       { "<leader>sr", function() require("spectre").open() end, desc = "Replace in Files" },
     },
   },
+  {
+    "ThePrimeagen/refactoring.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    keys = {
+      {
+        "<leader>r",
+        function()
+          require("refactoring").select_refactor()
+        end,
+        mode = "v",
+        noremap = true,
+        silent = true,
+        expr = false,
+        desc = "Refactoring",
+      },
+    },
+    opts = {},
+  },
 }
