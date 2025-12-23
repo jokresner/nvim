@@ -55,5 +55,19 @@ return {
     },
   },
   fuzzy = { implementation = "prefer_rust_with_warning" },
-  cmdline = { enabled = false },
+  cmdline = {
+    enabled = true,
+    sources = function()
+      local type = vim.fn.getcmdtype()
+      -- Search forward/backward
+      if type == "/" or type == "?" then
+        return { "buffer" }
+      end
+      -- Commands
+      if type == ":" then
+        return { "cmdline" }
+      end
+      return {}
+    end,
+  },
 }

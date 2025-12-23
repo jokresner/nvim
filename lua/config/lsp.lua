@@ -99,6 +99,7 @@ M.ensure_installed = {
   "codelldb",
   "harper-ls",
   "ast-grep",
+  "vtsls",
 }
 
 local function compute_servers_to_install(servers)
