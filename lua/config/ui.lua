@@ -23,7 +23,7 @@ M.dressing = {
 }
 
 M.which_key = {
-  preset = "modern",
+  preset = "helix",
   delay = 500,
   icons = {
     breadcrumb = "»",

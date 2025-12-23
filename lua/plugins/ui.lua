@@ -178,4 +178,15 @@ return {
       end,
     },
   },
+  {
+    "gisketch/triforce.nvim",
+    dependencies = { "nvzone/volt" },
+    event = "VeryLazy",
+    cond = vim.g.vscode == nil,
+    opts = {
+      keymap = {
+        show_profile = "<leader>tp",
+      },
+    },
+  },
 }
