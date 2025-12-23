@@ -1,11 +1,9 @@
 return {
   {
-    "nvim-mini/mini.statusline",
+    "nvim-lualine/lualine.nvim",
     cond = vim.g.vscode == nil,
-    event = "VimEnter",
-    config = function()
-      return require "config.statusline"()
-    end,
+    event = "VeryLazy",
+    opts = require("config.statusline").lualine,
   },
   {
     "akinsho/bufferline.nvim",

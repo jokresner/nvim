@@ -185,7 +185,7 @@ return {
     cond = vim.g.vscode == nil,
     opts = {
       keymap = {
-        show_profile = "<leader>tp",
+        show_profile = "<leader>ts",
       },
     },
   },
