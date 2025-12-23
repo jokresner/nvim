@@ -54,4 +54,14 @@ return {
   { -- TypeScript Error Translator
     "dmmulroy/ts-error-translator.nvim",
   },
+  {
+    "olexsmir/gopher.nvim",
+    ft = "go",
+    build = function()
+      vim.cmd.GoInstallDeps()
+    end,
+    ---@module "gopher"
+    ---@type gopher.Config
+    opts = {},
+  },
 }

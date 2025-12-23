@@ -16,6 +16,7 @@
   "flash.nvim": { "branch": "main", "commit": "fcea7ff883235d9024dc41e638f164a450c14ca2" },
   "focus.nvim": { "branch": "master", "commit": "26a755c363284547196ceb258a83f92608d7979b" },
   "fold-cycle.nvim": { "branch": "main", "commit": "6144567b3307bbcfed0e5b2dd23acb9576575d9e" },
+  "gopher.nvim": { "branch": "main", "commit": "6a3924cee5a9f36d316f8e4a90c3020438d3513f" },
   "hardtime.nvim": { "branch": "main", "commit": "b4e431934af1fe224a3a801f632c008278cb7628" },
   "helpview.nvim": { "branch": "main", "commit": "518789535a0cb146224a428edf93a70f98b795db" },
   "jira.nvim": { "branch": "main", "commit": "302533a7e48502ea8b8a14fb7997edca4541bedc" },
