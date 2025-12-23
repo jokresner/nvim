@@ -78,6 +78,7 @@ return {
   },
   {
     "sindrets/diffview.nvim",
+    enabled = false,
     cmd = { "DiffviewOpen", "DiffviewClose" },
     cond = vim.g.vscode == nil,
     keys = {
@@ -103,6 +104,28 @@ return {
           require("neogit").open()
         end,
         desc = "Neogit",
+      },
+    },
+  },
+  {
+    "esmuellert/vscode-diff.nvim",
+    branch = "next",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    cond = vim.g.vscode == nil,
+    keys = {
+      {
+        "<leader>hs",
+        function()
+          require("config.vcs").git_pickaxe { global = false }
+        end,
+        desc = "Git Search Buffer (VSCode Diff)",
+      },
+      {
+        "<leader>hS",
+        function()
+          require("config.vcs").git_pickaxe { global = true }
+        end,
+        desc = "Git Search Global (VSCode Diff)",
       },
     },
   },
