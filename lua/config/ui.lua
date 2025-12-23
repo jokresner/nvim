@@ -8,6 +8,7 @@ M.catppuccin = {
     notify = false,
     mini = { enabled = true, indentscope_color = "" },
     overseer = true,
+    bufferline = true,
   },
   background = { light = "latte", dark = "mocha" },
 }

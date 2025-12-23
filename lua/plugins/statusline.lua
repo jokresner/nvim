@@ -31,16 +31,15 @@ return {
     cond = vim.g.vscode == nil,
     event = "VimEnter",
     keys = {
-      { "<leader>tn", "<cmd>BufferLineCycleNext<cr>", desc = "Next Tab" },
-      { "<leader>tp", "<cmd>BufferLineCyclePrev<cr>", desc = "Previous Tab" },
-      { "<leader>tc", "<cmd>BufferLineCloseOthers<cr>", desc = "Close Other Tabs" },
+      { "<leader>bn", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+      { "<leader>bp", "<cmd>BufferLineCyclePrev<cr>", desc = "Previous Buffer" },
+      { "<leader>bc", "<cmd>BufferLineCloseOthers<cr>", desc = "Close Other Buffers" },
+      { "<leader>bp", "<cmd>BufferLinePick<cr>", desc = "Pick Buffer" },
+      { "<leader>bP", "<cmd>BufferLineTogglePin<cr>", desc = "Toggle Pin" },
+      { "<leader>bs", "<cmd>BufferLineSortByExtension<cr>", desc = "Sort by Extension" },
     },
-    opts = {
-      options = {
-        themeable = true,
-        numbers = "ordinal",
-        diagnostics = "nvim_lsp",
-      },
-    },
+    opts = function()
+      return require("config.statusline").bufferline()
+    end,
   },
 }
