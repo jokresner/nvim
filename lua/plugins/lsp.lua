@@ -1,5 +1,8 @@
 return {
   {
+    "noirbizarre/ensure.nvim",
+  },
+  {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
     cond = vim.g.vscode == nil,
