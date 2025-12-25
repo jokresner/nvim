@@ -52,3 +52,5 @@ opt.cmdheight = 1 -- Command line height
 opt.laststatus = 3 -- Global statusline
 opt.updatetime = 250 -- Faster CursorHold
 opt.timeoutlen = 300 -- Faster which-key popup
+
+opt.conceallevel = 1 -- So that `` is visible in markdown files

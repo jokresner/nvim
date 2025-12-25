@@ -28,7 +28,7 @@ return {
         },
       },
     },
-    cond = vim.g.vscode == nil,
+    cond = vim.g.vscode == nil and vim.env.NVIM_NO_BUFFER == nil,
     event = "VimEnter",
     keys = {
       { "<leader>bn", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },

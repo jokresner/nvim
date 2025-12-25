@@ -57,6 +57,7 @@ M.which_key = {
     { "<leader>h", group = "Hunks" },
     { "<leader>l", group = "LSP" },
     { "<leader>m", group = "Test" },
+    { "<leader>o", group = "Obsidian" },
     { "<leader>p", desc = "Paste from clipboard" },
     { "<leader>q", group = "Session" },
     { "<leader>s", group = "Search" },
