@@ -1,4 +1,4 @@
--- Hide Copilot ghost text when Blink's completion menu is open (prevents visual overlap)
+-- Hide Copilot ghost text when Blink's completion menu is open
 vim.api.nvim_create_autocmd("User", {
   pattern = "BlinkCmpMenuOpen",
   callback = function()
@@ -45,13 +45,17 @@ return {
   completion = {
     accept = { auto_brackets = { enabled = true } },
     documentation = { auto_show = false, auto_show_delay_ms = 200 },
-    ghost_text = { enabled = vim.g.ai_cmp },
+    ghost_text = { enabled = false }, -- Copilot handles ghost text
     menu = { draw = { treesitter = { "lsp" } } },
   },
   sources = {
     default = { "lsp", "path", "buffer", "snippets" },
     providers = {
-      snippets = {},
+      snippets = {
+        opts = {
+          search_paths = { vim.fn.stdpath("config") .. "/snippets" },
+        },
+      },
     },
   },
   fuzzy = { implementation = "prefer_rust_with_warning" },

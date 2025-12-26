@@ -1,6 +1,6 @@
 return {
   "swaits/zellij-nav.nvim",
-  enabled = false,
+  cond = vim.g.vscode == nil,
   lazy = true,
   event = "VeryLazy",
   keys = {

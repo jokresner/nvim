@@ -2,7 +2,6 @@ return {
   {
     "saghen/blink.cmp",
     dependencies = {
-      -- kaiser-Yang/blink-cmp-avante",
       { "yus-works/csc.nvim", opts = {} },
     },
     version = "1.*",
@@ -13,7 +12,6 @@ return {
     opts = function()
       return require "config.blink"
     end,
-    opts_extend = { "sources.default" },
   },
   {
     "zbirenbaum/copilot.lua",
@@ -35,18 +33,13 @@ return {
         "ravitemer/mcphub.nvim",
         build = "pnpm i -g mcp-hub@latest",
         opts = function()
-          return require("config.avante").mcphub
+          return require("config.assistant").mcphub
         end,
       },
     },
-    opts = {
-      cli = {
-        mux = {
-          backend = "zellij",
-          enabled = true,
-        },
-      },
-    },
+    opts = function()
+      return require("config.assistant").sidekick
+    end,
     keys = {
       {
         "<tab>",
@@ -169,5 +162,18 @@ return {
         ft = { "markdown", "Avante" },
       },
     },
+  },
+  {
+    "Davidyz/VectorCode",
+    version = "*",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    cmd = "VectorCode",
+    config = function()
+      require("vectorcode").setup {
+        async_opts = {
+          events = { "BufWritePost", "InsertEnter", "BufReadPost" },
+        },
+      }
+    end,
   },
 }

@@ -1,0 +1,72 @@
+{
+  "Strict Types": {
+    "prefix": "strict",
+    "body": [
+      "declare(strict_types=1);",
+      ""
+    ],
+    "description": "Add strict_types declaration"
+  },
+  "Public Method": {
+    "prefix": "pub",
+    "body": [
+      "public function ${1:name}(${2:args}): ${3:void}",
+      "{",
+      "\t${0}",
+      "}"
+    ],
+    "description": "Public method"
+  },
+  "Private Method": {
+    "prefix": "pri",
+    "body": [
+      "private function ${1:name}(${2:args}): ${3:void}",
+      "{",
+      "\t${0}",
+      "}"
+    ],
+    "description": "Private method"
+  },
+  "Protected Method": {
+    "prefix": "pro",
+    "body": [
+      "protected function ${1:name}(${2:args}): ${3:void}",
+      "{",
+      "\t${0}",
+      "}"
+    ],
+    "description": "Protected method"
+  },
+  "Constructor": {
+    "prefix": "con",
+    "body": [
+      "public function __construct(${1:args})",
+      "{",
+      "\t${0}",
+      "}"
+    ],
+    "description": "Constructor"
+  },
+  "PHPUnit Test": {
+    "prefix": "test",
+    "body": [
+      "public function test_${1:feature}_${2:behavior}(): void",
+      "{",
+      "\t// Arrange",
+      "\t${0}",
+      "",
+      "\t// Act",
+      "",
+      "\t// Assert",
+      "}"
+    ],
+    "description": "PHPUnit Test Method"
+  },
+  "Die Dump": {
+    "prefix": "dd",
+    "body": [
+      "var_dump(${1}); die();"
+    ],
+    "description": "Die Dump"
+  }
+}

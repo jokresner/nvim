@@ -1,0 +1,26 @@
+{
+  "Architecture Decision Record": {
+    "prefix": "adr",
+    "body": [
+      "---",
+      "id: ${CURRENT_DATE}-${TM_FILENAME_BASE}",
+      "aliases: []",
+      "tags: [adr]",
+      "date: ${CURRENT_DATE}",
+      "status: proposed # proposed | accepted | rejected | deprecated | superseded",
+      "---",
+      "",
+      "# ${TM_FILENAME_BASE}",
+      "",
+      "## Context",
+      "<!-- What is the issue that we're seeing that is motivating this decision or change? -->",
+      "",
+      "## Decision",
+      "<!-- What is the change that we're proposing and/or doing? -->",
+      "",
+      "## Consequences",
+      "<!-- What becomes easier or more difficult to do and any risks introduced by this change? -->"
+    ],
+    "description": "Insert ADR Template"
+  }
+}

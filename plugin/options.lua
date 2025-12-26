@@ -4,6 +4,9 @@ vim.g.loaded_node_provider = 0
 vim.g.loaded_python_provider = 0
 vim.g.loaded_python3_provider = 0
 
+-- Enable AI completion by default for blink.cmp/copilot integration
+vim.g.ai_cmp = false
+
 local opt = vim.opt
 
 opt.inccommand = "split"

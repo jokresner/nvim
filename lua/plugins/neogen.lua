@@ -2,7 +2,9 @@ return {
   {
     "danymat/neogen",
     cond = vim.g.vscode == nil,
-    config = true,
+    opts = function()
+      return require("config.neogen")
+    end,
     keys = {
       {
         "<leader>cd",

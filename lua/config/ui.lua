@@ -168,9 +168,11 @@ M.starter = {
     { action = Snacks.picker.grep_word, name = "W:   Find Word", section = "Search" },
     { action = Snacks.picker.grep, name = "G:   Grep", section = "Search" },
     { action = "Lazy", name = "L: 󰒲  Lazy", section = "Plugins" },
-    { action = "q", name = "Q:   Quit", section = "Exit" },
+    { action = function() Snacks.picker.projects() end, name = "P:   Projects", section = "File" },
+    { action = function() vim.cmd("qa") end, name = "Q:   Quit", section = "Exit" },
   },
   evaluate_single = true,
+  content_hooks = nil,
 }
 
 return M
