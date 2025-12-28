@@ -41,63 +41,56 @@ return {
     end,
     keys = {
       {
-        "<leader>mt",
+        "<leader>tt",
         function()
           require("neotest").run.run()
         end,
         desc = "Run Nearest (Neotest)",
       },
       {
-        "<leader>mT",
+        "<leader>tf",
         function()
           require("neotest").run.run(vim.fn.expand("%"))
         end,
         desc = "Run File (Neotest)",
       },
       {
-        "<leader>ma",
+        "<leader>ta",
         function()
           require("neotest").run.run(vim.loop.cwd())
         end,
         desc = "Run All Test Files (Neotest)",
       },
       {
-        "<leader>mr",
-        function()
-          require("neotest").run.run()
-        end,
-        desc = "Run Nearest (Neotest)",
-      },
-      {
-        "<leader>ml",
+        "<leader>tl",
         function()
           require("neotest").run.run_last()
         end,
         desc = "Run Last (Neotest)",
       },
       {
-        "<leader>ms",
+        "<leader>ts",
         function()
           require("neotest").summary.toggle()
         end,
         desc = "Toggle Summary (Neotest)",
       },
       {
-        "<leader>mo",
+        "<leader>to",
         function()
           require("neotest").output.open({ enter = true, auto_close = true })
         end,
         desc = "Show Output (Neotest)",
       },
       {
-        "<leader>mO",
+        "<leader>tO",
         function()
           require("neotest").output_panel.toggle()
         end,
         desc = "Toggle Output Panel (Neotest)",
       },
       {
-        "<leader>mw",
+        "<leader>tw",
         function()
           require("neotest").watch.toggle(vim.fn.expand("%"))
         end,

@@ -89,30 +89,6 @@ M.servers = {
   },
 }
 
-M.ensure_installed = {
-  "stylua",
-  "lua_ls",
-  "delve",
-  "gopls",
-  "golangci-lint",
-  "luacheck",
-  "codelldb",
-  "harper-ls",
-  "ast-grep",
-  "vtsls",
-}
-
-local function compute_servers_to_install(servers)
-  return vim.tbl_filter(function(key)
-    local t = servers[key]
-    if type(t) == "table" then
-      return not t.manual_install
-    else
-      return t
-    end
-  end, vim.tbl_keys(servers))
-end
-
 function M.setup()
   require("mason-nvim-dap").setup()
 
@@ -120,21 +96,10 @@ function M.setup()
   capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
   local servers = M.servers
-  local servers_to_install = compute_servers_to_install(servers)
-
-  local ensure_installed = vim.deepcopy(M.ensure_installed)
-  vim.list_extend(ensure_installed, servers_to_install)
-
-  vim.api.nvim_create_autocmd("User", {
-    pattern = "VeryLazy",
-    callback = function()
-      require("mason-tool-installer").setup { ensure_installed = ensure_installed }
-    end,
-  })
 
   -- Set up mason-lspconfig to automatically set up installed servers
   require("mason-lspconfig").setup {
-    automatic_installation = true,
+    automatic_installation = false, -- handled by ensure.nvim
     handlers = {
       function(server_name)
         local server_config = servers[server_name] or {}
@@ -147,6 +112,27 @@ function M.setup()
       end,
     },
   }
+
+  for name, config in pairs(servers) do
+    if config.manual_install then
+      local lspconfig = require "lspconfig"
+      local configs = require "lspconfig.configs"
+
+      if not configs[name] then
+        configs[name] = {
+          default_config = {
+            cmd = config.cmd,
+            root_dir = config.root_dir,
+            filetypes = config.filetypes,
+          },
+        }
+      end
+
+      config.handlers = handlers
+      config.capabilities = capabilities
+      lspconfig[name].setup(config)
+    end
+  end
 
   local disable_semantic_tokens = { lua = true }
 

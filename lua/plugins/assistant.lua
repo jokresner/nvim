@@ -157,10 +157,6 @@ return {
           return require("config.avante").img_clip
         end,
       },
-      {
-        "ellisonleao/glow.nvim",
-        ft = { "markdown", "Avante" },
-      },
     },
   },
   {

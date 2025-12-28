@@ -70,7 +70,7 @@ return {
     { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
     { "<c-/>", function() Snacks.terminal() end, desc = "Toggle Terminal" },
     { "<c-_>", function() Snacks.terminal() end, desc = "which_key_ignore" },
-    { "<leader>tt", function() Snacks.terminal() end, desc = "Toggle Terminal" },
+    { "<leader>ut", function() Snacks.terminal() end, desc = "Toggle Terminal" },
     { "<leader>cn", function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
     { "<leader>cp", function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
   },
