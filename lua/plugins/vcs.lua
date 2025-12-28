@@ -108,8 +108,7 @@ return {
     },
   },
   {
-    "esmuellert/vscode-diff.nvim",
-    branch = "next",
+    "esmuellert/codediff.nvim",
     dependencies = { "MunifTanjim/nui.nvim" },
     cond = vim.g.vscode == nil,
     keys = {

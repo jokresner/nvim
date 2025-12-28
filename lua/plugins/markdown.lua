@@ -1,6 +1,7 @@
 return {
   {
     "OXY2DEV/markview.nvim",
+    cond = vim.g.vscode == nil,
     ft = { "markdown", "quarto", "rmd", "typst" },
     opts = {
       split_nav = {

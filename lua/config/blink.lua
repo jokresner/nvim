@@ -1,8 +1,12 @@
--- Hide Copilot ghost text when Blink's completion menu is open
+-- Hide AI ghost text when Blink's completion menu is open
 vim.api.nvim_create_autocmd("User", {
   pattern = "BlinkCmpMenuOpen",
   callback = function()
     vim.b.copilot_suggestion_hidden = true
+    local ok, sm = pcall(require, "supermaven-nvim.completion_preview")
+    if ok then
+      sm.disable_inline_completion = true
+    end
   end,
 })
 
@@ -10,15 +14,27 @@ vim.api.nvim_create_autocmd("User", {
   pattern = "BlinkCmpMenuClose",
   callback = function()
     vim.b.copilot_suggestion_hidden = false
+    local ok, sm = pcall(require, "supermaven-nvim.completion_preview")
+    if ok then
+      sm.disable_inline_completion = false
+    end
   end,
 })
 
 return {
   keymap = {
     ["<Tab>"] = {
-      function(cmp) -- Tab key copilot completion
-        local ok, cop = pcall(require, "copilot.suggestion")
-        if ok and cop.is_visible() then
+      function(cmp) -- Tab key AI completion
+        local sm_ok, sm = pcall(require, "supermaven-nvim.completion_preview")
+        if sm_ok and sm.has_suggestion() then
+          vim.schedule(function()
+            sm.on_accept_suggestion()
+          end)
+          return true
+        end
+
+        local cop_ok, cop = pcall(require, "copilot.suggestion")
+        if cop_ok and cop.is_visible() then
           cop.accept()
           return true
         end
@@ -53,7 +69,7 @@ return {
     providers = {
       snippets = {
         opts = {
-          search_paths = { vim.fn.stdpath("config") .. "/snippets" },
+          search_paths = { vim.fn.stdpath "config" .. "/snippets" },
         },
       },
     },

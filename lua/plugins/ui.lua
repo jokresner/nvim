@@ -146,9 +146,9 @@ return {
       {
         "<leader>uN",
         function()
-          require("noice").cmd "last"
+          require("noice").cmd "all"
         end,
-        desc = "Last Notification",
+        desc = "Notifications",
       },
     },
   },

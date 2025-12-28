@@ -25,6 +25,13 @@ return {
     end,
   },
   {
+    "supermaven-inc/supermaven-nvim",
+    event = "InsertEnter",
+    opts = function()
+      return require "config.supermaven"
+    end,
+  },
+  {
     "folke/sidekick.nvim",
     event = "VeryLazy",
     cond = vim.g.vscode == nil,
