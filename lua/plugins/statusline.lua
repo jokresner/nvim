@@ -6,40 +6,35 @@ return {
     opts = require("config.statusline").lualine,
   },
   {
-    "akinsho/bufferline.nvim",
-    dependencies = {
-      {
-        "echasnovski/mini.bufremove",
-        keys = {
-          {
-            "<leader>bd",
-            function()
-              require("mini.bufremove").delete(0, false)
-            end,
-            desc = "Delete Buffer",
-          },
-          {
-            "<leader>bD",
-            function()
-              require("mini.bufremove").delete(0, true)
-            end,
-            desc = "Delete Buffer (Force)",
-          },
+    "serhez/bento.nvim",
+    event = "VeryLazy",
+    opts = {
+      main_keymap = "ö",
+      max_open_buffers = 10,
+      actions = {
+        vsplit = { key = "v" },
+        split = { key = "h" },
+        lock = { key = "l" },
+        delete = { key = "d" },
+        prev_page = {
+          key = "p",
+          action = function()
+            require("bento.ui").prev_page()
+          end,
+        },
+        next_page = {
+          key = "n",
+          action = function()
+            require("bento.ui").next_page()
+          end,
+        },
+      },
+      ui = {
+        mode = "floating",
+        floating = {
+          position = "middle-left",
         },
       },
     },
-    cond = vim.g.vscode == nil and vim.env.NVIM_NO_BUFFER == nil,
-    event = "VimEnter",
-    keys = {
-      { "<leader>bn", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
-      { "<leader>bp", "<cmd>BufferLineCyclePrev<cr>", desc = "Previous Buffer" },
-      { "<leader>bc", "<cmd>BufferLineCloseOthers<cr>", desc = "Close Other Buffers" },
-      { "<leader>bp", "<cmd>BufferLinePick<cr>", desc = "Pick Buffer" },
-      { "<leader>bP", "<cmd>BufferLineTogglePin<cr>", desc = "Toggle Pin" },
-      { "<leader>bs", "<cmd>BufferLineSortByExtension<cr>", desc = "Sort by Extension" },
-    },
-    opts = function()
-      return require("config.statusline").bufferline()
-    end,
   },
 }

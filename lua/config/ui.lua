@@ -46,7 +46,6 @@ M.which_key = {
     { "<leader>S", desc = "Select Scratch" },
     -- Groups
     { "<leader>a", group = "AI/Assistant" },
-    { "<leader>b", group = "Buffers" },
     { "<leader>c", group = "Code" },
     { "<leader>d", group = "Debug" },
     { "<leader>dv", group = "DAP View" },
@@ -55,6 +54,7 @@ M.which_key = {
     { "<leader>f", group = "Find" },
     { "<leader>g", group = "Git" },
     { "<leader>h", group = "Hunks" },
+    { "<leader>k", desc = "Kill Buffer" },
     { "<leader>l", group = "LSP" },
     { "<leader>m", group = "Markdown" },
     { "<leader>o", group = "Obsidian" },

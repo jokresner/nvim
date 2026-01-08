@@ -68,6 +68,8 @@ return {
     { "<leader>Z", function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
     { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
     { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
+    { "<leader>k", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
+    { "<leader>K", function() Snacks.bufdelete({ force = true }) end, desc = "Delete Buffer (Force)" },
     { "<c-/>", function() Snacks.terminal() end, desc = "Toggle Terminal" },
     { "<c-_>", function() Snacks.terminal() end, desc = "which_key_ignore" },
     { "<leader>ut", function() Snacks.terminal() end, desc = "Toggle Terminal" },
