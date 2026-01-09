@@ -5,10 +5,8 @@ return {
     priority = 1000,
     lazy = false,
     cond = vim.g.vscode == nil,
-    opts = function()
-      return require("config.ui").catppuccin
-    end,
     config = function()
+      require("catppuccin").setup(require("config.ui").catppuccin)
       vim.cmd.colorscheme "catppuccin"
     end,
   },
