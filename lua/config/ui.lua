@@ -7,7 +7,6 @@ M.catppuccin = {
     },
     flash = true,
     gitsigns = true,
-    lualine = true,
     markview = true,
     mini = {
       enabled = true,
@@ -72,7 +71,6 @@ M.which_key = {
     { "<leader>g", group = "Git" },
     { "<leader>h", group = "Hunks" },
     { "<leader>k", desc = "Kill Buffer" },
-    { "<leader>l", group = "LSP" },
     { "<leader>m", group = "Markdown" },
     { "<leader>o", group = "Obsidian" },
     { "<leader>p", desc = "Paste from clipboard" },

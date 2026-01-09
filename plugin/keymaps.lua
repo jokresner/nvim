@@ -53,3 +53,5 @@ set("x", "<leader>p", '"_dP', { desc = "Paste without yanking" })
 
 -- Quick save
 set("n", "<leader>w", "<cmd>w<CR>", { desc = "Save file" })
+
+set("n", "<leader>lu", "<Cmd>noh<CR>", { desc = "Clear search highlight" })

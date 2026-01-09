@@ -105,7 +105,7 @@ return {
     end,
     keys = {
       {
-        "<leader>lf",
+        "<leader>cf",
         ":Format<CR>",
         desc = "Format code (Conform)",
       },
