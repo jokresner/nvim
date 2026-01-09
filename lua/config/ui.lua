@@ -16,6 +16,7 @@ M.catppuccin = {
     neogit = true,
     neotest = true,
     noice = true,
+    notify = true,
     dap = true,
     dap_ui = true,
     treesitter_context = true,

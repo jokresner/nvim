@@ -132,41 +132,6 @@ return {
     },
   },
   {
-    "yetone/avante.nvim",
-    keys = {
-      { "<leader>aa", "<cmd>AvanteAsk<cr>", mode = { "n", "v" }, desc = "Avante Ask" },
-      { "<leader>ae", "<cmd>AvanteEdit<cr>", mode = { "n", "v" }, desc = "Avante Edit" },
-      { "<leader>ar", "<cmd>AvanteRefresh<cr>", desc = "Avante Refresh" },
-      { "<leader>at", "<cmd>AvanteToggle<cr>", desc = "Avante Toggle" },
-    },
-    cond = vim.g.vscode == nil,
-    version = false,
-    enabled = false,
-    opts = function()
-      return require("config.avante").opts
-    end,
-    build = "make",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      {
-        "ravitemer/mcphub.nvim",
-        build = "pnpm i -g mcp-hub@latest",
-        opts = function()
-          return require("config.avante").mcphub
-        end,
-      },
-      {
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = function()
-          return require("config.avante").img_clip
-        end,
-      },
-    },
-  },
-  {
     "Davidyz/VectorCode",
     version = "*",
     dependencies = { "nvim-lua/plenary.nvim" },

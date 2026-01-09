@@ -77,16 +77,6 @@ return {
     },
   },
   {
-    "sindrets/diffview.nvim",
-    enabled = false,
-    cmd = { "DiffviewOpen", "DiffviewClose" },
-    cond = vim.g.vscode == nil,
-    keys = {
-      { "<leader>gd", "<cmd>DiffviewOpen<CR>", desc = "Open Diffview" },
-      { "<leader>gD", "<cmd>DiffviewClose<CR>", desc = "Close Diffview" },
-    },
-  },
-  {
     "NeogitOrg/neogit",
     cmd = "Neogit",
     cond = vim.g.vscode == nil,
@@ -111,7 +101,13 @@ return {
     "esmuellert/codediff.nvim",
     dependencies = { "MunifTanjim/nui.nvim" },
     cond = vim.g.vscode == nil,
+    cmd = { "VscodeDiff" },
     keys = {
+      {
+        "<leader>gd",
+        "<cmd>VscodeDiff<CR>",
+        desc = "VSCode Diff",
+      },
       {
         "<leader>hs",
         function()
