@@ -39,23 +39,18 @@ return {
           return true
         end
       end,
-      function(cmp) -- VSCode style accept behavior
-        if cmp.snippet_active() then
-          return cmp.accept()
-        else
-          return cmp.select_and_accept()
-        end
-      end,
+      "select_next", -- Select next item if completion menu is open
       "snippet_forward",
       "fallback", -- fallback to normal behavior (insert Tab)
     },
-    ["<S-Tab>"] = { "snippet_backward", "fallback" },
+    ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
     ["<c-j>"] = { "select_next", "fallback" },
     ["<c-k>"] = { "select_prev", "fallback" },
     ["<c-b>"] = { "scroll_documentation_up", "fallback" },
     ["<c-f>"] = { "scroll_documentation_down", "fallback" },
     ["<c-space>"] = { "show", "show_documentation", "fallback" },
     ["<c-e>"] = { "hide", "fallback" },
+    ["<CR>"] = { "accept", "fallback" }, -- Accept currently selected item, or fallback to default behavior.
   },
   appearance = { nerd_font_variant = "mono" },
   completion = {
