@@ -19,6 +19,7 @@
   "focus.nvim": { "branch": "master", "commit": "8732b45ceef77b576e60442e768437bce7915107" },
   "fold-cycle.nvim": { "branch": "main", "commit": "6144567b3307bbcfed0e5b2dd23acb9576575d9e" },
   "gopher.nvim": { "branch": "main", "commit": "6a3924cee5a9f36d316f8e4a90c3020438d3513f" },
+  "haunt.nvim": { "branch": "main", "commit": "eeba072ae6fb5c6fa1ccce087c32ab4cbfc640bb" },
   "helpview.nvim": { "branch": "main", "commit": "518789535a0cb146224a428edf93a70f98b795db" },
   "jira.nvim": { "branch": "main", "commit": "f06602146a049586f6b16fe2a0438f369ef50846" },
   "kulala.nvim": { "branch": "main", "commit": "ad51fbcfd674efb95a90d3b5f21271859416ea76" },
