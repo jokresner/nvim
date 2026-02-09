@@ -55,3 +55,11 @@ set("x", "<leader>p", '"_dP', { desc = "Paste without yanking" })
 set("n", "<leader>w", "<cmd>w<CR>", { desc = "Save file" })
 
 set("n", "<leader>lu", "<Cmd>noh<CR>", { desc = "Clear search highlight" })
+
+set("n", "<leader>cl", function()
+  local path = vim.fn.fnamemodify(vim.fn.expand "%", ":~:.")
+  local line = vim.fn.line "."
+  local result = path .. ":" .. line
+  vim.fn.setreg("+", result)
+  vim.notify('Copied "' .. result .. '" to the system clipboard')
+end, { desc = "Copy file path and line number" })
