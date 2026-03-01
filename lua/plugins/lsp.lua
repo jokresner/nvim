@@ -1,6 +1,12 @@
 return {
   {
     "noirbizarre/ensure.nvim",
+    config = function(_, opts)
+      -- Run checks once, slightly after startup to avoid blocking
+      vim.defer_fn(function()
+        require("ensure").setup(opts)
+      end, 500)
+    end,
     opts = {
       ensure_installed = {
         "stylua",
@@ -16,19 +22,19 @@ return {
         "jsonls",
         "yamlls",
       },
-      parsers = {
-        "lua",
-        "go",
-        "rust",
-        "php",
-        "json",
-        "yaml",
-        "toml",
-        "markdown",
-        "markdown_inline",
-        "vim",
-        "vimdoc",
-        "query",
+    },
+  },
+  {
+    "williamboman/mason.nvim",
+    event = "VeryLazy",
+    opts = {
+      ui = {
+        border = "rounded",
+        icons = {
+          package_installed = "✓",
+          package_pending = "➜",
+          package_uninstalled = "✗",
+        },
       },
     },
   },
@@ -38,20 +44,6 @@ return {
     cond = vim.g.vscode == nil,
     dependencies = {
       { "folke/lazydev.nvim", ft = "lua" },
-      {
-        "williamboman/mason.nvim",
-        event = "VeryLazy",
-        opts = {
-          ui = {
-            border = "rounded",
-            icons = {
-              package_installed = "✓",
-              package_pending = "➜",
-              package_uninstalled = "✗",
-            },
-          },
-        },
-      },
       "williamboman/mason-lspconfig.nvim",
       "jay-babu/mason-nvim-dap.nvim",
       { "j-hui/fidget.nvim", lazy = true },

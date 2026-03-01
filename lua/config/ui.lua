@@ -147,7 +147,7 @@ function footer()
 
   if vim.g.start_time then
     -- Calculate elapsed time in milliseconds
-    startup_ms = (vim.loop.hrtime() - vim.g.start_time) / 1000000
+    startup_ms = (vim.uv.hrtime() - vim.g.start_time) / 1000000
   end
 
   if lazy_ok then

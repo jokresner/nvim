@@ -188,6 +188,7 @@ return {
   },
   {
     "TheNoeTrevino/haunt.nvim",
+    event = "VeryLazy",
     -- default config: change to your liking, or remove it to use defaults
     ---@class HauntConfig
     opts = {

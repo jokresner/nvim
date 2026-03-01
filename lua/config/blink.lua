@@ -1,10 +1,30 @@
+-- Cache AI suggestion modules
+local supermaven_preview = nil
+local copilot_suggestion = nil
+
+local function get_supermaven()
+  if supermaven_preview == nil then
+    local ok, sm = pcall(require, "supermaven-nvim.completion_preview")
+    supermaven_preview = ok and sm or false
+  end
+  return supermaven_preview
+end
+
+local function get_copilot()
+  if copilot_suggestion == nil then
+    local ok, cop = pcall(require, "copilot.suggestion")
+    copilot_suggestion = ok and cop or false
+  end
+  return copilot_suggestion
+end
+
 -- Hide AI ghost text when Blink's completion menu is open
 vim.api.nvim_create_autocmd("User", {
   pattern = "BlinkCmpMenuOpen",
   callback = function()
     vim.b.copilot_suggestion_hidden = true
-    local ok, sm = pcall(require, "supermaven-nvim.completion_preview")
-    if ok then
+    local sm = get_supermaven()
+    if sm then
       sm.disable_inline_completion = true
     end
   end,
@@ -14,8 +34,8 @@ vim.api.nvim_create_autocmd("User", {
   pattern = "BlinkCmpMenuClose",
   callback = function()
     vim.b.copilot_suggestion_hidden = false
-    local ok, sm = pcall(require, "supermaven-nvim.completion_preview")
-    if ok then
+    local sm = get_supermaven()
+    if sm then
       sm.disable_inline_completion = false
     end
   end,
@@ -25,16 +45,16 @@ return {
   keymap = {
     ["<Tab>"] = {
       function(cmp) -- Tab key AI completion
-        local sm_ok, sm = pcall(require, "supermaven-nvim.completion_preview")
-        if sm_ok and sm.has_suggestion() then
+        local sm = get_supermaven()
+        if sm and sm.has_suggestion() then
           vim.schedule(function()
             sm.on_accept_suggestion()
           end)
           return true
         end
 
-        local cop_ok, cop = pcall(require, "copilot.suggestion")
-        if cop_ok and cop.is_visible() then
+        local cop = get_copilot()
+        if cop and cop.is_visible() then
           cop.accept()
           return true
         end

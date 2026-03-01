@@ -38,7 +38,7 @@ opt.expandtab = true
 opt.more = false
 
 opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 opt.foldenable = false
 
 opt.title = true

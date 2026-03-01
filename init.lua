@@ -1,5 +1,5 @@
 -- Setup initial configuration, bootstrap lazy.nvim
-vim.g.start_time = vim.loop.hrtime()
+vim.g.start_time = vim.uv.hrtime()
 vim.loader.enable()
 
 vim.g.mapleader = " "
