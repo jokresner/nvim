@@ -86,13 +86,6 @@ M.which_key = {
   },
 }
 
-M.fold_cycle = function()
-  vim.o.foldmethod = "indent"
-  vim.o.foldlevel = 99
-  vim.o.foldlevelstart = 99
-  require("fold-cycle").setup(require("config.ui").fold_cycle)
-end
-
 M.indentscope = {
   symbol = "│",
   options = { try_as_border = true },
@@ -140,7 +133,7 @@ M.noice = {
   notify = { enabled = true },
 }
 
-function footer()
+local function footer()
   local version = vim.version()
   local lazy_ok, lazy = pcall(require, "lazy")
   local startup_ms = 0
@@ -166,7 +159,6 @@ function footer()
   end
 end
 
-local Snacks = require "snacks"
 M.starter = {
   footer = footer,
   header = table.concat({
@@ -178,14 +170,14 @@ M.starter = {
     [[\______|           \/             \/     \/     \/     \/       ]],
   }, "\n"),
   items = {
-    { action = Snacks.picker.smart, name = "F:   Find File", section = "File" },
-    { action = Snacks.picker.recent, name = "R:   Recent Files", section = "File" },
-    { action = Snacks.picker.grep_word, name = "W:   Find Word", section = "Search" },
-    { action = Snacks.picker.grep, name = "G:   Grep", section = "Search" },
+    { action = function() require("snacks").picker.smart() end, name = "F:   Find File", section = "File" },
+    { action = function() require("snacks").picker.recent() end, name = "R:   Recent Files", section = "File" },
+    { action = function() require("snacks").picker.grep_word() end, name = "W:   Find Word", section = "Search" },
+    { action = function() require("snacks").picker.grep() end, name = "G:   Grep", section = "Search" },
     { action = "Lazy", name = "L: 󰒲  Lazy", section = "Plugins" },
     {
       action = function()
-        Snacks.picker.projects()
+        require("snacks").picker.projects()
       end,
       name = "P:   Projects",
       section = "File",

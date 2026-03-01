@@ -4,8 +4,8 @@ return {
   version = "*",
   -- Lazy loading: Only load on vault files or specific commands
   event = {
-    "BufReadPre " .. vim.fn.expand "~" .. "/vaults/**.md",
-    "BufNewFile " .. vim.fn.expand "~" .. "/vaults/**.md",
+    "BufReadPre " .. vim.fn.expand "~" .. "/vaults/**/*.md",
+    "BufNewFile " .. vim.fn.expand "~" .. "/vaults/**/*.md",
   },
   cmd = {
     "Obsidian",

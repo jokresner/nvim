@@ -1,6 +1,5 @@
 local M = {}
 
-Snacks = require "snacks"
 M.walk_in_codediff = function(picker, item)
   picker:close()
   if item.commit then
@@ -8,17 +7,25 @@ M.walk_in_codediff = function(picker, item)
 
     vim.fn.setreg("+", current_commit)
     vim.notify("Copied: " .. current_commit)
-    -- get parent / previous commit
-    local parent_commit = vim.trim(vim.fn.system("git rev-parse --short " .. current_commit .. "^"))
-    parent_commit = parent_commit:match "[a-f0-9]+"
-    -- Check if command failed (e.g., Initial commit has no parent)
-    if vim.v.shell_error ~= 0 then
-      vim.notify("Cannot find parent (Root commit?)", vim.log.levels.WARN)
-      parent_commit = ""
-    end
-    local cmd = string.format("CodeDiff %s %s", parent_commit, current_commit)
-    vim.notify("Diffing: " .. parent_commit .. " -> " .. current_commit)
-    vim.cmd(cmd)
+
+    -- Get parent commit asynchronously to avoid blocking the UI.
+    vim.system({ "git", "rev-parse", "--short", current_commit .. "^" }, { text = true }, function(res)
+      vim.schedule(function()
+        local parent_commit = ""
+        if res.code == 0 and res.stdout then
+          parent_commit = vim.trim(res.stdout)
+          parent_commit = parent_commit:match "[a-f0-9]+"
+        end
+        if not parent_commit or parent_commit == "" then
+          vim.notify("Cannot find parent (Root commit?)", vim.log.levels.WARN)
+          parent_commit = ""
+        end
+
+        local cmd = string.format("CodeDiff %s %s", parent_commit, current_commit)
+        vim.notify("Diffing: " .. parent_commit .. " -> " .. current_commit)
+        vim.cmd(cmd)
+      end)
+    end)
   end
 end
 
@@ -57,7 +64,7 @@ M.git_pickaxe = function(opts)
       table.insert(args, current_file)
     end
 
-    Snacks.picker {
+    require("snacks").picker {
       title = 'Git Log: "' .. query .. '" (' .. title_scope .. ")",
       finder = "proc",
       cmd = "git",

@@ -6,7 +6,8 @@ return {
     },
     version = "1.*",
     cond = vim.g.vscode == nil,
-    event = "VeryLazy",
+    -- Must be available before LSP servers are started so capabilities are correct.
+    event = { "BufReadPre", "BufNewFile" },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = function()

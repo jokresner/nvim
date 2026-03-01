@@ -1,5 +1,3 @@
-local Snacks = require "snacks"
-
 local M = {}
 
 local header = [[  
@@ -64,6 +62,7 @@ M.opts = {
 local uv = vim.uv or vim.loop
 
 function M.ast_grep_picker()
+  local Snacks = require "snacks"
   Snacks.picker.pick {
     format = "file",
     notify = false, -- Also prevents error when searching with additional arguments

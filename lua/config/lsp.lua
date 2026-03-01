@@ -20,11 +20,10 @@ local handlers = {
   }),
 }
 
--- Define servers as a function that returns the config, 
--- allowing us to lazy-load heavy dependencies like SchemaStore.
-M.get_server_config = function(server_name)
-  local servers = {
-    gopls = {
+-- Server configs are factories so heavy deps (SchemaStore) are only required when needed.
+local server_factories = {
+  gopls = function()
+    return {
       settings = {
         gopls = {
           hints = {
@@ -38,24 +37,32 @@ M.get_server_config = function(server_name)
           },
         },
       },
-    },
-    jsonls = {
+    }
+  end,
+  jsonls = function()
+    local schemastore = require "schemastore"
+    return {
       settings = {
         json = {
-          schemas = require("schemastore").json.schemas(),
+          schemas = schemastore.json.schemas(),
           validate = { enable = true },
         },
       },
-    },
-    yamlls = {
+    }
+  end,
+  yamlls = function()
+    local schemastore = require "schemastore"
+    return {
       settings = {
         yaml = {
-          schemas = require("schemastore").yaml.schemas(),
+          schemas = schemastore.yaml.schemas(),
           keyOrdering = false,
         },
       },
-    },
-    ["harper-ls"] = {
+    }
+  end,
+  ["harper-ls"] = function()
+    return {
       filetypes = { "markdown", "gitcommit", "text" },
       settings = {
         ["harper-ls"] = {
@@ -79,16 +86,24 @@ M.get_server_config = function(server_name)
       dialect = "American",
       maxFileLength = 120000,
       ignoredLintsPath = {},
-    },
-  }
-  return servers[server_name] or {}
+    }
+  end,
+}
+
+function M.get_server_config(server_name)
+  local f = server_factories[server_name]
+  return f and f() or {}
 end
 
 function M.setup()
   require("mason-nvim-dap").setup()
 
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+  -- Ensure completion capabilities if blink is available (it should be loaded before LSP in this config).
+  local ok, blink = pcall(require, "blink.cmp")
+  if ok then
+    capabilities = blink.get_lsp_capabilities(capabilities)
+  end
 
   -- Set up mason-lspconfig to automatically set up installed servers
   require("mason-lspconfig").setup {

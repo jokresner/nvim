@@ -37,9 +37,11 @@ opt.expandtab = true
 
 opt.more = false
 
-opt.foldmethod = "expr"
-opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- Folding: let plugins (ufo/fold-cycle) manage this; avoid global foldexpr evaluation.
+opt.foldmethod = "manual"
 opt.foldenable = false
+opt.foldlevel = 99
+opt.foldlevelstart = 99
 
 opt.title = true
 opt.titlestring = '%t%( %M%)%( (%{expand("%:~:h")})%)%a (nvim)'

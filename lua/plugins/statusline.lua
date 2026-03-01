@@ -3,7 +3,9 @@ return {
     "nvim-lualine/lualine.nvim",
     cond = vim.g.vscode == nil,
     event = "VeryLazy",
-    opts = require("config.statusline").lualine,
+    opts = function()
+      return require("config.statusline").lualine
+    end,
   },
   {
     "serhez/bento.nvim",

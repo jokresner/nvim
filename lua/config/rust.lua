@@ -54,12 +54,13 @@ M.configure_dap = function(opts)
 
   local codelldb = package_path .. "/extension/adapter/codelldb"
   local library_path = package_path .. "/extension/lldb/lib/liblldb.dylib"
-  local uname = io.popen("uname"):read "*l"
-  if uname == "Linux" then library_path = package_path .. "/extension/lldb/lib/liblldb.so" end
+  local sys = (vim.uv or vim.loop).os_uname().sysname
+  if sys == "Linux" then
+    library_path = package_path .. "/extension/lldb/lib/liblldb.so"
+  end
   opts.dap = { adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb, library_path) }
   return opts
 end
 
 return M
-
 
