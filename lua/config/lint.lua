@@ -19,6 +19,13 @@ function M.setup()
 
   local function debounce(ms, fn)
     local timer = vim.uv.new_timer()
+    vim.api.nvim_create_autocmd("VimLeavePre", {
+      group = vim.api.nvim_create_augroup("nvim-lint-timer", { clear = true }),
+      callback = function()
+        pcall(timer.stop, timer)
+        pcall(timer.close, timer)
+      end,
+    })
     return function(...)
       local argv = { ... }
       timer:start(ms, 0, function()

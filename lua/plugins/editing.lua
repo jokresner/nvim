@@ -8,29 +8,30 @@ return {
       require("mini.comment").setup()
     end,
   },
-  {
-    "folke/todo-comments.nvim",
-    cond = vim.g.vscode == nil,
-    keys = {
-      {
-        "<leader>ct",
-        function()
-          Snacks.picker.todo_comments()
-        end,
-        desc = "Todo",
-      },
-      {
-        "<leader>cT",
-        function()
-          Snacks.picker.todo_comments { keywords = { "TODO", "FIX", "FIXME" } }
-        end,
-        desc = "Todo/Fix/Fixme",
-      },
-    },
-    opts = function()
-      return require("config.editing").todo_comments
-    end,
-  },
+	  {
+	    "folke/todo-comments.nvim",
+	    cond = vim.g.vscode == nil,
+	    dependencies = { "folke/snacks.nvim" },
+	    keys = {
+	      {
+	        "<leader>ct",
+	        function()
+	          require("snacks").picker.todo_comments()
+	        end,
+	        desc = "Todo",
+	      },
+	      {
+	        "<leader>cT",
+	        function()
+	          require("snacks").picker.todo_comments { keywords = { "TODO", "FIX", "FIXME" } }
+	        end,
+	        desc = "Todo/Fix/Fixme",
+	      },
+	    },
+	    opts = function()
+	      return require("config.editing").todo_comments
+	    end,
+	  },
   {
     "nvim-mini/mini.surround",
     version = false,

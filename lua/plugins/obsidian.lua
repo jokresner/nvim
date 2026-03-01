@@ -12,13 +12,14 @@ return {
   },
   dependencies = {
     "nvim-lua/plenary.nvim",
+    "folke/snacks.nvim",
   },
   keys = {
     -- Open vaults in floating terminal
     {
       "<leader>op",
       function()
-        Snacks.terminal("nvim .", {
+        require("snacks").terminal("nvim .", {
           cwd = vim.fn.expand "~/vaults/personal",
           on_close = function()
             -- Check if we are back in the main nvim instance and if it's empty
@@ -39,7 +40,7 @@ return {
     {
       "<leader>oh",
       function()
-        Snacks.terminal("nvim .", {
+        require("snacks").terminal("nvim .", {
           cwd = vim.fn.expand "~/vaults/htwk",
           on_close = function()
             if #vim.api.nvim_list_wins() == 1 then
@@ -59,7 +60,7 @@ return {
     {
       "<leader>ow",
       function()
-        Snacks.terminal("nvim .", {
+        require("snacks").terminal("nvim .", {
           cwd = vim.fn.expand "~/vaults/work",
           on_close = function()
             if #vim.api.nvim_list_wins() == 1 then
@@ -83,7 +84,7 @@ return {
     {
       "<leader>oo",
       function()
-        Snacks.picker.select({ "personal", "htwk", "work" }, {
+        require("snacks").picker.select({ "personal", "htwk", "work" }, {
           prompt = "Select Vault",
         }, function(vault)
           if not vault then

@@ -36,17 +36,16 @@ return {
       },
     },
   },
-  {
-    "neovim/nvim-lspconfig",
-    event = "BufReadPre",
-    cond = vim.g.vscode == nil,
-    dependencies = {
-      { "folke/lazydev.nvim", ft = "lua" },
-      "williamboman/mason-lspconfig.nvim",
-      "jay-babu/mason-nvim-dap.nvim",
-      "b0o/SchemaStore.nvim",
-    },
-    keys = {
+	  {
+	    "neovim/nvim-lspconfig",
+	    event = "BufReadPre",
+	    cond = vim.g.vscode == nil,
+	    dependencies = {
+	      { "folke/lazydev.nvim", ft = "lua" },
+	      "williamboman/mason-lspconfig.nvim",
+	      "jay-babu/mason-nvim-dap.nvim",
+	    },
+	    keys = {
       {
         "K",
         function()
@@ -68,18 +67,23 @@ return {
         end,
         desc = "Code Action",
       },
-      {
-        "<space>wd",
-        function()
-          Snacks.picker.lsp_symbols()
-        end,
-        desc = "Symbols in current document",
-      },
-    },
-    config = function()
-      require("config.lsp").setup()
-    end,
-  },
+	      {
+	        "<space>wd",
+	        function()
+	          -- Avoid forcing snacks.nvim as a dependency of LSP.
+	          vim.lsp.buf.document_symbol()
+	        end,
+	        desc = "Symbols in current document",
+	      },
+	    },
+	    config = function()
+	      require("config.lsp").setup()
+	    end,
+	  },
+	  {
+	    "b0o/SchemaStore.nvim",
+	    lazy = true,
+	  },
   {
     "stevearc/conform.nvim",
     cond = vim.g.vscode == nil,

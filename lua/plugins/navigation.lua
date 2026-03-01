@@ -12,14 +12,13 @@ return {
       { "<leader>-", "<cmd>Oil<cr>", desc = "Open Oil at the current file" },
     },
   },
-  {
-    "mikavilpas/yazi.nvim",
-    cond = vim.g.vscode == nil,
-    lazy = false,
-    dependencies = {
-      { "nvim-lua/plenary.nvim", lazy = true },
-    },
-    keys = {
+	  {
+	    "mikavilpas/yazi.nvim",
+	    cond = vim.g.vscode == nil,
+	    dependencies = {
+	      { "nvim-lua/plenary.nvim", lazy = true },
+	    },
+	    keys = {
       { "-", mode = { "n", "v" }, "<cmd>Yazi<cr>", desc = "Open yazi at the current file" },
     },
     ---@type YaziConfig | {}

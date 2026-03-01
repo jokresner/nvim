@@ -40,22 +40,18 @@ local server_factories = {
     }
   end,
   jsonls = function()
-    local schemastore = require "schemastore"
     return {
       settings = {
         json = {
-          schemas = schemastore.json.schemas(),
           validate = { enable = true },
         },
       },
     }
   end,
   yamlls = function()
-    local schemastore = require "schemastore"
     return {
       settings = {
         yaml = {
-          schemas = schemastore.yaml.schemas(),
           keyOrdering = false,
         },
       },
@@ -123,6 +119,56 @@ function M.setup()
   }
 
   local disable_semantic_tokens = { lua = true }
+  local schemastore_cache = { json = nil, yaml = nil }
+
+  local function load_schemastore()
+    local ok_lazy, lazy = pcall(require, "lazy")
+    if ok_lazy then
+      pcall(lazy.load, { plugins = { "SchemaStore.nvim" } })
+    end
+    local ok, schemastore = pcall(require, "schemastore")
+    if not ok then
+      return nil
+    end
+    return schemastore
+  end
+
+  local function maybe_apply_schemas(client)
+    if client == nil or client.name == nil then
+      return
+    end
+    if client._user_schemastore_applied then
+      return
+    end
+
+    if client.name ~= "jsonls" and client.name ~= "yamlls" then
+      return
+    end
+
+    local schemastore = load_schemastore()
+    if not schemastore then
+      return
+    end
+
+    client.config.settings = client.config.settings or {}
+
+    if client.name == "jsonls" then
+      if schemastore_cache.json == nil then
+        schemastore_cache.json = schemastore.json.schemas()
+      end
+      client.config.settings.json = client.config.settings.json or {}
+      client.config.settings.json.schemas = schemastore_cache.json
+    elseif client.name == "yamlls" then
+      if schemastore_cache.yaml == nil then
+        schemastore_cache.yaml = schemastore.yaml.schemas()
+      end
+      client.config.settings.yaml = client.config.settings.yaml or {}
+      client.config.settings.yaml.schemas = schemastore_cache.yaml
+    end
+
+    client._user_schemastore_applied = true
+    pcall(client.notify, client, "workspace/didChangeConfiguration", { settings = client.config.settings })
+  end
 
   vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
@@ -134,6 +180,9 @@ function M.setup()
       if disable_semantic_tokens[filetype] then
         client.server_capabilities.semanticTokensProvider = nil
       end
+
+      -- Apply SchemaStore-backed schemas lazily (only when the server actually attaches).
+      maybe_apply_schemas(client)
     end,
   })
 
