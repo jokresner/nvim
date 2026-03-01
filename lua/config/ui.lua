@@ -10,7 +10,7 @@ M.catppuccin = {
     markview = true,
     mini = {
       enabled = true,
-      indentscope_color = "mauve",
+      indentscope_color = "red",
     },
     neogit = true,
     neotest = true,
@@ -23,7 +23,7 @@ M.catppuccin = {
     overseer = true,
     snacks = {
       enabled = false,
-      indent_scope_color = "mauve",
+      indent_scope_color = "red",
     },
     telescope = {
       enabled = true,
@@ -31,7 +31,45 @@ M.catppuccin = {
     which_key = true,
   },
   background = { light = "latte", dark = "mocha" },
-  transparent_background = true,
+  transparent_background = false,
+  flavour = "mocha",
+
+  -- Optional: enforce sharper “corporate” look
+  styles = {
+    comments = { "italic" }, -- or {}
+    conditionals = {},
+    loops = {},
+    functions = {},
+    keywords = {},
+    strings = {},
+    variables = {},
+    numbers = {},
+    booleans = {},
+    properties = {},
+    types = {},
+    operators = {},
+  },
+
+  -- Arasaka-ish: emphasize reds and borders, avoid soft pastels
+  custom_highlights = function(C)
+    return {
+      -- Make “active” UI elements use red
+      CursorLineNr = { fg = C.red, style = { "bold" } },
+      Search = { bg = C.red, fg = C.crust },
+      IncSearch = { bg = C.red, fg = C.crust },
+      Visual = { bg = C.surface0 },
+
+      -- Borders / splits: sharper, higher contrast
+      WinSeparator = { fg = C.surface1 },
+      VertSplit = { fg = C.surface1 },
+
+      -- Diagnostics: keep readable; use red only for errors
+      DiagnosticError = { fg = C.red },
+      DiagnosticWarn = { fg = C.yellow },
+      DiagnosticInfo = { fg = C.sapphire },
+      DiagnosticHint = { fg = C.teal },
+    }
+  end,
 }
 
 M.dressing = {
@@ -170,10 +208,34 @@ M.starter = {
     [[\______|           \/             \/     \/     \/     \/       ]],
   }, "\n"),
   items = {
-    { action = function() require("snacks").picker.smart() end, name = "F:   Find File", section = "File" },
-    { action = function() require("snacks").picker.recent() end, name = "R:   Recent Files", section = "File" },
-    { action = function() require("snacks").picker.grep_word() end, name = "W:   Find Word", section = "Search" },
-    { action = function() require("snacks").picker.grep() end, name = "G:   Grep", section = "Search" },
+    {
+      action = function()
+        require("snacks").picker.smart()
+      end,
+      name = "F:   Find File",
+      section = "File",
+    },
+    {
+      action = function()
+        require("snacks").picker.recent()
+      end,
+      name = "R:   Recent Files",
+      section = "File",
+    },
+    {
+      action = function()
+        require("snacks").picker.grep_word()
+      end,
+      name = "W:   Find Word",
+      section = "Search",
+    },
+    {
+      action = function()
+        require("snacks").picker.grep()
+      end,
+      name = "G:   Grep",
+      section = "Search",
+    },
     { action = "Lazy", name = "L: 󰒲  Lazy", section = "Plugins" },
     {
       action = function()
