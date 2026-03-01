@@ -10,7 +10,7 @@ return {
   -- stylua: ignore
   keys = {
     -- Top Pickers & Explorer
-    { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
+--    { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" }, -- replaced by NeuralOpen (currently testing)
     { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
     { "<leader>/", function() require("config.snacks").ast_grep_picker() end, desc = "Grep" },
     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
@@ -117,5 +117,14 @@ return {
       { "<leader>fg", ":Seeker grep<CR>", desc = "Seek Grep" },
     },
     opts = {}, -- Required unless you call seeker.setup() manually, add your configs here
+  },
+  {
+    "dtormoen/neural-open.nvim",
+    -- NeuralOpen implements lazy loading internally. It needs to be loaded for recency tracking to work.
+    lazy = false,
+    keys = {
+      { "<leader><space>", "<Plug>(NeuralOpen)", desc = "Neural Open Files" },
+    },
+    opts = {},
   },
 }
