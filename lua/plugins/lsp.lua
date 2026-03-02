@@ -87,7 +87,7 @@ return {
   {
     "stevearc/conform.nvim",
     cond = vim.g.vscode == nil,
-    event = "BufReadPre",
+    cmd = "Format",
     init = function()
       vim.api.nvim_create_user_command("Format", function()
         require("conform").format { lsp_fallback = true, async = true }

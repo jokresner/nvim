@@ -19,7 +19,6 @@ M.catppuccin = {
     notify = true,
     dap = true,
     dap_ui = true,
-    treesitter_context = true,
     ufo = true,
     overseer = true,
     snacks = {
@@ -58,8 +57,7 @@ M.which_key = {
     { "<leader>-", desc = "Oil File Manager" },
     { "<leader>?", desc = "DAP Eval" },
     { "<leader>e", desc = "File Explorer" },
-    { "<leader>z", desc = "Zen Mode" },
-    { "<leader>Z", desc = "Zoom" },
+    { "<leader>z", group = "Zellij" },
     { "<leader>S", desc = "Select Scratch" },
     -- Groups
     { "<leader>a", group = "AI/Assistant" },

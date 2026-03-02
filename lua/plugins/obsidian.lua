@@ -1,11 +1,13 @@
+local vaults_root = os.getenv("OBSIDIAN_VAULTS") or vim.fn.expand("~/vaults")
+
 return {
   "obsidian-nvim/obsidian.nvim",
   cond = vim.g.vscode == nil,
   version = "*",
-  -- Lazy loading: Only load on vault files or specific commands
+  -- Lazy loading: Only load on vault files or specific commands (set OBSIDIAN_VAULTS to override ~/vaults)
   event = {
-    "BufReadPre " .. vim.fn.expand "~" .. "/vaults/**/*.md",
-    "BufNewFile " .. vim.fn.expand "~" .. "/vaults/**/*.md",
+    "BufReadPre " .. vaults_root .. "/**/*.md",
+    "BufNewFile " .. vaults_root .. "/**/*.md",
   },
   cmd = {
     "Obsidian",
@@ -20,7 +22,7 @@ return {
       "<leader>op",
       function()
         require("snacks").terminal("nvim .", {
-          cwd = vim.fn.expand "~/vaults/personal",
+          cwd = vaults_root .. "/personal",
           on_close = function()
             -- Check if we are back in the main nvim instance and if it's empty
             if #vim.api.nvim_list_wins() == 1 then
@@ -41,7 +43,7 @@ return {
       "<leader>oh",
       function()
         require("snacks").terminal("nvim .", {
-          cwd = vim.fn.expand "~/vaults/htwk",
+          cwd = vaults_root .. "/htwk",
           on_close = function()
             if #vim.api.nvim_list_wins() == 1 then
               local buf = vim.api.nvim_get_current_buf()
@@ -61,7 +63,7 @@ return {
       "<leader>ow",
       function()
         require("snacks").terminal("nvim .", {
-          cwd = vim.fn.expand "~/vaults/work",
+          cwd = vaults_root .. "/work",
           on_close = function()
             if #vim.api.nvim_list_wins() == 1 then
               local buf = vim.api.nvim_get_current_buf()
@@ -90,7 +92,7 @@ return {
           if not vault then
             return
           end
-          local daily_note = vim.fn.expand("~/vaults/" .. vault .. "/daily/" .. os.date "%d.%m.%Y" .. ".md")
+          local daily_note = vaults_root .. "/" .. vault .. "/daily/" .. os.date("%d.%m.%Y") .. ".md"
           -- Create dir if not exists
           vim.fn.mkdir(vim.fn.fnamemodify(daily_note, ":h"), "p")
           -- Open in vsplit
@@ -102,25 +104,18 @@ return {
   },
   ---@module 'obsidian'
   ---@type obsidian.config
-  opts = {
-    legacy_commands = false, -- this will be removed in the next major release
-    workspaces = {
-      {
-        name = "personal",
-        path = "~/vaults/personal",
+  opts = function()
+    return {
+      legacy_commands = false, -- this will be removed in the next major release
+      workspaces = {
+        { name = "personal", path = vaults_root .. "/personal" },
+        { name = "htwk", path = vaults_root .. "/htwk" },
+        { name = "work", path = vaults_root .. "/work" },
       },
-      {
-        name = "htwk",
-        path = "~/vaults/htwk",
+      daily_notes = {
+        folder = "daily",
+        date_format = "%d.%m.%Y",
       },
-      {
-        name = "work",
-        path = "~/vaults/work",
-      },
-    },
-    daily_notes = {
-      folder = "daily",
-      date_format = "%d.%m.%Y",
-    },
-  },
+    }
+  end,
 }

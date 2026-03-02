@@ -37,7 +37,6 @@ return {
     { '<leader>s"', function() require("snacks").picker.registers() end, desc = "Registers" },
     { "<leader>s/", function() require("snacks").picker.search_history() end, desc = "Search History" },
     { "<leader>sa", function() require("snacks").picker.autocmds() end, desc = "Autocmds" },
-    { "<leader>sb", function() require("snacks").picker.lines() end, desc = "Buffer Lines" },
     { "<leader>sc", function() require("snacks").picker.command_history() end, desc = "Command History" },
     { "<leader>sC", function() require("snacks").picker.commands() end, desc = "Commands" },
     { "<leader>sd", function() require("snacks").picker.diagnostics() end, desc = "Diagnostics" },
@@ -55,6 +54,9 @@ return {
     { "<leader>sR", function() require("snacks").picker.resume() end, desc = "Resume" },
     { "<leader>su", function() require("snacks").picker.undo() end, desc = "Undo History" },
     { "<leader>uC", function() require("snacks").picker.colorschemes() end, desc = "Colorschemes" },
+    -- Zen (under UI group)
+    { "<leader>uz", function() require("snacks").zen() end, desc = "Toggle Zen Mode" },
+    { "<leader>uZ", function() require("snacks").zen.zoom() end, desc = "Toggle Zoom" },
     -- LSP
     { "gd", function() require("snacks").picker.lsp_definitions() end, desc = "Goto Definition" },
     { "gD", function() require("snacks").picker.lsp_declarations() end, desc = "Goto Declaration" },
@@ -64,8 +66,6 @@ return {
     { "<leader>ss", function() require("snacks").picker.lsp_symbols() end, desc = "LSP Symbols" },
     { "<leader>sS", function() require("snacks").picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
     -- Other
-    { "<leader>z", function() require("snacks").zen() end, desc = "Toggle Zen Mode" },
-    { "<leader>Z", function() require("snacks").zen.zoom() end, desc = "Toggle Zoom" },
     { "<leader>.", function() require("snacks").scratch() end, desc = "Toggle Scratch Buffer" },
     { "<leader>S", function() require("snacks").scratch.select() end, desc = "Select Scratch Buffer" },
     { "<leader>k", function() require("snacks").bufdelete() end, desc = "Delete Buffer" },
@@ -104,16 +104,6 @@ return {
       Snacks.toggle.indent():map "<leader>ug"
       Snacks.toggle.dim():map "<leader>uD"
     end,
-  },
-  {
-    "2kabhishek/seeker.nvim",
-    cmd = { "Seeker" },
-    keys = {
-      { "<leader>fa", ":Seeker files<CR>", desc = "Seek Files" },
-      { "<leader>ff", ":Seeker git_files<CR>", desc = "Seek Git Files" },
-      { "<leader>fg", ":Seeker grep<CR>", desc = "Seek Grep" },
-    },
-    opts = {}, -- Required unless you call seeker.setup() manually, add your configs here
   },
   {
     "dtormoen/neural-open.nvim",

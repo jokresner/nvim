@@ -27,6 +27,16 @@ autocmd("BufWritePre", {
   end,
 })
 
+-- Trigger conform load on save so its format_on_save autocmd can run (conform registers it in setup)
+autocmd("BufWritePre", {
+  callback = function()
+    if vim.g.vscode then
+      return
+    end
+    require("conform")
+  end,
+})
+
 -- Restore cursor position
 autocmd("BufReadPost", {
   callback = function()

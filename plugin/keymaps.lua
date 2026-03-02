@@ -45,8 +45,6 @@ set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
 -- Keep cursor centered when scrolling
 set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down (centered)" })
 set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up (centered)" })
-set("n", "n", "nzzzv", { desc = "Next search result (centered)" })
-set("n", "N", "Nzzzv", { desc = "Prev search result (centered)" })
 
 -- Better paste in visual mode (don't yank replaced text)
 set("x", "<leader>p", '"_dP', { desc = "Paste without yanking" })

@@ -41,6 +41,7 @@ return {
   },
   { -- TypeScript Error Translator
     "dmmulroy/ts-error-translator.nvim",
+    ft = { "typescript", "typescriptreact" },
   },
   {
     "olexsmir/gopher.nvim",

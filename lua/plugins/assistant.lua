@@ -136,8 +136,11 @@ return {
     "Davidyz/VectorCode",
     version = "*",
     dependencies = { "nvim-lua/plenary.nvim" },
-    event = { "BufWritePost", "InsertEnter" },
+    event = "VeryLazy",
     build = "uv tool upgrade vectorcode",
+    keys = {
+      { "<leader>aV", function() require("vectorcode") end, desc = "Load VectorCode" },
+    },
     config = function()
       require("vectorcode").setup {
         async_opts = {
