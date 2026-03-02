@@ -1,13 +1,4 @@
 return {
-  { -- Unison
-    "unisonweb/unison",
-    branch = "trunk",
-    cond = vim.g.vscode == nil,
-    ft = { "unison" },
-    config = function(plugin)
-      vim.opt.rtp:append(plugin.dir .. "/editor-support/vim")
-    end,
-  },
   { -- Rust
     "mrcjkb/rustaceanvim",
     version = vim.fn.has "nvim-0.10.0" == 0 and "^4" or false,

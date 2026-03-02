@@ -13,8 +13,6 @@ function M.setup()
   M.setupGo()
   M.setupPHP()
 
-  require("dap.ext.vscode").load_launchjs(nil, { include = { "php", "go" } })
-
   local sign = vim.fn.sign_define
   sign("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
   sign("DapBreakpointCondition", { text = "", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })

@@ -1,6 +1,7 @@
 local M = {}
 
 M.catppuccin = {
+  default_integrations = false,
   integrations = {
     blink_cmp = {
       style = "bordered",
