@@ -3,8 +3,6 @@ local M = {}
 local dap = require "dap"
 
 function M.setup()
-  local ui = require "dapui"
-  ui.setup()
   pcall(function()
     require("dapview").setup()
   end)
@@ -19,19 +17,6 @@ function M.setup()
   sign("DapBreakpointRejected", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
   sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
   sign("DapStopped", { texthl = "DapStopped" })
-
-  dap.listeners.before.attach.dapui_config = function()
-    ui.open()
-  end
-  dap.listeners.before.launch.dapui_config = function()
-    ui.open()
-  end
-  dap.listeners.before.event_terminated.dapui_config = function()
-    ui.close()
-  end
-  dap.listeners.before.event_exited.dapui_config = function()
-    ui.close()
-  end
 end
 
 function M.setupGo()
