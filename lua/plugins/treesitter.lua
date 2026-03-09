@@ -4,8 +4,8 @@ return {
     build = ":TSUpdate",
     branch = "main",
     dependencies = {
-      --      "nvim-treesitter/nvim-treesitter-textobjects",
-      --      "nvim-treesitter/nvim-treesitter-context",
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      "nvim-treesitter/nvim-treesitter-context",
     },
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "TSUpdate", "TSInstall" },
