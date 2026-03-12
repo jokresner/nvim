@@ -5,7 +5,16 @@ return {
     branch = "main",
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
-      "nvim-treesitter/nvim-treesitter-context",
+      {
+        "nvim-treesitter/nvim-treesitter-context",
+        opts = {
+          enable = true,
+          max_lines = 2,
+          multiline_threshold = 1,
+          mode = "cursor",
+          separator = "─",
+        },
+      },
     },
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "TSUpdate", "TSInstall" },
