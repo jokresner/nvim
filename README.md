@@ -17,8 +17,10 @@ export NVIM_APPNAME=nvim
 3) First-time setup:
 
 ```bash
-nvim --headless "+Lazy! sync" +qa
+nvim
 ```
+
+On first start, `vim.pack` will install missing plugins and write `nvim-pack-lock.json`.
 
 4) Lux-based checks:
 
@@ -28,7 +30,7 @@ lx fmt
 lx lint
 ```
 
-Open Neovim once normally to finish any post-install steps. If tools aren’t installed yet, run `:Mason` and/or `:Lazy sync`.
+Open Neovim once normally to finish any post-install steps. If tools aren’t installed yet, run `:Mason` and `:checkhealth vim.pack`.
 
 Dependencies overview:
 - ripgrep (rg): grep pickers
@@ -41,11 +43,11 @@ Dependencies overview:
 - zellij: for `zellij` integration
 - glow: for markdown preview
 
-#### Plugin lockfile (lazy.nvim)
+#### Plugin lockfile (`vim.pack`)
 
-This config uses lazy.nvim's lockfile to pin plugin versions for reproducible setups.
+This config uses `vim.pack`'s lockfile to pin plugin versions for reproducible setups.
 
-- File: `lazy-lock.json` (commit this file)
+- File: `nvim-pack-lock.json` (commit this file)
 
 #### Project tooling (Lux)
 
@@ -56,27 +58,25 @@ This repo also uses Lux for Lua project metadata and local checks.
 
 #### Common tasks
 
-- Update plugins, then write a new lockfile:
-  - In Neovim: `:Lazy update` → `:Lazy lock`
-  - Headless: `nvim --headless "+Lazy! update" "+Lazy! lock" +qa`
+- Update plugins and refresh the lockfile:
+  - In Neovim: `:lua vim.pack.update()`
+  - Headless: `nvim --headless "+lua vim.pack.update(nil, { force = true })" +qa`
 
-- Install exactly the pinned versions on a new machine:
-  - In Neovim: `:Lazy restore`
-  - Headless: `nvim --headless "+Lazy! restore" +qa`
+- Restore exactly the pinned versions from the lockfile:
+  - In Neovim: `:lua vim.pack.update(nil, { target = 'lockfile' })`
+  - Headless: `nvim --headless "+lua vim.pack.update(nil, { target = 'lockfile', force = true })" +qa`
 
-- Sync (install missing and remove extras) using the lockfile:
-  - In Neovim: `:Lazy sync`
-  - Headless: `nvim --headless "+Lazy! sync" +qa`
+- Inspect the current plugin state and health:
+  - In Neovim: `:checkhealth vim.pack`
 
-- Remove plugins no longer referenced by specs:
-  - In Neovim: `:Lazy clean`
-  - Headless: `nvim --headless "+Lazy! clean" +qa`
+- Remove plugins no longer referenced by the config:
+  - In Neovim: `:lua vim.pack.del({ 'plugin-name' })`
 
 #### Tips
 
-- Only run `:Lazy lock` after successful updates. Commit the resulting `lazy-lock.json`.
+- Commit `nvim-pack-lock.json` after successful updates.
 - For testing this config in isolation, use a separate app name: `NVIM_APPNAME=nvim nvim`.
-- If something breaks after updates, use `:Lazy restore` to roll back to the last known good lockfile.
+- If something breaks after updates, restore the previous lockfile and run `:lua vim.pack.update(nil, { target = 'lockfile' })`.
 
 #### Keymaps
 

@@ -1,24 +1,47 @@
-return {
-  {
-    "mfussenegger/nvim-dap",
-    keys = {
-      { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Debug breakpoint toggle" },
-      { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, desc = "Debug conditional breakpoint" },
-      { "<leader>dc", function() require("dap").continue() end, desc = "Debug continue" },
-      { "<leader>di", function() require("dap").step_into() end, desc = "Debug step into" },
-      { "<leader>do", function() require("dap").step_over() end, desc = "Debug step over" },
-      { "<leader>dO", function() require("dap").step_out() end, desc = "Debug step out" },
-      { "<leader>dr", function() require("dap").repl.open() end, desc = "Debug repl" },
-      { "<leader>du", function() require("dap-view").toggle() end, desc = "Debug UI toggle" },
-    },
-    dependencies = {
-      "leoluz/nvim-dap-go",
-      "theHamsta/nvim-dap-virtual-text",
-      { "igorlfs/nvim-dap-view", opts = { auto_toggle = true } },
-      "nvim-neotest/nvim-nio",
-    },
-    config = function()
-      require("config.dap").setup()
-    end,
-  },
-}
+local runtime = require("config.pack_runtime")
+
+local M = {}
+
+function M.setup()
+  local load_dap = runtime.once(function()
+    runtime.load_many({ "mason", "dap", "mason-nvim-dap", "dap-go", "dap-virtual-text", "dap-view", "nio" })
+    require("mason-nvim-dap").setup()
+    require("dap-view").setup({ auto_toggle = true })
+    require("config.dap").setup()
+  end)
+
+  vim.keymap.set("n", "<leader>db", function()
+    load_dap()
+    require("dap").toggle_breakpoint()
+  end, { desc = "Debug breakpoint toggle" })
+  vim.keymap.set("n", "<leader>dB", function()
+    load_dap()
+    require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+  end, { desc = "Debug conditional breakpoint" })
+  vim.keymap.set("n", "<leader>dc", function()
+    load_dap()
+    require("dap").continue()
+  end, { desc = "Debug continue" })
+  vim.keymap.set("n", "<leader>di", function()
+    load_dap()
+    require("dap").step_into()
+  end, { desc = "Debug step into" })
+  vim.keymap.set("n", "<leader>do", function()
+    load_dap()
+    require("dap").step_over()
+  end, { desc = "Debug step over" })
+  vim.keymap.set("n", "<leader>dO", function()
+    load_dap()
+    require("dap").step_out()
+  end, { desc = "Debug step out" })
+  vim.keymap.set("n", "<leader>dr", function()
+    load_dap()
+    require("dap").repl.open()
+  end, { desc = "Debug repl" })
+  vim.keymap.set("n", "<leader>du", function()
+    load_dap()
+    require("dap-view").toggle()
+  end, { desc = "Debug UI toggle" })
+end
+
+return M

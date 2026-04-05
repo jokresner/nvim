@@ -1,4 +1,5 @@
 local M = {}
+local snacks = require("config.snacks")
 
 M.walk_in_codediff = function(picker, item)
   picker:close()
@@ -64,7 +65,7 @@ M.git_pickaxe = function(opts)
       table.insert(args, current_file)
     end
 
-    require("snacks").picker {
+    snacks.load().picker {
       title = 'Git Log: "' .. query .. '" (' .. title_scope .. ")",
       finder = "proc",
       cmd = "git",

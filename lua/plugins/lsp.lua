@@ -1,8 +1,12 @@
-return {
-  {
-    "noirbizarre/ensure.nvim",
-    event = "VeryLazy",
-    opts = {
+local runtime = require("config.pack_runtime")
+local snacks = require("config.snacks")
+
+local M = {}
+
+function M.setup()
+  local load_ensure = runtime.once(function()
+    runtime.load("ensure")
+    require("ensure").setup({
       lsp = {
         enable = { "lua_ls", "gopls", "vtsls", "jsonls", "yamlls" },
         gopls = {
@@ -21,15 +25,12 @@ return {
         "luacheck",
         "ast-grep",
       },
-    },
-    config = function(_, opts)
-      require("ensure").setup(opts)
-    end,
-  },
-  {
-    "williamboman/mason.nvim",
-    cmd = "Mason",
-    opts = {
+    })
+  end)
+
+  local load_mason = runtime.once(function()
+    runtime.load("mason")
+    require("mason").setup({
       ui = {
         border = "rounded",
         icons = {
@@ -38,49 +39,65 @@ return {
           package_uninstalled = "✗",
         },
       },
-    },
-  },
-  { "b0o/SchemaStore.nvim", lazy = true },
-  {
-    "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      "williamboman/mason-lspconfig.nvim",
-      "jay-babu/mason-nvim-dap.nvim",
-    },
-    config = function()
-      require("mason-nvim-dap").setup()
-      require("config.lsp").setup()
-    end,
-  },
-  {
-    "stevearc/conform.nvim",
-    event = { "BufWritePre" },
-    init = function()
-      vim.api.nvim_create_user_command("Format", function()
-        require("conform").format { async = true, lsp_fallback = true }
-      end, { desc = "Format current buffer" })
-    end,
-    keys = {
-      { "<leader>cf", "<cmd>Format<cr>", desc = "Code format" },
-    },
-    opts = require("config.format").opts,
-  },
-  {
-    "mfussenegger/nvim-lint",
-    event = { "BufReadPost", "BufWritePost", "InsertLeave" },
-    config = function()
-      require("config.lint").setup()
-    end,
-  },
-  {
-    "folke/trouble.nvim",
-    cmd = "Trouble",
-    keys = {
-      { "<leader>xx", function() require("snacks").picker.diagnostics() end, desc = "Diagnostics list" },
-      { "<leader>xX", function() require("snacks").picker.diagnostics_buffer() end, desc = "Buffer diagnostics" },
-      { "<leader>xq", function() require("snacks").picker.qflist() end, desc = "Quickfix list" },
-      { "<leader>xl", function() require("snacks").picker.loclist() end, desc = "Location list" },
-    },
-  },
-}
+    })
+  end)
+
+  local load_lspconfig = runtime.once(function()
+    load_mason()
+    runtime.load_many({ "mason-lspconfig", "lspconfig" })
+    require("config.lsp").setup()
+  end)
+
+  local load_conform = runtime.once(function()
+    runtime.load("conform")
+    require("conform").setup(require("config.format").opts)
+  end)
+
+  local load_lint = runtime.once(function()
+    runtime.load("lint")
+    require("config.lint").setup()
+  end)
+
+  local load_trouble = runtime.once(function()
+    runtime.load("trouble")
+    require("trouble").setup({})
+  end)
+
+  runtime.defer(load_ensure)
+  runtime.command("Mason", load_mason, { desc = "Open Mason" })
+  runtime.command("Trouble", load_trouble, { desc = "Open Trouble" })
+
+  vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
+    once = true,
+    callback = load_lspconfig,
+  })
+
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    callback = load_conform,
+  })
+
+  vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost", "InsertLeave" }, {
+    callback = load_lint,
+  })
+
+  vim.api.nvim_create_user_command("Format", function()
+    load_conform()
+    require("conform").format({ async = true, lsp_fallback = true })
+  end, { desc = "Format current buffer" })
+
+  vim.keymap.set("n", "<leader>cf", "<cmd>Format<cr>", { desc = "Code format" })
+  vim.keymap.set("n", "<leader>xx", function()
+    snacks.picker("diagnostics")
+  end, { desc = "Diagnostics list" })
+  vim.keymap.set("n", "<leader>xX", function()
+    snacks.picker("diagnostics_buffer")
+  end, { desc = "Buffer diagnostics" })
+  vim.keymap.set("n", "<leader>xq", function()
+    snacks.picker("qflist")
+  end, { desc = "Quickfix list" })
+  vim.keymap.set("n", "<leader>xl", function()
+    snacks.picker("loclist")
+  end, { desc = "Location list" })
+end
+
+return M

@@ -1,4 +1,5 @@
 local M = {}
+local pack_runtime = require("config.pack_runtime")
 
 local border = "rounded"
 
@@ -87,9 +88,6 @@ function M.setup()
     float = { border = border, source = "always" },
   })
 
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
-
   local disable_semantic_tokens = {
     lua = true,
   }
@@ -111,7 +109,9 @@ function M.setup()
       local opts = { buffer = event.buf, silent = true }
       local ok_snacks, snacks = pcall(require, "snacks")
 
-      map("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "LSP hover" }))
+      map("n", "K", function()
+        vim.lsp.buf.hover({ border = border })
+      end, vim.tbl_extend("force", opts, { desc = "LSP hover" }))
       map("n", "gd", function()
         if ok_snacks then
           snacks.picker.lsp_definitions()
@@ -183,10 +183,7 @@ function M.setup()
         local cfg = vim.deepcopy(M.servers[server] or {})
 
         if server == "jsonls" or server == "yamlls" then
-          local ok_lazy, lazy = pcall(require, "lazy")
-          if ok_lazy then
-            pcall(lazy.load, { plugins = { "SchemaStore.nvim" } })
-          end
+          pack_runtime.load("schemastore")
           local ok_schema, schemastore = pcall(require, "schemastore")
           if ok_schema then
             if server == "jsonls" then

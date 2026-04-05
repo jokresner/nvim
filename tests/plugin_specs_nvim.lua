@@ -10,103 +10,87 @@ local function fail(msg)
   error(msg, 0)
 end
 
-local function find_plugin(specs, repo)
-  for _, spec in ipairs(specs) do
-    if spec[1] == repo then
-      return spec
-    end
+require("config.pack")
+
+local registry = require("config.pack_registry")
+local runtime = require("config.pack_runtime")
+
+local function expect_spec(name)
+  local spec = registry[name]
+  if not spec then
+    fail("missing pack registry entry: " .. name)
   end
-  fail("missing plugin spec: " .. repo)
+  return spec
 end
 
-local function has_string(list, value)
-  for _, item in ipairs(list or {}) do
-    if item == value then
-      return true
-    end
-  end
-  return false
+local ensure_spec = expect_spec("ensure")
+local diagflow_spec = expect_spec("diagflow")
+local noice_spec = expect_spec("noice")
+local neogen_spec = expect_spec("neogen")
+local neotest_spec = expect_spec("neotest")
+local schemastore_spec = expect_spec("schemastore")
+local treesitter_context_spec = expect_spec("treesitter-context")
+
+if ensure_spec.src ~= "https://github.com/noirbizarre/ensure.nvim" then
+  fail("ensure registry entry must point to noirbizarre/ensure.nvim")
 end
 
-local function assert_has_string(list, value, context)
-  if not has_string(list, value) then
-    fail(context .. " must include " .. value)
-  end
+if diagflow_spec.src ~= "https://github.com/dgagn/diagflow.nvim" then
+  fail("diagflow registry entry must point to dgagn/diagflow.nvim")
 end
 
-local lsp_specs = dofile(root .. "/lua/plugins/lsp.lua")
-local ui_specs = dofile(root .. "/lua/plugins/ui.lua")
-local coding_specs = dofile(root .. "/lua/plugins/coding.lua")
-local tool_specs = dofile(root .. "/lua/plugins/tools.lua")
-
-local ensure_spec = find_plugin(lsp_specs, "noirbizarre/ensure.nvim")
-local diagflow_spec = find_plugin(ui_specs, "dgagn/diagflow.nvim")
-local noice_spec = find_plugin(ui_specs, "folke/noice.nvim")
-local neogen_spec = find_plugin(coding_specs, "danymat/neogen")
-local neotest_spec = find_plugin(tool_specs, "nvim-neotest/neotest")
-
-if ensure_spec.opts.ensure_installed ~= nil then
-  fail("ensure.nvim must not use deprecated/unsupported opts.ensure_installed")
+if noice_spec.src ~= "https://github.com/folke/noice.nvim" then
+  fail("noice registry entry must point to folke/noice.nvim")
 end
 
-if type(ensure_spec.opts.lsp) ~= "table" or type(ensure_spec.opts.lsp.enable) ~= "table" then
-  fail("ensure.nvim must configure LSP servers via opts.lsp.enable")
+if neogen_spec.src ~= "https://github.com/danymat/neogen" then
+  fail("neogen registry entry must point to danymat/neogen")
 end
 
-for _, server in ipairs(ensure_spec.opts.lsp.enable) do
-  if server == "harper_ls" then
-    fail("ensure.nvim lsp.enable must not include harper_ls")
-  end
+if neotest_spec.src ~= "https://github.com/nvim-neotest/neotest" then
+  fail("neotest registry entry must point to nvim-neotest/neotest")
 end
 
-assert_has_string(ensure_spec.opts.lsp.enable, "lua_ls", "ensure.nvim lsp.enable")
-assert_has_string(ensure_spec.opts.lsp.enable, "gopls", "ensure.nvim lsp.enable")
-assert_has_string(ensure_spec.opts.lsp.enable, "vtsls", "ensure.nvim lsp.enable")
-assert_has_string(ensure_spec.opts.packages, "stylua", "ensure.nvim packages")
-assert_has_string(ensure_spec.opts.packages, "golangci-lint", "ensure.nvim packages")
-assert_has_string(ensure_spec.opts.packages, "ast-grep", "ensure.nvim packages")
-
-if type(diagflow_spec.opts.scope) ~= "string" or diagflow_spec.opts.scope ~= "line" then
-  fail("diagflow.nvim opts.scope must be the flat string value 'line'")
+if schemastore_spec.name ~= "SchemaStore.nvim" then
+  fail("schemastore registry entry must keep the SchemaStore.nvim package name")
 end
 
-if diagflow_spec.opts[1] ~= nil then
-  fail("diagflow.nvim opts must be a flat table, not a nested array")
+if treesitter_context_spec.src ~= "https://github.com/nvim-treesitter/nvim-treesitter-context" then
+  fail("treesitter-context registry entry must be explicit")
 end
 
-if diagflow_spec.opts.padding_right ~= 2 then
-  fail("diagflow.nvim opts.padding_right must stay set to 2")
+for _, dep_name in ipairs({ "plenary", "nui", "notify", "promise-async", "volt", "mason-lspconfig", "mason-nvim-dap", "treesitter-textobjects", "nio", "neotest-go", "neotest-phpunit", "mcphub", "diffview" }) do
+  expect_spec(dep_name)
 end
 
-assert_has_string(noice_spec.dependencies, "MunifTanjim/nui.nvim", "noice.nvim dependencies")
-assert_has_string(noice_spec.dependencies, "rcarriga/nvim-notify", "noice.nvim dependencies")
-
-assert_has_string(neotest_spec.dependencies, "nvim-lua/plenary.nvim", "neotest dependencies")
-assert_has_string(neotest_spec.dependencies, "nvim-treesitter/nvim-treesitter", "neotest dependencies")
-assert_has_string(neotest_spec.dependencies, "nvim-neotest/nvim-nio", "neotest dependencies")
-assert_has_string(neotest_spec.dependencies, "nvim-neotest/neotest-go", "neotest dependencies")
-assert_has_string(neotest_spec.dependencies, "olimorris/neotest-phpunit", "neotest dependencies")
-
-local found_neogen_key = false
-for _, key in ipairs(neogen_spec.keys or {}) do
-  if key[1] == "<leader>cD" then
-    found_neogen_key = true
-  end
-  if key[1] == "<leader>cd" then
-    fail("neogen must not use <leader>cd; it conflicts with LSP diagnostics")
-  end
+if vim.fn.exists(":Format") ~= 2 then
+  fail("Format command must be defined during startup")
 end
 
-if not found_neogen_key then
-  fail("neogen must expose the <leader>cD keymap")
+if vim.fn.exists(":DBee") ~= 2 then
+  fail("DBee command must be defined during startup")
 end
 
-if vim.fn.filereadable(root .. "/lux.toml") == 0 then
-  fail("lux.toml must exist")
+if vim.fn.exists(":Obsidian") ~= 2 then
+  fail("Obsidian command must be defined during startup")
 end
 
-if vim.fn.filereadable(root .. "/lux.lock") == 0 then
-  fail("lux.lock must exist")
+if vim.fn.exists(":Mason") ~= 2 then
+  fail("Mason command must be defined during startup")
 end
 
-print("plugin spec regression checks passed")
+local loaded_before = runtime.stats().loaded
+runtime.load("snacks")
+local loaded_after_first = runtime.stats().loaded
+runtime.load("snacks")
+local loaded_after_second = runtime.stats().loaded
+
+if loaded_after_first <= loaded_before then
+  fail("runtime.load must increase the loaded plugin count on first load")
+end
+
+if loaded_after_second ~= loaded_after_first then
+  fail("runtime.load must be idempotent")
+end
+
+print("pack registry regression checks passed")

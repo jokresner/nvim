@@ -1,24 +1,20 @@
-return {
-  {
-    "nvim-treesitter/nvim-treesitter",
-    branch = "main",
-    event = { "BufReadPost", "BufNewFile" },
-    cmd = { "TSUpdate", "TSInstall" },
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      {
-        "nvim-treesitter/nvim-treesitter-context",
-        opts = {
-          enable = true,
-          max_lines = 2,
-          multiline_threshold = 1,
-          mode = "cursor",
-          separator = "-",
-        },
-      },
-    },
-    config = function()
-      require("config.treesitter").setup()
-    end,
-  },
-}
+local runtime = require("config.pack_runtime")
+
+local M = {}
+
+function M.setup()
+  local load_treesitter = runtime.once(function()
+    runtime.load_many({ "treesitter", "treesitter-textobjects", "treesitter-context" })
+    require("config.treesitter").setup()
+  end)
+
+  vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+    once = true,
+    callback = load_treesitter,
+  })
+
+  runtime.command("TSUpdate", load_treesitter, { desc = "Update treesitter parsers" })
+  runtime.command("TSInstall", load_treesitter, { desc = "Install treesitter parsers" })
+end
+
+return M

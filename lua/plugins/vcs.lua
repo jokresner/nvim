@@ -1,124 +1,75 @@
-return {
-  {
-    "nvim-mini/mini.diff",
-    version = false,
-    event = "VeryLazy",
-    opts = {},
-    keys = {
-      {
-        "[h",
-        function()
-          require("mini.diff").goto_hunk "prev"
-        end,
-        desc = "Prev Hunk",
-      },
-      {
-        "]h",
-        function()
-          require("mini.diff").goto_hunk "next"
-        end,
-        desc = "Next Hunk",
-      },
-      {
-        "[H",
-        function()
-          require("mini.diff").goto_hunk "first"
-        end,
-        desc = "First Hunk",
-      },
-      {
-        "]H",
-        function()
-          require("mini.diff").goto_hunk "last"
-        end,
-        desc = "Last Hunk",
-      },
-      -- German layout-friendly aliases
-      {
-        "<leader>hp",
-        function()
-          require("mini.diff").goto_hunk "prev"
-        end,
-        desc = "Prev Hunk (alt)",
-      },
-      {
-        "<leader>hn",
-        function()
-          require("mini.diff").goto_hunk "next"
-        end,
-        desc = "Next Hunk (alt)",
-      },
-      {
-        "gh",
-        function()
-          return require("mini.diff").operator "apply"
-        end,
-        mode = { "n", "x" },
-        expr = true,
-        desc = "Apply hunk (operator)",
-      },
-      {
-        "gH",
-        function()
-          return require("mini.diff").operator "reset"
-        end,
-        mode = { "n", "x" },
-        expr = true,
-        desc = "Reset hunk (operator)",
-      },
-      {
-        "<leader>gO",
-        function()
-          require("mini.diff").toggle_overlay()
-        end,
-        desc = "Toggle diff overlay",
-      },
-    },
-  },
-  {
-    "NeogitOrg/neogit",
-    cmd = "Neogit",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "sindrets/diffview.nvim",
-    },
-    opts = {
-      integrations = { diffview = true },
-    },
-    keys = {
-      {
-        "<leader>gn",
-        function()
-          require("neogit").open()
-        end,
-        desc = "Neogit",
-      },
-    },
-  },
-  {
-    "esmuellert/codediff.nvim",
-    dependencies = { "MunifTanjim/nui.nvim" },
-    cmd = { "VscodeDiff" },
-    keys = {
-      {
-        "<leader>gd",
-        "<cmd>VscodeDiff<CR>",
-        desc = "VSCode Diff",
-      },
-      {
-        "<leader>hs",
-        function()
-          require("config.vcs").git_pickaxe { global = false }
-        end,
-        desc = "Git Search Buffer (VSCode Diff)",
-      },
-      {
-        "<leader>hS",
-        function()
-          require("config.vcs").git_pickaxe { global = true }
-        end,
-        desc = "Git Search Global (VSCode Diff)",
-      },
-    },
-  },
-}
+local runtime = require("config.pack_runtime")
+
+local M = {}
+
+function M.setup()
+  local load_mini_diff = runtime.once(function()
+    runtime.load("mini-diff")
+    require("mini.diff").setup({})
+  end)
+
+  local load_neogit = runtime.once(function()
+    runtime.load_many({ "plenary", "diffview", "neogit" })
+    require("neogit").setup({ integrations = { diffview = true } })
+  end)
+
+  local load_codediff = runtime.once(function()
+    runtime.load_many({ "nui", "codediff" })
+  end)
+
+  runtime.defer(load_mini_diff)
+
+  local function hunk(direction, desc)
+    vim.keymap.set("n", direction, function()
+      load_mini_diff()
+      require("mini.diff").goto_hunk(direction == "[h" and "prev" or direction == "]h" and "next" or direction == "[H" and "first" or "last")
+    end, { desc = desc })
+  end
+
+  hunk("[h", "Prev Hunk")
+  hunk("]h", "Next Hunk")
+  hunk("[H", "First Hunk")
+  hunk("]H", "Last Hunk")
+  vim.keymap.set("n", "<leader>hp", function()
+    load_mini_diff()
+    require("mini.diff").goto_hunk("prev")
+  end, { desc = "Prev Hunk (alt)" })
+  vim.keymap.set("n", "<leader>hn", function()
+    load_mini_diff()
+    require("mini.diff").goto_hunk("next")
+  end, { desc = "Next Hunk (alt)" })
+  vim.keymap.set({ "n", "x" }, "gh", function()
+    load_mini_diff()
+    return require("mini.diff").operator("apply")
+  end, { expr = true, desc = "Apply hunk (operator)" })
+  vim.keymap.set({ "n", "x" }, "gH", function()
+    load_mini_diff()
+    return require("mini.diff").operator("reset")
+  end, { expr = true, desc = "Reset hunk (operator)" })
+  vim.keymap.set("n", "<leader>gO", function()
+    load_mini_diff()
+    require("mini.diff").toggle_overlay()
+  end, { desc = "Toggle diff overlay" })
+
+  runtime.command("Neogit", load_neogit, { desc = "Open Neogit" })
+  vim.keymap.set("n", "<leader>gn", function()
+    load_neogit()
+    require("neogit").open()
+  end, { desc = "Neogit" })
+
+  runtime.command("VscodeDiff", load_codediff, { desc = "Open VSCode diff" })
+  vim.keymap.set("n", "<leader>gd", function()
+    load_codediff()
+    vim.cmd.VscodeDiff()
+  end, { desc = "VSCode Diff" })
+  vim.keymap.set("n", "<leader>hs", function()
+    load_codediff()
+    require("config.vcs").git_pickaxe({ global = false })
+  end, { desc = "Git Search Buffer (VSCode Diff)" })
+  vim.keymap.set("n", "<leader>hS", function()
+    load_codediff()
+    require("config.vcs").git_pickaxe({ global = true })
+  end, { desc = "Git Search Global (VSCode Diff)" })
+end
+
+return M

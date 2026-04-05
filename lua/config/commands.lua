@@ -1,4 +1,5 @@
 local state_file = vim.fs.joinpath(vim.fn.stdpath("state"), "context_mode.txt")
+local pack_runtime = require("config.pack_runtime")
 local reading_filetypes = {
   markdown = true,
   text = true,
@@ -62,10 +63,8 @@ end
 
 local function set_context_mode(mode, opts)
   opts = opts or {}
-  local ok_lazy, lazy = pcall(require, "lazy")
-  if ok_lazy then
-    pcall(lazy.load, { plugins = { "nvim-navic", "nvim-treesitter-context" } })
-  end
+  pack_runtime.load("nvim-navic")
+  pack_runtime.load_many({ "treesitter", "treesitter-context" })
 
   local ok_context, ts_context = pcall(require, "treesitter-context")
   if mode == "compact" then
