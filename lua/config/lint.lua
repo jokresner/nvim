@@ -1,48 +1,36 @@
 local M = {}
 
-M.opts = {
-  events = { "BufWritePost", "BufReadPost", "InsertLeave" },
-  linters_by_ft = {
-    fish = { "fish" },
-    go = { "golangci-lint" },
-    rust = { "bacon" },
-    lua = { "luacheck" },
-  },
-  linters = {},
+M.events = { "BufWritePost", "BufReadPost", "InsertLeave" }
+
+M.linters_by_ft = {
+  fish = { "fish" },
+  go = { "golangcilint" },
+  rust = { "bacon" },
+  lua = { "luacheck" },
 }
 
 function M.setup()
-  local lint = require "lint"
-  local opts = M.opts
+  local lint = require("lint")
+  lint.linters_by_ft = M.linters_by_ft
 
-  lint.linters_by_ft = opts.linters_by_ft
+  local timer = vim.uv.new_timer()
+  local group = vim.api.nvim_create_augroup("user_nvim_lint", { clear = true })
 
-  local function debounce(ms, fn)
-    local timer = vim.uv.new_timer()
-    vim.api.nvim_create_autocmd("VimLeavePre", {
-      group = vim.api.nvim_create_augroup("nvim-lint-timer", { clear = true }),
-      callback = function()
-        pcall(timer.stop, timer)
-        pcall(timer.close, timer)
-      end,
-    })
-    return function(...)
-      local argv = { ... }
-      timer:start(ms, 0, function()
-        timer:stop()
-        vim.schedule_wrap(fn)(unpack(argv))
-      end)
-    end
-  end
+  vim.api.nvim_create_autocmd("VimLeavePre", {
+    group = group,
+    callback = function()
+      pcall(timer.stop, timer)
+      pcall(timer.close, timer)
+    end,
+  })
 
-  local function run_lint()
-    -- Use public try_lint API
-    lint.try_lint()
-  end
-
-  vim.api.nvim_create_autocmd(opts.events, {
-    group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
-    callback = debounce(100, run_lint),
+  vim.api.nvim_create_autocmd(M.events, {
+    group = group,
+    callback = function()
+      timer:start(120, 0, vim.schedule_wrap(function()
+        lint.try_lint()
+      end))
+    end,
   })
 end
 

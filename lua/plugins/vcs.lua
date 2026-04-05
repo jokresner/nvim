@@ -3,7 +3,6 @@ return {
     "nvim-mini/mini.diff",
     version = false,
     event = "VeryLazy",
-    cond = vim.g.vscode == nil,
     opts = {},
     keys = {
       {
@@ -79,7 +78,6 @@ return {
   {
     "NeogitOrg/neogit",
     cmd = "Neogit",
-    cond = vim.g.vscode == nil,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "sindrets/diffview.nvim",
@@ -100,7 +98,6 @@ return {
   {
     "esmuellert/codediff.nvim",
     dependencies = { "MunifTanjim/nui.nvim" },
-    cond = vim.g.vscode == nil,
     cmd = { "VscodeDiff" },
     keys = {
       {

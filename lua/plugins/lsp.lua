@@ -3,19 +3,23 @@ return {
     "noirbizarre/ensure.nvim",
     event = "VeryLazy",
     opts = {
-      ensure_installed = {
+      lsp = {
+        enable = { "lua_ls", "gopls", "vtsls", "jsonls", "yamlls" },
+        gopls = {
+          settings = {
+            gopls = {
+              buildFlags = { "-tags=unittest" },
+            },
+          },
+        },
+      },
+      packages = {
         "stylua",
-        "lua_ls",
         "delve",
-        "gopls",
+        "codelldb",
         "golangci-lint",
         "luacheck",
-        "codelldb",
-        "harper-ls",
         "ast-grep",
-        "vtsls",
-        "jsonls",
-        "yamlls",
       },
     },
     config = function(_, opts)
@@ -24,7 +28,7 @@ return {
   },
   {
     "williamboman/mason.nvim",
-    event = "VeryLazy",
+    cmd = "Mason",
     opts = {
       ui = {
         border = "rounded",
@@ -36,82 +40,47 @@ return {
       },
     },
   },
-	  {
-	    "neovim/nvim-lspconfig",
-	    event = "BufReadPre",
-	    cond = vim.g.vscode == nil,
-	    dependencies = {
-	      { "folke/lazydev.nvim", ft = "lua" },
-	      "williamboman/mason-lspconfig.nvim",
-	      "jay-babu/mason-nvim-dap.nvim",
-	    },
-	    keys = {
-      {
-        "K",
-        function()
-          vim.lsp.buf.hover()
-        end,
-        desc = "Hover Documentation",
-      },
-      {
-        "<space>cR",
-        function()
-          vim.lsp.buf.rename()
-        end,
-        desc = "Code Rename",
-      },
-      {
-        "<space>ca",
-        function()
-          vim.lsp.buf.code_action()
-        end,
-        desc = "Code Action",
-      },
-	      {
-	        "<space>wd",
-	        function()
-	          -- Avoid forcing snacks.nvim as a dependency of LSP.
-	          vim.lsp.buf.document_symbol()
-	        end,
-	        desc = "Symbols in current document",
-	      },
-	    },
-	    config = function()
-	      require("config.lsp").setup()
-	    end,
-	  },
-	  {
-	    "b0o/SchemaStore.nvim",
-	    lazy = true,
-	  },
+  { "b0o/SchemaStore.nvim", lazy = true },
+  {
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "williamboman/mason-lspconfig.nvim",
+      "jay-babu/mason-nvim-dap.nvim",
+    },
+    config = function()
+      require("mason-nvim-dap").setup()
+      require("config.lsp").setup()
+    end,
+  },
   {
     "stevearc/conform.nvim",
-    cond = vim.g.vscode == nil,
-    cmd = "Format",
+    event = { "BufWritePre" },
     init = function()
       vim.api.nvim_create_user_command("Format", function()
-        require("conform").format { lsp_fallback = true, async = true }
+        require("conform").format { async = true, lsp_fallback = true }
       end, { desc = "Format current buffer" })
     end,
-    config = function()
-      require("config.autoformat").setup()
-    end,
     keys = {
-      {
-        "<leader>cf",
-        ":Format<CR>",
-        desc = "Format code (Conform)",
-      },
+      { "<leader>cf", "<cmd>Format<cr>", desc = "Code format" },
     },
+    opts = require("config.format").opts,
+  },
+  {
+    "mfussenegger/nvim-lint",
+    event = { "BufReadPost", "BufWritePost", "InsertLeave" },
+    config = function()
+      require("config.lint").setup()
+    end,
   },
   {
     "folke/trouble.nvim",
     cmd = "Trouble",
     keys = {
-      { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics" },
-      { "<leader>xd", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics" },
-      { "<leader>xl", "<cmd>Trouble loclist toggle<cr>", desc = "Location List" },
-      { "<leader>xq", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List" },
+      { "<leader>xx", function() require("snacks").picker.diagnostics() end, desc = "Diagnostics list" },
+      { "<leader>xX", function() require("snacks").picker.diagnostics_buffer() end, desc = "Buffer diagnostics" },
+      { "<leader>xq", function() require("snacks").picker.qflist() end, desc = "Quickfix list" },
+      { "<leader>xl", function() require("snacks").picker.loclist() end, desc = "Location list" },
     },
   },
 }

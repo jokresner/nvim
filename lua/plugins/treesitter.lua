@@ -1,8 +1,9 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
     branch = "main",
+    event = { "BufReadPost", "BufNewFile" },
+    cmd = { "TSUpdate", "TSInstall" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
       {
@@ -12,12 +13,10 @@ return {
           max_lines = 2,
           multiline_threshold = 1,
           mode = "cursor",
-          separator = "─",
+          separator = "-",
         },
       },
     },
-    event = { "BufReadPost", "BufNewFile" },
-    cmd = { "TSUpdate", "TSInstall" },
     config = function()
       require("config.treesitter").setup()
     end,

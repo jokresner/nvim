@@ -1,0 +1,27 @@
+package = "jokresner-nvim-config"
+version = "0.1.0"
+lua = ">=5.1"
+
+[description]
+summary = "Personal Neovim configuration"
+maintainer = "Johannes"
+labels = [ "neovim", "config" ]
+
+[dependencies]
+
+[test]
+type = "command"
+command = "env"
+flags = [
+  "XDG_STATE_HOME=/tmp",
+  "XDG_CACHE_HOME=/tmp/nvim-cache",
+  "nvim",
+  "--headless",
+  "-u",
+  "NONE",
+  "+lua dofile('tests/plugin_specs_nvim.lua')",
+  "+qa",
+]
+
+[build]
+type = "builtin"

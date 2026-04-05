@@ -1,12 +1,7 @@
 return {
-  { -- Rust
+  {
     "mrcjkb/rustaceanvim",
-    version = vim.fn.has "nvim-0.10.0" == 0 and "^4" or false,
     ft = { "rust" },
-    cond = vim.g.vscode == nil,
-    dependencies = {
-      "williamboman/mason.nvim",
-    },
     keys = {
       {
         "<leader>ca",
@@ -17,11 +12,11 @@ return {
         ft = "rust",
       },
       {
-        "<leader>dr",
+        "<leader>dd",
         function()
           vim.cmd.RustLsp "debuggables"
         end,
-        desc = "Rust Debuggables",
+        desc = "Rust debuggables",
         ft = "rust",
       },
     },
@@ -30,16 +25,16 @@ return {
     end,
     config = function(_, opts)
       opts = require("config.rust").configure_dap(opts)
-      vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
-      if vim.fn.executable "rust-analyzer" == 0 then
-        vim.health.error(
-          "**rust-analyzer** not found in PATH, please install it.\nhttps://rust-analyzer.github.io/",
-          { title = "rustaceanvim" }
-        )
-      end
-    end,
+        vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
+        if vim.fn.executable "rust-analyzer" == 0 then
+          vim.health.error(
+            "rust-analyzer not found in PATH. Install from https://rust-analyzer.github.io/",
+            { title = "rustaceanvim" }
+          )
+        end
+      end,
   },
-  { -- TypeScript Error Translator
+  {
     "dmmulroy/ts-error-translator.nvim",
     ft = { "typescript", "typescriptreact" },
   },
@@ -52,5 +47,12 @@ return {
     ---@module "gopher"
     ---@type gopher.Config
     opts = {},
+  },
+  {
+    "letieu/jira.nvim",
+    cmd = { "Jira" },
+    keys = {
+      { "<leader>jb", "<cmd>Jira<cr>", desc = "Jira board" },
+    },
   },
 }
