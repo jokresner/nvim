@@ -133,7 +133,6 @@ return {
           return ""
         end
         local ignored = {
-          ["copilot"] = true,
           ["null-ls"] = true,
           ["conform"] = true,
         }

@@ -8,27 +8,6 @@ return {
     end,
   },
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    build = ":Copilot auth",
-    opts = {
-      suggestion = {
-        enabled = false,
-        auto_trigger = false,
-        hide_during_completion = true,
-        keymap = {
-          accept = false,
-          next = "<C-j>",
-          prev = "<C-p>",
-        },
-      },
-      panel = { enabled = false },
-      filetypes = { markdown = true, help = true },
-      server_opts_overrides = { settings = { telemetry = { telemetryLevel = "off" } } },
-    },
-  },
-  {
     "supermaven-inc/supermaven-nvim",
     event = "InsertEnter",
     opts = {

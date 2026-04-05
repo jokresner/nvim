@@ -1,5 +1,4 @@
 local supermaven_preview
-local copilot_suggestion
 
 local function get_supermaven()
   if supermaven_preview == nil then
@@ -9,18 +8,9 @@ local function get_supermaven()
   return supermaven_preview
 end
 
-local function get_copilot()
-  if copilot_suggestion == nil then
-    local ok, module = pcall(require, "copilot.suggestion")
-    copilot_suggestion = ok and module or false
-  end
-  return copilot_suggestion
-end
-
 vim.api.nvim_create_autocmd("User", {
   pattern = "BlinkCmpMenuOpen",
   callback = function()
-    vim.b.copilot_suggestion_hidden = true
     local sm = get_supermaven()
     if sm then
       sm.disable_inline_completion = true
@@ -31,7 +21,6 @@ vim.api.nvim_create_autocmd("User", {
 vim.api.nvim_create_autocmd("User", {
   pattern = "BlinkCmpMenuClose",
   callback = function()
-    vim.b.copilot_suggestion_hidden = false
     local sm = get_supermaven()
     if sm then
       sm.disable_inline_completion = false
@@ -46,11 +35,6 @@ return {
         local sm = get_supermaven()
         if sm and sm.has_suggestion() then
           vim.schedule(sm.on_accept_suggestion)
-          return true
-        end
-        local cop = get_copilot()
-        if cop and cop.is_visible() then
-          cop.accept()
           return true
         end
       end,
