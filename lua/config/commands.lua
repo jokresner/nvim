@@ -33,15 +33,8 @@ local context_mode = read_mode()
 vim.g.context_mode = context_mode
 vim.g.context_mode_manual = false
 
-local function set_winbar_for_window(win, mode)
-  local buf = vim.api.nvim_win_get_buf(win)
-  local buftype = vim.bo[buf].buftype
-  local is_regular = buftype == ""
-  local value = ""
-  if mode == "compact" and is_regular then
-    value = "%{%v:lua.require'nvim-navic'.get_location()%}"
-  end
-  pcall(vim.api.nvim_set_option_value, "winbar", value, { win = win })
+local function set_winbar_for_window(win)
+  pcall(vim.api.nvim_set_option_value, "winbar", "", { win = win })
 end
 
 local function set_mode_ui(mode)
@@ -54,9 +47,9 @@ local function set_mode_ui(mode)
   vim.o.cursorline = ui_snapshot.cursorline
 end
 
-local function apply_winbar(mode)
+local function apply_winbar()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
-    set_winbar_for_window(win, mode)
+    set_winbar_for_window(win)
   end
 end
 
@@ -79,7 +72,7 @@ local function set_context_mode(mode, opts)
   end
 
   set_mode_ui(mode)
-  apply_winbar(mode)
+  apply_winbar()
 
   context_mode = mode
   vim.g.context_mode = mode

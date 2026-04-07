@@ -31,7 +31,7 @@ map("x", "<leader>P", '"_dP', { desc = "Paste keep register" })
 
 map("n", "<leader>uh", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 map("n", "<leader>uu", function()
-  vim.cmd.packadd("nvim.undotree")
+  vim.cmd.packadd "nvim.undotree"
   vim.cmd.Undotree()
 end, { desc = "Undo tree" })
 
@@ -43,8 +43,8 @@ map("n", "<leader>utc", "<cmd>ContextModeToggle<cr>", { desc = "Toggle context m
 map("n", "<leader>uta", "<cmd>ContextModeAuto<cr>", { desc = "Auto context mode" })
 
 map("n", "<leader>cl", function()
-  local path = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
-  local line = vim.fn.line(".")
+  local path = vim.fn.fnamemodify(vim.fn.expand "%", ":~:.")
+  local line = vim.fn.line "."
   local value = path .. ":" .. line
   vim.fn.setreg("+", value)
   vim.notify("Copied " .. value)
@@ -57,3 +57,20 @@ map("n", "<CR>", function()
   end
   return "<CR>"
 end, { expr = true, desc = "Clear search or enter" })
+
+-- incremental selection treesitter/lsp
+vim.keymap.set({ "n", "x", "o" }, "<A-o>", function()
+  if vim.treesitter.get_parser(nil, nil, { error = false }) then
+    require("vim.treesitter._select").select_parent(vim.v.count1)
+  else
+    vim.lsp.buf.selection_range(vim.v.count1)
+  end
+end, { desc = "Select parent treesitter node or outer incremental lsp selections" })
+
+vim.keymap.set({ "n", "x", "o" }, "<A-i>", function()
+  if vim.treesitter.get_parser(nil, nil, { error = false }) then
+    require("vim.treesitter._select").select_child(vim.v.count1)
+  else
+    vim.lsp.buf.selection_range(-vim.v.count1)
+  end
+end, { desc = "Select child treesitter node or inner incremental lsp selections" })
