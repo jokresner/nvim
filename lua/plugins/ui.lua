@@ -116,10 +116,98 @@ return {
     dependencies = { "SmiteshP/nvim-navic" },
     opts = function()
       local navic = require("nvim-navic")
+      local line_author_group = vim.api.nvim_create_augroup("statusline_line_author", { clear = true })
+      local line_author_timer = nil
+      local line_author_request = 0
       local lualine_theme = "auto"
       if pcall(require, "lualine.themes.catppuccin") then
         lualine_theme = "catppuccin"
       end
+      local function line_author_component()
+        return vim.b.line_author or ""
+      end
+      local function update_line_author(bufnr)
+        bufnr = bufnr or vim.api.nvim_get_current_buf()
+        if not vim.api.nvim_buf_is_valid(bufnr) then
+          return
+        end
+
+        local file = vim.api.nvim_buf_get_name(bufnr)
+        if file == "" then
+          vim.b[bufnr].line_author = ""
+          vim.b[bufnr].line_author_key = nil
+          return
+        end
+
+        local git_dir = vim.fs.find(".git", { path = file, upward = true })[1]
+        if not git_dir then
+          vim.b[bufnr].line_author = ""
+          vim.b[bufnr].line_author_key = nil
+          return
+        end
+
+        local line = vim.api.nvim_win_get_cursor(0)[1]
+        local repo_root = vim.fs.dirname(git_dir)
+        local relative = vim.fs.relpath(repo_root, file)
+        if not relative then
+          vim.b[bufnr].line_author = ""
+          vim.b[bufnr].line_author_key = nil
+          return
+        end
+
+        local cache_key = relative .. ":" .. line
+        if vim.b[bufnr].line_author_key == cache_key then
+          return
+        end
+
+        line_author_request = line_author_request + 1
+        local request_id = line_author_request
+
+        vim.system({
+          "git",
+          "blame",
+          "--line-porcelain",
+          "-L",
+          string.format("%d,%d", line, line),
+          "--",
+          relative,
+        }, { cwd = repo_root, text = true }, function(res)
+          local author = ""
+          if res.code == 0 and res.stdout then
+            author = res.stdout:match("\nauthor (.-)\n") or ""
+          end
+
+          vim.schedule(function()
+            if not vim.api.nvim_buf_is_valid(bufnr) or request_id ~= line_author_request then
+              return
+            end
+
+            vim.b[bufnr].line_author = author ~= "" and (" " .. author) or ""
+            vim.b[bufnr].line_author_key = cache_key
+            local ok, lualine = pcall(require, "lualine")
+            if ok then
+              lualine.refresh()
+            end
+          end)
+        end)
+      end
+      local function schedule_line_author_update(args)
+        local bufnr = args and args.buf or vim.api.nvim_get_current_buf()
+        if line_author_timer then
+          line_author_timer:stop()
+          line_author_timer:close()
+        end
+
+        line_author_timer = vim.defer_fn(function()
+          update_line_author(bufnr)
+          line_author_timer = nil
+        end, 120)
+      end
+
+      vim.api.nvim_create_autocmd({ "BufEnter", "CursorMoved", "CursorHold" }, {
+        group = line_author_group,
+        callback = schedule_line_author_update,
+      })
       local function context_mode_component()
         local mode = vim.g.context_mode or "compact"
         if mode == "reading" then
@@ -304,6 +392,7 @@ return {
                 return { fg = "#a6e3a1", gui = "bold" }
               end,
             },
+            line_author_component,
             lsp_name,
             "filetype",
             "diagnostics",
