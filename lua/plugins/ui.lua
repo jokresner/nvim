@@ -75,7 +75,18 @@ return {
       map("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], opts)
     end,
   },
-  { "dgagn/diagflow.nvim", event = "LspAttach", opts = { scope = "line", padding_right = 2 } },
+  {
+    "dgagn/diagflow.nvim",
+    event = "LspAttach",
+    opts = {
+      scope = "line",
+      placement = "inline",
+      inline_padding_left = 2,
+      padding_right = 0,
+      max_width = 80,
+      show_sign = true,
+    },
+  },
   {
     "SmiteshP/nvim-navic",
     lazy = true,
