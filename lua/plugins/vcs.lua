@@ -98,7 +98,7 @@ return {
   {
     "esmuellert/codediff.nvim",
     dependencies = { "MunifTanjim/nui.nvim" },
-    cmd = { "VscodeDiff" },
+    cmd = { "CodeDiff" },
     keys = {
       {
         "<leader>gd",
