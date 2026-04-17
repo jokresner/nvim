@@ -27,7 +27,7 @@ return {
     },
     config = function(_, opts)
       require("catppuccin").setup(opts)
-      vim.cmd.colorscheme("catppuccin")
+      vim.cmd.colorscheme "catppuccin"
     end,
   },
   {
@@ -57,7 +57,6 @@ return {
         { "<leader>ut", group = "Context mode" },
         { "<leader>v", group = "Visits" },
         { "<leader>x", group = "Diagnostics/Tasks" },
-        { "<leader>z", group = "Zellij" },
       },
     },
   },
@@ -117,8 +116,20 @@ return {
       },
     },
     keys = {
-      { "<leader>un", function() require("noice").cmd("dismiss") end, desc = "Dismiss notifications" },
-      { "<leader>uN", function() require("noice").cmd("all") end, desc = "Show notifications" },
+      {
+        "<leader>un",
+        function()
+          require("noice").cmd "dismiss"
+        end,
+        desc = "Dismiss notifications",
+      },
+      {
+        "<leader>uN",
+        function()
+          require("noice").cmd "all"
+        end,
+        desc = "Show notifications",
+      },
     },
   },
   {
@@ -126,7 +137,7 @@ return {
     event = "VeryLazy",
     dependencies = { "SmiteshP/nvim-navic" },
     opts = function()
-      local navic = require("nvim-navic")
+      local navic = require "nvim-navic"
       local line_author_group = vim.api.nvim_create_augroup("statusline_line_author", { clear = true })
       local line_author_timer = nil
       local line_author_request = 0
@@ -185,7 +196,7 @@ return {
         }, { cwd = repo_root, text = true }, function(res)
           local author = ""
           if res.code == 0 and res.stdout then
-            author = res.stdout:match("\nauthor (.-)\n") or ""
+            author = res.stdout:match "\nauthor (.-)\n" or ""
           end
 
           vim.schedule(function()
@@ -227,7 +238,7 @@ return {
         return "C"
       end
       local function lsp_name()
-        local clients = vim.lsp.get_clients({ bufnr = 0 })
+        local clients = vim.lsp.get_clients { bufnr = 0 }
         if #clients == 0 then
           return ""
         end
@@ -270,7 +281,7 @@ return {
           return vim.loop.cwd()
         end
 
-        local clients = vim.lsp.get_clients({ bufnr = bufnr })
+        local clients = vim.lsp.get_clients { bufnr = bufnr }
         for _, client in ipairs(clients) do
           local workspace_folders = client.config.workspace_folders
           if workspace_folders then
@@ -384,11 +395,11 @@ return {
         separator = "",
       }
 
-        return {
-          options = {
-            theme = lualine_theme,
-            globalstatus = true,
-          },
+      return {
+        options = {
+          theme = lualine_theme,
+          globalstatus = true,
+        },
         sections = {
           lualine_a = { "mode" },
           lualine_b = { "branch" },
@@ -440,7 +451,13 @@ return {
           )
         end
 
-        return string.format("Neovim v%d.%d.%d | Startup %.2fms", version.major, version.minor, version.patch, startup_ms)
+        return string.format(
+          "Neovim v%d.%d.%d | Startup %.2fms",
+          version.major,
+          version.minor,
+          version.patch,
+          startup_ms
+        )
       end
 
       return {
@@ -454,13 +471,49 @@ return {
           [[\______|           \/             \/     \/     \/     \/       ]],
         }, "\n"),
         items = {
-          { action = function() require("snacks").picker.smart() end, name = "F: Find File", section = "File" },
-          { action = function() require("snacks").picker.recent() end, name = "R: Recent Files", section = "File" },
-          { action = function() require("snacks").picker.grep_word() end, name = "W: Find Word", section = "Search" },
-          { action = function() require("snacks").picker.grep() end, name = "G: Grep", section = "Search" },
+          {
+            action = function()
+              require("snacks").picker.smart()
+            end,
+            name = "F: Find File",
+            section = "File",
+          },
+          {
+            action = function()
+              require("snacks").picker.recent()
+            end,
+            name = "R: Recent Files",
+            section = "File",
+          },
+          {
+            action = function()
+              require("snacks").picker.grep_word()
+            end,
+            name = "W: Find Word",
+            section = "Search",
+          },
+          {
+            action = function()
+              require("snacks").picker.grep()
+            end,
+            name = "G: Grep",
+            section = "Search",
+          },
           { action = "Lazy", name = "L: Lazy", section = "Plugins" },
-          { action = function() require("snacks").picker.projects() end, name = "P: Projects", section = "File" },
-          { action = function() vim.cmd("qa") end, name = "Q: Quit", section = "Exit" },
+          {
+            action = function()
+              require("snacks").picker.projects()
+            end,
+            name = "P: Projects",
+            section = "File",
+          },
+          {
+            action = function()
+              vim.cmd "qa"
+            end,
+            name = "Q: Quit",
+            section = "Exit",
+          },
         },
         evaluate_single = true,
         content_hooks = nil,
@@ -484,7 +537,7 @@ return {
     "nvim-mini/mini.hipatterns",
     event = "VeryLazy",
     opts = function()
-      local hi = require("mini.hipatterns")
+      local hi = require "mini.hipatterns"
       return { highlighters = { hex_color = hi.gen_highlighter.hex_color() } }
     end,
   },
@@ -500,7 +553,7 @@ return {
     "luukvbaal/statuscol.nvim",
     event = "VeryLazy",
     opts = function()
-      local b = require("statuscol.builtin")
+      local b = require "statuscol.builtin"
       return {
         segments = {
           { text = { b.foldfunc }, click = "v:lua.ScFa" },
@@ -516,20 +569,59 @@ return {
     "kevinhwang91/nvim-ufo",
     event = "BufReadPost",
     dependencies = { "kevinhwang91/promise-async" },
-    opts = { provider_selector = function() return { "treesitter", "indent" } end },
+    opts = {
+      provider_selector = function()
+        return { "treesitter", "indent" }
+      end,
+    },
   },
   { "oribarilan/lensline.nvim", event = "LspAttach", opts = {} },
-  { "gisketch/triforce.nvim", event = "VeryLazy", dependencies = { "nvzone/volt" }, opts = { keymap = { show_profile = "<leader>up" } } },
+  {
+    "gisketch/triforce.nvim",
+    event = "VeryLazy",
+    dependencies = { "nvzone/volt" },
+    opts = { keymap = { show_profile = "<leader>up" } },
+  },
   {
     "TheNoeTrevino/haunt.nvim",
     event = "VeryLazy",
     opts = {},
     keys = {
-      { "<leader>ha", function() require("haunt.api").annotate() end, desc = "Haunt annotate" },
-      { "<leader>ht", function() require("haunt.api").toggle_annotation() end, desc = "Haunt toggle" },
-      { "<leader>hn", function() require("haunt.api").next() end, desc = "Haunt next" },
-      { "<leader>hp", function() require("haunt.api").prev() end, desc = "Haunt prev" },
-      { "<leader>hl", function() require("haunt.picker").show() end, desc = "Haunt list" },
+      {
+        "<leader>ha",
+        function()
+          require("haunt.api").annotate()
+        end,
+        desc = "Haunt annotate",
+      },
+      {
+        "<leader>ht",
+        function()
+          require("haunt.api").toggle_annotation()
+        end,
+        desc = "Haunt toggle",
+      },
+      {
+        "<leader>hn",
+        function()
+          require("haunt.api").next()
+        end,
+        desc = "Haunt next",
+      },
+      {
+        "<leader>hp",
+        function()
+          require("haunt.api").prev()
+        end,
+        desc = "Haunt prev",
+      },
+      {
+        "<leader>hl",
+        function()
+          require("haunt.picker").show()
+        end,
+        desc = "Haunt list",
+      },
     },
   },
 }

@@ -4,10 +4,34 @@ return {
     event = "VeryLazy",
     opts = {},
     keys = {
-      { "<leader>qs", function() require("mini.sessions").read(nil, { force = true }) end, desc = "Session restore" },
-      { "<leader>qS", function() require("mini.sessions").select() end, desc = "Session select" },
-      { "<leader>ql", function() require("mini.sessions").read(vim.v.this_session or nil, { force = true }) end, desc = "Session last" },
-      { "<leader>qd", function() require("mini.sessions").write("", { force = true }) end, desc = "Session disable save" },
+      {
+        "<leader>qs",
+        function()
+          require("mini.sessions").read(nil, { force = true })
+        end,
+        desc = "Session restore",
+      },
+      {
+        "<leader>qS",
+        function()
+          require("mini.sessions").select()
+        end,
+        desc = "Session select",
+      },
+      {
+        "<leader>ql",
+        function()
+          require("mini.sessions").read(vim.v.this_session or nil, { force = true })
+        end,
+        desc = "Session last",
+      },
+      {
+        "<leader>qd",
+        function()
+          require("mini.sessions").write("", { force = true })
+        end,
+        desc = "Session disable save",
+      },
     },
   },
   { "nvim-mini/mini.operators", event = "VeryLazy", opts = {} },
@@ -40,7 +64,7 @@ return {
       end
       return {
         sources = {
-          sources.FileSource:new(vim.fn.stdpath("cache") .. "/dbee/persistence.json"),
+          sources.FileSource:new(vim.fn.stdpath "cache" .. "/dbee/persistence.json"),
         },
       }
     end,
@@ -53,7 +77,14 @@ return {
   {
     "stevearc/overseer.nvim",
     version = "v1.6.0",
-    cmd = { "OverseerToggle", "OverseerRun", "OverseerBuild", "OverseerTaskAction", "OverseerInfo", "OverseerClearCache" },
+    cmd = {
+      "OverseerToggle",
+      "OverseerRun",
+      "OverseerBuild",
+      "OverseerTaskAction",
+      "OverseerInfo",
+      "OverseerClearCache",
+    },
     opts = {
       dap = false,
       task_list = {
@@ -92,7 +123,7 @@ return {
       summary = { animated = true },
     },
     config = function(_, opts)
-      local ns = vim.api.nvim_create_namespace("neotest")
+      local ns = vim.api.nvim_create_namespace "neotest"
       vim.diagnostic.config({
         virtual_text = {
           format = function(d)
@@ -100,18 +131,66 @@ return {
           end,
         },
       }, ns)
-      opts.adapters = { require("neotest-go"), require("neotest-phpunit") }
+      opts.adapters = { require "neotest-go", require "neotest-phpunit" }
       require("neotest").setup(opts)
     end,
     keys = {
-      { "<leader>tt", function() require("neotest").run.run() end, desc = "Test run nearest" },
-      { "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Test run file" },
-      { "<leader>ta", function() require("neotest").run.run(vim.uv.cwd()) end, desc = "Test run all" },
-      { "<leader>tl", function() require("neotest").run.run_last() end, desc = "Test run last" },
-      { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "Test summary" },
-      { "<leader>to", function() require("neotest").output.open({ enter = true, auto_close = true }) end, desc = "Test output" },
-      { "<leader>tO", function() require("neotest").output_panel.toggle() end, desc = "Test output panel" },
-      { "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, desc = "Test watch" },
+      {
+        "<leader>tt",
+        function()
+          require("neotest").run.run()
+        end,
+        desc = "Test run nearest",
+      },
+      {
+        "<leader>tf",
+        function()
+          require("neotest").run.run(vim.fn.expand "%")
+        end,
+        desc = "Test run file",
+      },
+      {
+        "<leader>ta",
+        function()
+          require("neotest").run.run(vim.uv.cwd())
+        end,
+        desc = "Test run all",
+      },
+      {
+        "<leader>tl",
+        function()
+          require("neotest").run.run_last()
+        end,
+        desc = "Test run last",
+      },
+      {
+        "<leader>ts",
+        function()
+          require("neotest").summary.toggle()
+        end,
+        desc = "Test summary",
+      },
+      {
+        "<leader>to",
+        function()
+          require("neotest").output.open { enter = true, auto_close = true }
+        end,
+        desc = "Test output",
+      },
+      {
+        "<leader>tO",
+        function()
+          require("neotest").output_panel.toggle()
+        end,
+        desc = "Test output panel",
+      },
+      {
+        "<leader>tw",
+        function()
+          require("neotest").watch.toggle(vim.fn.expand "%")
+        end,
+        desc = "Test watch",
+      },
     },
   },
   {
@@ -125,16 +204,4 @@ return {
       { "<leader>kt", "<cmd>NeovimTips<cr>", desc = "Knowledge tips" },
     },
   },
-  {
-    "swaits/zellij-nav.nvim",
-    event = "VeryLazy",
-    keys = {
-      { "<leader>zh", "<cmd>ZellijNavigateLeftTab<cr>", desc = "Zellij left" },
-      { "<leader>zj", "<cmd>ZellijNavigateDown<cr>", desc = "Zellij down" },
-      { "<leader>zk", "<cmd>ZellijNavigateUp<cr>", desc = "Zellij up" },
-      { "<leader>zl", "<cmd>ZellijNavigateRightTab<cr>", desc = "Zellij right" },
-    },
-  },
-  { "atiladefreitas/dooing", cmd = "Dooing", opts = {} },
-  { "alex-popov-tech/store.nvim", cmd = "Store", dependencies = { "OXY2DEV/markview.nvim" } },
 }

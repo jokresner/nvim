@@ -74,3 +74,68 @@ vim.keymap.set({ "n", "x", "o" }, "<A-i>", function()
     vim.lsp.buf.selection_range(-vim.v.count1)
   end
 end, { desc = "Select child treesitter node or inner incremental lsp selections" })
+
+-- Zellij
+-- 1. Cache the OUTER environment variables instantly on boot.
+-- This grabs the socket path of your main Zellij window before Sidekick can mask it.
+local z_session = vim.env.ZELLIJ_SESSION
+local z_socket = vim.env.ZELLIJ
+
+-- 2. Define globally as _G so the Terminal maps (:lua) can actually see and execute it!
+_G.zellij_navigate = function(direction)
+  local current_win = vim.api.nvim_get_current_win()
+  local is_terminal = vim.bo.buftype == "terminal"
+
+  -- Attempt to move within Neovim
+  vim.cmd("wincmd " .. direction)
+
+  -- If window didn't change, we are at the edge
+  if current_win == vim.api.nvim_get_current_win() then
+    local zellij_direction = ({ h = "left", j = "down", k = "up", l = "right" })[direction]
+
+    -- Safely build the system command, forcing the outer Zellij environment variables
+    local cmd = { "env" }
+    if z_socket then
+      table.insert(cmd, "ZELLIJ=" .. z_socket)
+    end
+    if z_session then
+      table.insert(cmd, "ZELLIJ_SESSION=" .. z_session)
+    end
+
+    table.insert(cmd, "zellij")
+    table.insert(cmd, "action")
+    table.insert(cmd, "move-focus-or-tab")
+    table.insert(cmd, zellij_direction)
+
+    -- Execute the move
+    vim.fn.system(cmd)
+
+    -- If we initiated this from the Sidekick terminal, smoothly go back to insert mode.
+    -- A tiny 50ms delay prevents Neovim from stealing focus back before Zellij moves.
+    if is_terminal then
+      vim.defer_fn(function()
+        vim.cmd "startinsert"
+      end, 50)
+    end
+  end
+end
+
+-- Normal Mode Mappings
+vim.keymap.set("n", "<C-h>", function()
+  _G.zellij_navigate "h"
+end, { silent = true })
+vim.keymap.set("n", "<C-j>", function()
+  _G.zellij_navigate "j"
+end, { silent = true })
+vim.keymap.set("n", "<C-k>", function()
+  _G.zellij_navigate "k"
+end, { silent = true })
+vim.keymap.set("n", "<C-l>", function()
+  _G.zellij_navigate "l"
+end, { silent = true })
+
+-- Terminal Mode Mappings (crucial for sidekick.nvim)
+vim.keymap.set("t", "<C-h>", [[<C-\><C-n>:lua _G.zellij_navigate('h')<CR>]], { silent = true })
+vim.keymap.set("t", "<C-j>", [[<C-\><C-n>:lua _G.zellij_navigate('j')<CR>]], { silent = true })
+vim.keymap.set("t", "<C-k>", [[<C-\><C-n>:lua _G.zellij_navigate('k')<CR>]], { silent = true })
+vim.keymap.set("t", "<C-l>", [[<C-\><C-n>:lua _G.zellij_navigate('l')<CR>]], { silent = true })

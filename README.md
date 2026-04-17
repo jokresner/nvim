@@ -2,25 +2,25 @@
 
 #### Bootstrap
 
-1) Install prerequisites (macOS/Homebrew):
+1. Install prerequisites (macOS/Homebrew):
 
 ```bash
 brew install neovim ripgrep fd lazygit yazi pngpaste node pnpm go rust zellij git jq glow lux
 ```
 
-2) Optional: isolate this config (recommended for testing):
+2. Optional: isolate this config (recommended for testing):
 
 ```bash
 export NVIM_APPNAME=nvim
 ```
 
-3) First-time setup:
+3. First-time setup:
 
 ```bash
 nvim --headless "+Lazy! sync" +qa
 ```
 
-4) Lux-based checks:
+4. Lux-based checks:
 
 ```bash
 lx test
@@ -31,6 +31,7 @@ lx lint
 Open Neovim once normally to finish any post-install steps. If tools aren’t installed yet, run `:Mason` and/or `:Lazy sync`.
 
 Dependencies overview:
+
 - ripgrep (rg): grep pickers
 - fd: fast file search
 - lazygit: Git TUI integration
@@ -81,6 +82,7 @@ This repo also uses Lux for Lua project metadata and local checks.
 #### Keymaps
 
 Global:
+
 - `jk` / `jj` (insert): exit insert mode
 - `<C-h/j/k/l>`: move between windows
 - `<C-Up/Down/Left/Right>`: resize window
@@ -95,12 +97,15 @@ Global:
 - `<CR>`: clear search highlight if active, else normal Enter
 
 #### QWERTZ Layout
+
 The config is optimized for German keyboards where `[` and `]` are hard to reach:
+
 - `LocalLeader` is `,` (comma) instead of `\` (`AltGr+ß`).
 - `<leader>n` and `<leader>N` are used as ergonomic alternatives for `]d`/`]h` and `[d`/`[h`, mirroring Neovim's `n`/`N` search behavior.
 - `y` (yank) is in the bottom-left position on QWERTZ, which is very ergonomic for frequent use.
 
 Code (`<leader>c`):
+
 - `<leader>ca`: code action
 - `<leader>cr`: rename symbol
 - `<leader>cf`: format buffer
@@ -112,6 +117,7 @@ Code (`<leader>c`):
 - `<leader>cn` / `<leader>cp`: next/prev reference
 
 LSP / Go-to:
+
 - `K`: hover
 - `gd`: definition
 - `gD`: declaration
@@ -122,6 +128,7 @@ LSP / Go-to:
 - `[d` / `]d`: prev/next diagnostic
 
 Find (`<leader>f`):
+
 - `<leader><space>`: smart file open (NeuralOpen)
 - `<leader>/`: grep
 - `<leader>:`: command history
@@ -134,6 +141,7 @@ Find (`<leader>f`):
 - `<leader>fh`: help
 
 Search (`<leader>s`):
+
 - `<leader>sa`: autocmds
 - `<leader>sb` / `<leader>sB`: buffer lines / grep open buffers
 - `<leader>sc` / `<leader>sC`: command history / commands
@@ -153,6 +161,7 @@ Search (`<leader>s`):
 - `<leader>su`: undo history
 
 Buffers (`<leader>b`):
+
 - `<leader>bb`: buffer list
 - `<leader>bn`: next buffer
 - `<leader>bp`: previous buffer
@@ -161,6 +170,7 @@ Buffers (`<leader>b`):
 - `<leader>,`: buffers picker
 
 Git (`<leader>g`):
+
 - `<leader>gb`: branches
 - `<leader>gs`: status
 - `<leader>gS`: stash
@@ -172,6 +182,7 @@ Git (`<leader>g`):
 - `<leader>gO`: toggle mini.diff overlay
 
 Hunks / History:
+
 - `[h` / `]h`: prev/next hunk
 - `[H` / `]H`: first/last hunk
 - `gh` / `gH`: apply/reset hunk operator
@@ -180,6 +191,7 @@ Hunks / History:
 - `<leader>ha` / `<leader>ht` / `<leader>hl`: haunt annotate/toggle/list
 
 Debug (`<leader>d`):
+
 - `<leader>db`: toggle breakpoint
 - `<leader>dB`: conditional breakpoint
 - `<leader>dc`: continue
@@ -191,6 +203,7 @@ Debug (`<leader>d`):
 - `<leader>dd` (rust ft): rust debuggables
 
 Tests (`<leader>t`):
+
 - `<leader>tt`: run nearest
 - `<leader>tf`: run file
 - `<leader>ta`: run all
@@ -201,6 +214,7 @@ Tests (`<leader>t`):
 - `<leader>tw`: toggle watch
 
 UI / Toggles (`<leader>u`):
+
 - `<leader>uC`: colorschemes
 - `<leader>ut`: terminal toggle
 - `<C-/>` / `<C-_>`: terminal toggle
@@ -216,6 +230,7 @@ UI / Toggles (`<leader>u`):
 - `<leader>uta`: auto context mode
 
 Navigation / Files:
+
 - `<leader>-`: open Oil
 - `-` (normal/visual): open Yazi
 - `<leader>vy` / `<leader>vd`: add/remove visits label
@@ -223,12 +238,14 @@ Navigation / Files:
 - `<leader>v1` / `v2` / `v3` / `v4`: visits first/back/forward/last
 
 Sessions (`<leader>q`):
+
 - `<leader>qs`: restore session
 - `<leader>qS`: select session
 - `<leader>ql`: restore last session
 - `<leader>qd`: disable current session save
 
 Tasks (`<leader>x`):
+
 - `<leader>xw`: task list
 - `<leader>xo`: run task
 - `<leader>xi`: task info
@@ -238,6 +255,7 @@ Tasks (`<leader>x`):
 - `<leader>xx` / `<leader>xX` / `<leader>xq` / `<leader>xl`: trouble views
 
 AI (`<leader>a`):
+
 - `<C-.>`: toggle sidekick CLI
 - `<leader>aa`: toggle CLI
 - `<leader>as`: select CLI
@@ -250,6 +268,7 @@ AI (`<leader>a`):
 - `<leader>aV`: load VectorCode
 
 Knowledge / Notes / Markdown / Obsidian:
+
 - `<leader>kt`: neovim tips (Knowledge)
 - `<leader>mp`: markdown preview split
 - `<leader>op` / `<leader>oh` / `<leader>ow`: open personal/htwk/work vault
@@ -257,6 +276,3 @@ Knowledge / Notes / Markdown / Obsidian:
 - `<leader>os`: obsidian search
 - `<leader>oq`: obsidian quick switch
 - `<leader>oo`: open daily note in split (vault picker)
-
-Zellij (`<leader>z`):
-- `<leader>zh` / `zj` / `zk` / `zl`: zellij navigate left/down/up/right
