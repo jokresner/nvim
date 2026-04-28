@@ -36,7 +36,48 @@ return {
   },
   { "nvim-mini/mini.operators", event = "VeryLazy", opts = {} },
   { "ten3roberts/qf.nvim", ft = "qf", opts = {} },
-  { "beauwilliams/focus.nvim", event = "VeryLazy", opts = {} },
+  {
+    "beauwilliams/focus.nvim",
+    event = "VeryLazy",
+    opts = {},
+    init = function()
+      local group = vim.api.nvim_create_augroup("FocusDisableForCodeDiff", { clear = true })
+
+      vim.api.nvim_create_autocmd({ "TabEnter", "WinEnter", "BufWinEnter" }, {
+        group = group,
+        callback = function()
+          local ok, lifecycle = pcall(require, "codediff.ui.lifecycle")
+          if not ok then
+            return
+          end
+
+          local win = vim.api.nvim_get_current_win()
+          local tab = vim.api.nvim_get_current_tabpage()
+          local session = lifecycle.get_session(tab)
+
+          if not session then
+            vim.w[win].focus_disable = false
+            return
+          end
+
+          local is_codediff_win = false
+          for _, codediff_win in ipairs({ session.original_win, session.modified_win, session.result_win }) do
+            if codediff_win and vim.api.nvim_win_is_valid(codediff_win) then
+              vim.w[codediff_win].focus_disable = true
+              if codediff_win == win then
+                is_codediff_win = true
+              end
+            end
+          end
+
+          if not is_codediff_win then
+            vim.w[win].focus_disable = false
+          end
+        end,
+        desc = "Disable focus.nvim in codediff windows",
+      })
+    end,
+  },
   {
     "mistweaverco/kulala.nvim",
     ft = { "http", "rest" },

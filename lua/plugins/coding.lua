@@ -4,7 +4,7 @@ return {
     version = "1.*",
     event = { "BufReadPre", "BufNewFile", "CmdlineEnter" },
     opts = function()
-      return require("config.completion")
+      return require "config.completion"
     end,
   },
   {
@@ -40,15 +40,73 @@ return {
       },
     },
     keys = {
-      { "<C-.>", function() require("sidekick.cli").toggle() end, mode = { "n", "i", "x", "t" }, desc = "AI toggle" },
-      { "<leader>aa", function() require("sidekick.cli").toggle() end, desc = "AI toggle CLI" },
-      { "<leader>as", function() require("sidekick.cli").select() end, desc = "AI select CLI" },
-      { "<leader>ad", function() require("sidekick.cli").close() end, desc = "AI detach CLI" },
-      { "<leader>af", function() require("sidekick.cli").send({ msg = "{file}" }) end, desc = "AI send file" },
-      { "<leader>at", function() require("sidekick.cli").send({ msg = "{this}" }) end, mode = { "n", "x" }, desc = "AI send this" },
-      { "<leader>av", function() require("sidekick.cli").send({ msg = "{selection}" }) end, mode = "x", desc = "AI send selection" },
-      { "<leader>ap", function() require("sidekick.cli").prompt() end, mode = { "n", "x" }, desc = "AI prompt" },
-      { "<leader>ac", function() require("sidekick.cli").toggle({ name = "cursor", focus = true }) end, desc = "AI toggle cursor" },
+      {
+        "<C-.>",
+        function()
+          require("sidekick.cli").toggle()
+        end,
+        mode = { "n", "i", "x", "t" },
+        desc = "AI toggle",
+      },
+      {
+        "<leader>aa",
+        function()
+          require("sidekick.cli").toggle()
+        end,
+        desc = "AI toggle CLI",
+      },
+      {
+        "<leader>as",
+        function()
+          require("sidekick.cli").select()
+        end,
+        desc = "AI select CLI",
+      },
+      {
+        "<leader>ad",
+        function()
+          require("sidekick.cli").close()
+        end,
+        desc = "AI detach CLI",
+      },
+      {
+        "<leader>af",
+        function()
+          require("sidekick.cli").send { msg = "{file}" }
+        end,
+        desc = "AI send file",
+      },
+      {
+        "<leader>at",
+        function()
+          require("sidekick.cli").send { msg = "{this}" }
+        end,
+        mode = { "n", "x" },
+        desc = "AI send this",
+      },
+      {
+        "<leader>av",
+        function()
+          require("sidekick.cli").send { msg = "{selection}" }
+        end,
+        mode = "x",
+        desc = "AI send selection",
+      },
+      {
+        "<leader>ap",
+        function()
+          require("sidekick.cli").prompt()
+        end,
+        mode = { "n", "x" },
+        desc = "AI prompt",
+      },
+      {
+        "<leader>ac",
+        function()
+          require("sidekick.cli").toggle { name = "cursor", focus = true }
+        end,
+        desc = "AI toggle cursor",
+      },
     },
   },
   {
@@ -62,7 +120,13 @@ return {
       },
     },
     keys = {
-      { "<leader>aV", function() require("vectorcode") end, desc = "AI load VectorCode" },
+      {
+        "<leader>aV",
+        function()
+          require "vectorcode"
+        end,
+        desc = "AI load VectorCode",
+      },
     },
   },
   {
@@ -70,7 +134,24 @@ return {
     cmd = "Neogen",
     opts = { snippet_engine = "nvim" },
     keys = {
-      { "<leader>cD", function() require("neogen").generate() end, desc = "Code docs generate" },
+      {
+        "<leader>cD",
+        function()
+          require("neogen").generate()
+        end,
+        desc = "Code docs generate",
+      },
+    },
+  },
+  {
+    "error311/wayfinder.nvim",
+    opts = {},
+    keys = {
+      { "<leader>wf", "<Plug>(WayfinderOpen)", desc = "Wayfinder" },
+      { "<leader>wtn", "<Plug>(WayfinderTrailNext)", desc = "Wayfinder Trail Next" },
+      { "<leader>wtp", "<Plug>(WayfinderTrailPrev)", desc = "Wayfinder Trail Prev" },
+      { "<leader>wto", "<Plug>(WayfinderTrailOpen)", desc = "Wayfinder Trail Open" },
+      { "<leader>wts", "<Plug>(WayfinderTrailShow)", desc = "Wayfinder Trail Show" },
     },
   },
 }
