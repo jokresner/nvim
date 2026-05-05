@@ -61,6 +61,7 @@ return {
       { "<leader>gS", function() require("snacks").picker.git_stash() end, desc = "Git stash" },
       { "<leader>bd", function() require("snacks").bufdelete() end, desc = "Buffer delete" },
       { "<leader>bD", function() require("snacks").bufdelete({ force = true }) end, desc = "Buffer delete force" },
+      { "<leader>bo", function() require("snacks").bufdelete.other() end, desc = "Buffer delete others" },
       { "<C-/>", function() require("snacks").terminal() end, desc = "Toggle terminal" },
       { "<C-_>", function() require("snacks").terminal() end, desc = "Toggle terminal" },
       { "<leader>.", function() require("snacks").scratch() end, desc = "Scratch toggle" },
