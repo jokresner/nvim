@@ -1,6 +1,7 @@
 {
   "SchemaStore.nvim": { "branch": "main", "commit": "20d4e9970798123e6197acb1c85c4b1e897efd29" },
   "VectorCode": { "branch": "main", "commit": "56f21eb1371c10e720e31b5621f8c9448da78748" },
+  "auto-dark-mode.nvim": { "branch": "main", "commit": "54058b4fe414bd64bd2904a6f8a63f1f14e3d8df" },
   "blink.cmp": { "branch": "main", "commit": "78336bc89ee5365633bcf754d93df01678b5c08f" },
   "catppuccin": { "branch": "main", "commit": "426dbebe06b5c69fd846ceb17b42e12f890aedf1" },
   "codediff.nvim": { "branch": "main", "commit": "8afc229d38dc13ce71b2ffbb860084b2c726e061" },
@@ -20,7 +21,9 @@
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "lazydev.nvim": { "branch": "main", "commit": "ff2cbcba459b637ec3fd165a2be59b7bbaeedf0d" },
   "lensline.nvim": { "branch": "main", "commit": "93c14465c742511a645bb454db33ddd96f23bf76" },
+  "live-server.nvim": { "branch": "main", "commit": "084d69b63610803c18ddd7541294d83ca748d1dc" },
   "lualine.nvim": { "branch": "master", "commit": "131a558e13f9f28b15cd235557150ccb23f89286" },
+  "markdown-preview.nvim": { "branch": "main", "commit": "29234edae5b8b7db5ae05061ff7197f95ef0ffd5" },
   "markview.nvim": { "branch": "main", "commit": "86cf4bcede58e88497f7e5214efb281d4a6f633d" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "0c2823e0418f3d9230ff8b201c976e84de1cb401" },
   "mason-nvim-dap.nvim": { "branch": "main", "commit": "9a10e096703966335bd5c46c8c875d5b0690dade" },

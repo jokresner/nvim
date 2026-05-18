@@ -4,6 +4,16 @@ vim.g.loaded_node_provider = 0
 vim.g.loaded_python_provider = 0
 vim.g.loaded_python3_provider = 0
 
+-- Pre-seed background before colorscheme loads to avoid mocha flash in light mode
+do
+  local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null")
+  if handle then
+    local result = handle:read("*a")
+    handle:close()
+    vim.o.background = result:match("Dark") and "dark" or "light"
+  end
+end
+
 vim.opt.termguicolors = true
 vim.opt.mouse = "a"
 vim.opt.updatetime = 200

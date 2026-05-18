@@ -22,6 +22,7 @@ return {
         overseer = true,
         which_key = true,
       },
+      flavour = "auto",
       background = { light = "latte", dark = "mocha" },
       transparent_background = true,
     },
@@ -29,6 +30,20 @@ return {
       require("catppuccin").setup(opts)
       vim.cmd.colorscheme "catppuccin"
     end,
+  },
+  {
+    "f-person/auto-dark-mode.nvim",
+    lazy = false,
+    opts = {
+      set_dark_mode = function()
+        vim.o.background = "dark"
+        vim.cmd.colorscheme "catppuccin"
+      end,
+      set_light_mode = function()
+        vim.o.background = "light"
+        vim.cmd.colorscheme "catppuccin"
+      end,
+    },
   },
   {
     "folke/which-key.nvim",

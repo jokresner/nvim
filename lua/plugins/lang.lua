@@ -25,14 +25,14 @@ return {
     end,
     config = function(_, opts)
       opts = require("config.rust").configure_dap(opts)
-        vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
-        if vim.fn.executable "rust-analyzer" == 0 then
-          vim.health.error(
-            "rust-analyzer not found in PATH. Install from https://rust-analyzer.github.io/",
-            { title = "rustaceanvim" }
-          )
-        end
-      end,
+      vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
+      if vim.fn.executable "rust-analyzer" == 0 then
+        vim.health.error(
+          "rust-analyzer not found in PATH. Install from https://rust-analyzer.github.io/",
+          { title = "rustaceanvim" }
+        )
+      end
+    end,
   },
   {
     "dmmulroy/ts-error-translator.nvim",
@@ -54,5 +54,19 @@ return {
     keys = {
       { "<leader>jb", "<cmd>Jira<cr>", desc = "Jira board" },
     },
+  },
+  {
+    "selimacerbas/markdown-preview.nvim",
+    dependencies = { "selimacerbas/live-server.nvim" },
+    ft = { "markdown" },
+    config = function()
+      require("markdown_preview").setup {
+        -- all optional; sane defaults shown
+        instance_mode = "takeover", -- "takeover" (one tab) or "multi" (tab per instance)
+        port = 0, -- 0 = auto (8421 for takeover, OS-assigned for multi)
+        open_browser = true,
+        debounce_ms = 300,
+      }
+    end,
   },
 }
