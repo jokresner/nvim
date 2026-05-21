@@ -21,7 +21,7 @@ end
 return {
   {
     "OXY2DEV/markview.nvim",
-    ft = { "markdown", "quarto", "rmd", "typst" },
+    ft = { "markdown", "quarto", "rmd" },
     opts = {
       split_nav = {
         enable = true,
