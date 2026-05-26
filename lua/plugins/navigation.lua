@@ -20,13 +20,13 @@ return {
       zen = { enabled = false },
     },
     keys = {
-      {
-        "<leader><space>",
-        function()
-          require("snacks").picker.smart()
-        end,
-        desc = "Find smart files",
-      },
+      -- {
+      --   "<leader><space>",
+      --   function()
+      --     require("snacks").picker.smart()
+      --   end,
+      --   desc = "Find smart files",
+      -- },
       {
         "<leader>,",
         function()
@@ -57,27 +57,27 @@ return {
       },
       { "<leader>bn", "<cmd>bnext<cr>", desc = "Buffer next" },
       { "<leader>bp", "<cmd>bprevious<cr>", desc = "Buffer previous" },
-      {
-        "<leader>fc",
-        function()
-          require("snacks").picker.files { cwd = vim.fn.stdpath "config" }
-        end,
-        desc = "Find config",
-      },
-      {
-        "<leader>ff",
-        function()
-          require("snacks").picker.files()
-        end,
-        desc = "Find files",
-      },
-      {
-        "<leader>fg",
-        function()
-          require("snacks").picker.grep()
-        end,
-        desc = "Find grep",
-      },
+      -- {
+      --   "<leader>fc",
+      --   function()
+      --     require("snacks").picker.files { cwd = vim.fn.stdpath "config" }
+      --   end,
+      --   desc = "Find config",
+      -- },
+      -- {
+      --   "<leader>ff",
+      --   function()
+      --     require("snacks").picker.files()
+      --   end,
+      --   desc = "Find files",
+      -- },
+      -- {
+      --   "<leader>fg",
+      --   function()
+      --     require("snacks").picker.grep()
+      --   end,
+      --   desc = "Find grep",
+      -- },
       {
         "<leader>fr",
         function()
@@ -304,14 +304,7 @@ return {
         desc = "Buffer delete others",
       },
       {
-        "<C-/>",
-        function()
-          require("snacks").terminal()
-        end,
-        desc = "Toggle terminal",
-      },
-      {
-        "<C-_>",
+        "<leader>et",
         function()
           require("snacks").terminal()
         end,
@@ -363,6 +356,59 @@ return {
         snacks.picker.colorschemes()
       end, { desc = "Colorschemes" })
     end,
+  },
+  {
+    "dmtrKovalenko/fff.nvim",
+    build = function()
+      require("fff.download").download_or_build_binary()
+    end,
+    opts = {
+      debug = {
+        enabled = false,
+        show_scores = false,
+      },
+      layout = {
+        prompt_position = "top",
+      },
+    },
+    lazy = false,
+    keys = {
+      {
+        "<leader><leader>",
+        function()
+          require("fff").find_files()
+        end,
+        desc = "Find files",
+      },
+      {
+        "<leader>ff",
+        function()
+          require("fff").find_files()
+        end,
+        desc = "Find files",
+      },
+      {
+        "<leader>fg",
+        function()
+          require("fff").live_grep()
+        end,
+        desc = "Life grep",
+      },
+      {
+        "<leader>fz",
+        function()
+          require("fff").live_grep { grep = { modes = { "fuzzy", "plain" } } }
+        end,
+        desc = "Live fuzy grep",
+      },
+      {
+        "<leader>fc",
+        function()
+          require("fff").live_grep { query = vim.fn.expand "<cword>" }
+        end,
+        desc = "Search current word",
+      },
+    },
   },
   {
     "stevearc/oil.nvim",
