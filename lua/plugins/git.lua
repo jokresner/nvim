@@ -29,6 +29,34 @@ return {
                 end,
                 desc = "Lazygit",
             },
+            {
+                "<leader>gB",
+                function()
+                    Snacks.picker.git_branches()
+                end,
+                desc = "Git branches",
+            },
+            {
+                "<leader>gc",
+                function()
+                    Snacks.picker.git_log()
+                end,
+                desc = "Git log (commits)",
+            },
+            {
+                "<leader>gC",
+                function()
+                    Snacks.picker.git_log_file()
+                end,
+                desc = "Git log (file)",
+            },
+            {
+                "<leader>gx",
+                function()
+                    Snacks.picker.git_status()
+                end,
+                desc = "Git status",
+            },
         },
     },
     {

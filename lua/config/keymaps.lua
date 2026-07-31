@@ -1,6 +1,7 @@
 -- Buffer navigation
 vim.keymap.set("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 vim.keymap.set("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+vim.keymap.set("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Toggle alternate buffer" })
 
 -- Copy path:line to clipboard
 vim.keymap.set("n", "<leader>fl", function()

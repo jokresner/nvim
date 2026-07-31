@@ -2,6 +2,13 @@
 
 Welcome, fellow agent. This is a flat, minimal Neovim configuration built on lazy.nvim's native plugin spec format. Before you write any code or suggest any changes, read these architectural rules.
 
+## 0. Core Philosophy: Snappy IDE
+
+This configuration strives to provide a **full-fledged IDE feel** without sacrificing a **snappy, instant startup**. To achieve this:
+
+1. **Consolidate:** Prefer multi-utility plugins (like `snacks.nvim`) and fast native alternatives (`blink.cmp`, `fff.nvim`) over bloated legacy ecosystems.
+2. **Lazy-Load Everything:** Never block the startup UI. Every UI or tooling plugin must use `event = "VeryLazy"`, `ft`, `cmd`, or `keys` triggers unless it absolutely must run at boot.
+
 ## 1. Architectural Pattern: Flat Plugin Specs
 
 `lua/plugins/` contains one file per domain. Each file returns a lazy.nvim plugin spec (or a list of specs). lazy.nvim scans the directory automatically — no registry, no boot list.
@@ -63,7 +70,7 @@ return {
 2. **Native Treesitter:** Do not enable `highlight = { enable = true }` in `nvim-treesitter`. This config uses a native `vim.treesitter.start()` autocmd inside `lua/plugins/treesitter.lua`'s config function. The plugin is strictly for downloading parsers.
 3. **Spec Merging:** To add formatting or linting for a new language, use `optional = true` in the language's plugin file and mutate the `opts` table. Do not modify `tooling.lua` directly.
 4. **No Redundant Plugins:** Before installing a new tool, check if the core stack supports it:
-   * Do not install `telescope.nvim` / `fzf-lua` → Use `snacks.picker`.
-   * Do not install `nvim-tree` / `neo-tree` → Use `yazi.nvim` + `snacks.picker`.
-   * Do not install `nvim-notify` / `dashboard-nvim` → Use `snacks.nvim`.
-   * Do not install `nvim-cmp` → Use `blink.cmp`.
+   - Do not install `telescope.nvim` / `fzf-lua` → Use `snacks.picker`.
+   - Do not install `nvim-tree` / `neo-tree` → Use `yazi.nvim` + `snacks.picker`.
+   - Do not install `nvim-notify` / `dashboard-nvim` → Use `snacks.nvim`.
+   - Do not install `nvim-cmp` → Use `blink.cmp`.

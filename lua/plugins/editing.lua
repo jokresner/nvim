@@ -9,7 +9,6 @@ return {
             require("mini.comment").setup()
             require("mini.icons").setup()
             require("mini.indentscope").setup({ symbol = "|", options = { try_as_border = true } })
-            require("mini.tabline").setup({ tabpage_section = "right" })
 
             local hipatterns = require("mini.hipatterns")
             hipatterns.setup({ highlighters = { hex_color = hipatterns.gen_highlighter.hex_color() } })
@@ -32,5 +31,19 @@ return {
                 },
             })
         end,
+    },
+    {
+        "Wansmer/treesj",
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        keys = {
+            {
+                "<leader>cj",
+                function()
+                    require("treesj").toggle()
+                end,
+                desc = "Toggle block split/join",
+            },
+        },
+        opts = { use_default_keymaps = false, max_join_length = 150 },
     },
 }

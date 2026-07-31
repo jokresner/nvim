@@ -84,6 +84,12 @@ return {
                         { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
                         {
                             icon = " ",
+                            key = "s",
+                            desc = "Restore session",
+                            action = ":lua require('persistence').load()",
+                        },
+                        {
+                            icon = " ",
                             key = "p",
                             desc = "Projects",
                             action = ":lua Snacks.dashboard.pick('projects')",
@@ -244,11 +250,41 @@ return {
                 { "<leader>f", group = "Files" },
                 { "<leader>g", group = "Git" },
                 { "<leader>m", group = "Markdown" },
+                { "<leader>o", group = "Overseer (Tasks)" },
+                { "<leader>r", group = "Request (HTTP)" },
                 { "<leader>s", group = "Search" },
                 { "<leader>t", group = "Test" },
                 { "<leader>u", group = "UI/Toggle" },
                 { "<leader>x", group = "Diagnostics" },
             },
+        },
+    },
+    {
+        "akinsho/bufferline.nvim",
+        event = "VeryLazy",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        keys = {
+            { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },
+            { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
+        },
+        opts = {
+            options = {
+                diagnostics = "nvim_lsp",
+                always_show_bufferline = false,
+                diagnostics_indicator = function(count, level, diagnostics_dict, context)
+                    local icon = level:match("error") and " " or " "
+                    return " " .. icon .. count
+                end,
+            },
+        },
+    },
+    {
+        "chrisgrieser/nvim-early-retirement",
+        config = true,
+        event = "VeryLazy",
+        opts = {
+            retirementClockMins = 20,
+            ignoreUnsavedChangesBufs = true,
         },
     },
 }
