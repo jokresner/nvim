@@ -11,10 +11,17 @@ return {
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = "go",
                 group = vim.api.nvim_create_augroup("go_options", { clear = true }),
-                callback = function()
+                callback = function(args)
                     vim.opt_local.expandtab = false
                     vim.opt_local.tabstop = 4
                     vim.opt_local.shiftwidth = 4
+                    
+                    vim.keymap.set("n", "<leader>cg", "<cmd>GoGenerate %<CR>", { buffer = args.buf, desc = "Go generate" })
+                    vim.keymap.set("n", "<leader>ce", "<cmd>GoIfErr<CR>", { buffer = args.buf, desc = "Go If Err" })
+                    vim.keymap.set("n", "<leader>cj", "<cmd>GoTagAdd json<CR>", { buffer = args.buf, desc = "Go Add JSON tags" })
+                    vim.keymap.set("n", "<leader>cy", "<cmd>GoTagAdd yaml<CR>", { buffer = args.buf, desc = "Go Add YAML tags" })
+                    vim.keymap.set("n", "<leader>cr", "<cmd>GoTagRm<CR>", { buffer = args.buf, desc = "Go Remove tags" })
+                    vim.keymap.set("n", "<leader>ci", ":GoImpl ", { buffer = args.buf, desc = "Go Impl interface" })
                 end,
             })
         end,
@@ -52,5 +59,14 @@ return {
                 require("dap-go").setup()
             end)
         end,
+    },
+    {
+        "olexsmir/gopher.nvim",
+        ft = "go",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        },
+        opts = {},
     },
 }
