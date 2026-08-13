@@ -1,13 +1,19 @@
 return {
     {
-        "IogaMaster/tuxedo.nvim",
-        opts = {
-            create_todo_file = true,
-            width_ratio = 0.95,
-            height_ratio = 0.8,
-        },
+        "atiladefreitas/dooing",
         keys = {
-            { "<leader>ct", "<cmd>Tuxedo<cr>", desc = "Tuxedo" },
+            { "<leader>cT", "<cmd>Dooing<cr>", desc = "Dooing" },
+            { "<leader>ct", "<cmd>DooingLocal<cr>", desc = "Dooing Project" },
         },
+        config = function()
+            require("dooing").setup({
+                ui = {
+                    style = "modern",
+                },
+                per_project = {
+                    enabled = true,
+                },
+            })
+        end,
     },
 }
