@@ -9,6 +9,7 @@ return {
                 "luacheck",
                 "prettier",
                 "prettierd",
+                "tree-sitter-cli",
             },
         },
     },

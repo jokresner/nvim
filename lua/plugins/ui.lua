@@ -5,6 +5,41 @@ return {
         lazy = false,
         keys = {
             {
+                "<leader>aa",
+                function()
+                    Snacks.terminal("pi", {
+                        id = "pi",
+                        win = {
+                            style = "terminal",
+                            border = "none",
+                            width = 0.3,
+                            position = "right",
+                        },
+                    })
+                end,
+                desc = "AI (Pi)",
+            },
+            {
+                "<leader>af",
+                function()
+                    local t = Snacks.terminal.get("pi")
+                    if t then
+                        t:send(vim.fn.expand("%"))
+                    end
+                end,
+                desc = "AI send file",
+            },
+            {
+                "<leader>at",
+                function()
+                    local t = Snacks.terminal.get("pi")
+                    if t then
+                        t:send(vim.fn.expand("%") .. ":" .. vim.fn.line("."))
+                    end
+                end,
+                desc = "AI send this line",
+            },
+            {
                 "<leader>ut",
                 function()
                     Snacks.terminal()
@@ -251,6 +286,7 @@ return {
                 { "<leader>g", group = "Git" },
                 { "<leader>m", group = "Markdown" },
                 { "<leader>o", group = "Overseer (Tasks)" },
+                { "<leader>q", group = "Session" },
                 { "<leader>r", group = "Request (HTTP)" },
                 { "<leader>s", group = "Search" },
                 { "<leader>t", group = "Test" },
@@ -260,21 +296,43 @@ return {
         },
     },
     {
-        "akinsho/bufferline.nvim",
+        "folke/edgy.nvim",
         event = "VeryLazy",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        keys = {
-            { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },
-            { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
-        },
+        init = function()
+            vim.opt.laststatus = 3
+            vim.opt.splitkeep = "screen"
+        end,
         opts = {
+            bottom = {
+                { ft = "qf", title = "QuickFix" },
+                { ft = "help", size = { height = 20 }, filter = function(buf) return vim.bo[buf].buftype == "help" end },
+                { ft = "neotest-output-panel", size = { height = 15 } },
+                { title = "Trouble", ft = "trouble", size = { height = 15 } },
+            },
+            right = {
+                { title = "AI (Pi)", ft = "snacks_terminal", filter = function(buf) return vim.b[buf].snacks_terminal and vim.b[buf].snacks_terminal.id == "pi" end, size = { width = 0.3 } },
+            },
+            left = {
+                { title = "Symbols", ft = "snacks_picker", filter = function(buf) return vim.b[buf].snacks_picker_id == "lsp_symbols" end, size = { width = 0.2 } },
+                { title = "Neotest Summary", ft = "neotest-summary", size = { width = 0.2 } },
+            },
             options = {
-                diagnostics = "nvim_lsp",
-                always_show_bufferline = false,
-                diagnostics_indicator = function(count, level, diagnostics_dict, context)
-                    local icon = level:match("error") and " " or " "
-                    return " " .. icon .. count
-                end,
+                left = { size = 30 },
+                bottom = { size = 15 },
+                right = { size = 40 },
+            },
+            animate = { enabled = false },
+        },
+    },
+    {
+        "folke/trouble.nvim",
+        cmd = "Trouble",
+        opts = {},
+        keys = {
+            {
+                "<leader>xx",
+                "<cmd>Trouble diagnostics toggle<cr>",
+                desc = "Diagnostics (Trouble)",
             },
         },
     },

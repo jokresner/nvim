@@ -7,7 +7,7 @@ return {
             default_integrations = false,
             flavour = "auto",
             background = { light = "latte", dark = "mocha" },
-            transparent_background = true,
+            transparent_background = false,
             integrations = {
                 blink_cmp = { style = "bordered" },
                 flash = true,

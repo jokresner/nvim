@@ -38,6 +38,25 @@ return {
                 end,
                 desc = "Don't save current session",
             },
+            {
+                "<leader>qx",
+                function()
+                    local file = require("persistence").current()
+                    if file and vim.fn.filereadable(file) == 1 then
+                        vim.fn.delete(file)
+                        vim.notify("Deleted session for " .. vim.fn.getcwd(), vim.log.levels.INFO)
+                    end
+                    require("persistence").stop()
+                end,
+                desc = "Delete current session",
+            },
+            {
+                "<leader>qS",
+                function()
+                    require("persistence").select()
+                end,
+                desc = "Select session",
+            },
         },
     },
 }

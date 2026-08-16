@@ -24,9 +24,13 @@ return {
         "mikavilpas/yazi.nvim",
         lazy = false,
         opts = {
+            floating_window_floating_compiler = false,
             open_for_directories = true,
             open_multiple_tabs = true,
             keymaps = { show_help = "<f1>" },
+            yazi_floating_window_winblend = 0,
+            yazi_floating_window_border = "none",
+            floating_window_scaling_factor = 1.0,
         },
         init = function()
             vim.g.loaded_netrwPlugin = 1
@@ -93,13 +97,6 @@ return {
                     Snacks.picker.buffers()
                 end,
                 desc = "Buffers",
-            },
-            {
-                "<leader>xx",
-                function()
-                    require("snacks").picker.diagnostics()
-                end,
-                desc = "Diagnostics list",
             },
             {
                 "<leader>xb",
