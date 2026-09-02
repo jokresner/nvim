@@ -47,6 +47,13 @@ return {
                 desc = "Terminal",
             },
             {
+                "<leader>uc",
+                function()
+                    Snacks.picker.colorschemes()
+                end,
+                desc = "Colorscheme switcher",
+            },
+            {
                 "<leader>bd",
                 function()
                     Snacks.bufdelete()

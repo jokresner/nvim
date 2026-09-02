@@ -27,6 +27,12 @@ return {
                     subtext1 = utils.get_highlight("String").fg or "#bac2de",
                     active_fg = utils.get_highlight("Function").fg or "#89b4fa",
                     active_bg = utils.get_highlight("Visual").bg or "#313244",
+                    blue = utils.get_highlight("Function").fg or "#89b4fa",
+                    green = utils.get_highlight("String").fg or "#a6e3a1",
+                    mauve = utils.get_highlight("Statement").fg or "#cba6f7",
+                    orange = utils.get_highlight("Constant").fg or "#fab387",
+                    purple = utils.get_highlight("Keyword").fg or "#cba6f7",
+                    red = utils.get_highlight("Error").fg or "#f38ba8",
                 }
             end
             

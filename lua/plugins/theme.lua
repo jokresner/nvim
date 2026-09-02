@@ -1,5 +1,9 @@
 return {
     {
+        "dgox16/oldworld.nvim",
+        lazy = true,
+    },
+    {
         "catppuccin/nvim",
         name = "catppuccin",
         priority = 1000,
