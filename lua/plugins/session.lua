@@ -51,6 +51,25 @@ return {
                 desc = "Delete current session",
             },
             {
+                "<leader>qX",
+                function()
+                    local persistence = require("persistence")
+                    local project_session = persistence.current({ branch = false })
+                    local base = project_session:sub(1, -5)
+                    local sessions = vim.list_extend(
+                        vim.fn.glob(project_session, true, true),
+                        vim.fn.glob(base .. "%%*.vim", true, true)
+                    )
+
+                    for _, session in ipairs(sessions) do
+                        vim.fn.delete(session)
+                    end
+                    persistence.stop()
+                    vim.notify("Deleted " .. #sessions .. " session(s) for " .. vim.fn.getcwd(), vim.log.levels.INFO)
+                end,
+                desc = "Delete project sessions",
+            },
+            {
                 "<leader>qS",
                 function()
                     require("persistence").select()
