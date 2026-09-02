@@ -19,24 +19,28 @@ return {
             },
         },
     },
-    -- File exploration: Yazi.
+    -- File exploration: Oil.
     {
-        "mikavilpas/yazi.nvim",
-        lazy = false,
-        opts = {
-            floating_window_floating_compiler = false,
-            open_for_directories = true,
-            open_multiple_tabs = true,
-            keymaps = { show_help = "<f1>" },
-            yazi_floating_window_winblend = 0,
-            yazi_floating_window_border = "none",
-            floating_window_scaling_factor = 1.0,
+        "stevearc/oil.nvim",
+        dependencies = {
+            "nvim-mini/mini.icons",
         },
         init = function()
+            vim.g.loaded_netrw = 1
             vim.g.loaded_netrwPlugin = 1
         end,
+        opts = {
+            columns = {
+                "icon",
+                "size",
+            },
+            view_options = {
+                show_hiden = true,
+                natural_order = "fast",
+            },
+        },
         keys = {
-            { "-", "<cmd>Yazi<cr>", mode = { "n", "v" }, desc = "Open yazi" },
+            { "-", "<cmd>Oil<cr>", mode = { "n", "v" }, desc = "Open parent directory" },
         },
     },
     {
