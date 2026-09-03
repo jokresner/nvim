@@ -8,8 +8,14 @@ return {
         "stevearc/conform.nvim",
         optional = true,
         opts = function(_, opts)
+            opts.formatters = opts.formatters or {}
+            opts.formatters.mago = {
+                command = "mago",
+                args = { "format", "--stdin-input", "--stdin-filepath", "$FILENAME" },
+                stdin = true,
+            }
             opts.formatters_by_ft = opts.formatters_by_ft or {}
-            opts.formatters_by_ft.php = { "php_cs_fixer" }
+            opts.formatters_by_ft.php = { "php_cs_fixer", "mago" }
         end,
     },
     {
