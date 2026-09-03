@@ -11,17 +11,10 @@ return {
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = "go",
                 group = vim.api.nvim_create_augroup("go_options", { clear = true }),
-                callback = function(args)
+                callback = function()
                     vim.opt_local.expandtab = false
                     vim.opt_local.tabstop = 4
                     vim.opt_local.shiftwidth = 4
-                    
-                    vim.keymap.set("n", "<leader>cg", "<cmd>GoGenerate %<CR>", { buffer = args.buf, desc = "Go generate" })
-                    vim.keymap.set("n", "<leader>ce", "<cmd>GoIfErr<CR>", { buffer = args.buf, desc = "Go If Err" })
-                    vim.keymap.set("n", "<leader>cj", "<cmd>GoTagAdd json<CR>", { buffer = args.buf, desc = "Go Add JSON tags" })
-                    vim.keymap.set("n", "<leader>cy", "<cmd>GoTagAdd yaml<CR>", { buffer = args.buf, desc = "Go Add YAML tags" })
-                    vim.keymap.set("n", "<leader>cr", "<cmd>GoTagRm<CR>", { buffer = args.buf, desc = "Go Remove tags" })
-                    vim.keymap.set("n", "<leader>ci", ":GoImpl ", { buffer = args.buf, desc = "Go Impl interface" })
                 end,
             })
         end,
@@ -66,6 +59,25 @@ return {
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-treesitter/nvim-treesitter",
+        },
+        keys = {
+            { "<leader>cA", "<cmd>GoTestsAll<CR>", desc = "Go: Generate all tests", ft = "go" },
+            { "<leader>cC", "<cmd>GoCmt<CR>", desc = "Go: Generate comment", ft = "go" },
+            { "<leader>cD", ":GoGet ", desc = "Go: Get dependency", ft = "go" },
+            { "<leader>cE", "<cmd>GoTestsExp<CR>", desc = "Go: Generate exported tests", ft = "go" },
+            { "<leader>cg", "<cmd>GoGenerate %<CR>", desc = "Go: Generate current file", ft = "go" },
+            { "<leader>cI", ":GoImpl ", desc = "Go: Implement interface", ft = "go" },
+            { "<leader>cJ", "<cmd>GoJson<CR>", desc = "Go: JSON to Go types", ft = "go" },
+            { "<leader>cM", ":GoMod ", desc = "Go: Run module command", ft = "go" },
+            { "<leader>cN", "<cmd>GoNew<CR>", desc = "Go: Generate constructor", ft = "go" },
+            { "<leader>cP", "<cmd>GoInstallDeps<CR>", desc = "Go: Install dependencies", ft = "go" },
+            { "<leader>cR", "<cmd>GoTagRm<CR>", desc = "Go: Remove tags", ft = "go" },
+            { "<leader>cS", "<cmd>GoTagAdd json<CR>", desc = "Go: Add JSON tags", ft = "go" },
+            { "<leader>cT", "<cmd>GoTestAdd<CR>", desc = "Go: Generate test", ft = "go" },
+            { "<leader>cW", "<cmd>GoWork sync<CR>", desc = "Go: Sync workspace", ft = "go" },
+            { "<leader>cY", "<cmd>GoTagAdd yaml<CR>", desc = "Go: Add YAML tags", ft = "go" },
+            { "<leader>ce", "<cmd>GoIfErr<CR>", desc = "Go: Generate if err", ft = "go" },
+            { "<leader>cm", "<cmd>GoMod tidy<CR>", desc = "Go: Tidy module", ft = "go" },
         },
         opts = {},
     },
