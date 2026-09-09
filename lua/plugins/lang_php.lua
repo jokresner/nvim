@@ -2,7 +2,7 @@ return {
     {
         "WhoIsSethDaniel/mason-tool-installer.nvim",
         opts_extend = { "ensure_installed" },
-        opts = { ensure_installed = { "php-cs-fixer", "phpcs" } },
+        opts = { ensure_installed = { "intelephense" } },
     },
     {
         "stevearc/conform.nvim",
@@ -15,7 +15,7 @@ return {
                 stdin = true,
             }
             opts.formatters_by_ft = opts.formatters_by_ft or {}
-            opts.formatters_by_ft.php = { "php_cs_fixer", "mago" }
+            opts.formatters_by_ft.php = { "mago" }
         end,
     },
     {
@@ -23,7 +23,7 @@ return {
         optional = true,
         opts = function(_, opts)
             opts.linters_by_ft = opts.linters_by_ft or {}
-            opts.linters_by_ft.php = { "phpcs" }
+            opts.linters_by_ft.php = { "mago_lint" }
         end,
     },
     {

@@ -97,8 +97,10 @@ return {
 
             local FileName = {
                 provider = function(self)
-                    local filename = vim.fn.fnamemodify(self.filename, ":t")
-                    if filename == "" then return "[No Name]" end
+                    if self.filename == "" then return "[No Name]" end
+
+                    local root = vim.fs.root(self.filename, ".git")
+                    local filename = root and self.filename:sub(#root + 2) or vim.fn.fnamemodify(self.filename, ":t")
                     if not conditions.width_percent_below(#filename, 0.25) then
                         filename = vim.fn.pathshorten(filename)
                     end
