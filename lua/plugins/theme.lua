@@ -1,5 +1,9 @@
 return {
     {
+        "dgox16/oldworld.nvim",
+        lazy = true,
+    },
+    {
         "catppuccin/nvim",
         name = "catppuccin",
         priority = 1000,
@@ -7,7 +11,7 @@ return {
             default_integrations = false,
             flavour = "auto",
             background = { light = "latte", dark = "mocha" },
-            transparent_background = true,
+            transparent_background = false,
             integrations = {
                 blink_cmp = { style = "bordered" },
                 flash = true,

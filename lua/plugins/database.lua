@@ -11,7 +11,7 @@ return {
             {
                 "<leader>D",
                 function()
-                    require("dbee").api.ui.toggle()
+                    require("dbee").toggle()
                 end,
                 desc = "Database UI",
             },

@@ -19,20 +19,28 @@ return {
             },
         },
     },
-    -- File exploration: Yazi.
+    -- File exploration: Oil.
     {
-        "mikavilpas/yazi.nvim",
-        lazy = false,
-        opts = {
-            open_for_directories = true,
-            open_multiple_tabs = true,
-            keymaps = { show_help = "<f1>" },
+        "stevearc/oil.nvim",
+        dependencies = {
+            "nvim-mini/mini.icons",
         },
         init = function()
+            vim.g.loaded_netrw = 1
             vim.g.loaded_netrwPlugin = 1
         end,
+        opts = {
+            columns = {
+                "icon",
+                "size",
+            },
+            view_options = {
+                show_hiden = true,
+                natural_order = "fast",
+            },
+        },
         keys = {
-            { "-", "<cmd>Yazi<cr>", mode = { "n", "v" }, desc = "Open yazi" },
+            { "-", "<cmd>Oil<cr>", mode = { "n", "v" }, desc = "Open parent directory" },
         },
     },
     {
@@ -93,13 +101,6 @@ return {
                     Snacks.picker.buffers()
                 end,
                 desc = "Buffers",
-            },
-            {
-                "<leader>xx",
-                function()
-                    require("snacks").picker.diagnostics()
-                end,
-                desc = "Diagnostics list",
             },
             {
                 "<leader>xb",
