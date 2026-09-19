@@ -153,6 +153,17 @@ return {
                         },
                     },
                     { server = "intelephense" },
+                    {
+                        server = "nixd",
+                        ensure = false,
+                        config = {
+                            settings = {
+                                formatting = {
+                                    command = { "nixfmt" },
+                                },
+                            },
+                        },
+                    },
                     { server = "vtsls", disable_formatting = true },
                     { server = "rust_analyzer", adapter = "rustaceanvim", ensure = false },
                 },
