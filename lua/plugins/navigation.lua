@@ -22,6 +22,7 @@ return {
     -- File exploration: Oil.
     {
         "stevearc/oil.nvim",
+        lazy = false,
         dependencies = {
             "nvim-mini/mini.icons",
         },
@@ -35,7 +36,7 @@ return {
                 "size",
             },
             view_options = {
-                show_hiden = true,
+                show_hidden = true,
                 natural_order = "fast",
             },
         },
