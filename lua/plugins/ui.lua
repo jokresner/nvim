@@ -1,3 +1,39 @@
+local active_ai
+
+local function open_ai(agent)
+    local terminal = Snacks.terminal(agent, {
+        id = agent,
+        win = {
+            style = "terminal",
+            border = "none",
+            width = 0.3,
+            position = "right",
+        },
+    })
+    active_ai = { id = agent, terminal = terminal }
+end
+
+local function send_to_active_ai(message)
+    if not active_ai then
+        vim.notify("Open an AI agent first", vim.log.levels.WARN)
+        return
+    end
+
+    local terminal = active_ai.terminal
+    if not terminal or not vim.api.nvim_buf_is_valid(terminal.buf) then
+        vim.notify("AI agent is not running: " .. active_ai.id, vim.log.levels.WARN)
+        return
+    end
+
+    local job_id = vim.b[terminal.buf].terminal_job_id
+    if not job_id then
+        vim.notify("AI agent has no active terminal job: " .. active_ai.id, vim.log.levels.WARN)
+        return
+    end
+
+    vim.api.nvim_chan_send(job_id, message)
+end
+
 return {
     {
         "folke/snacks.nvim",
@@ -7,35 +43,28 @@ return {
             {
                 "<leader>aa",
                 function()
-                    Snacks.terminal("pi", {
-                        id = "pi",
-                        win = {
-                            style = "terminal",
-                            border = "none",
-                            width = 0.3,
-                            position = "right",
-                        },
-                    })
+                    open_ai("hx")
+                end,
+                desc = "AI (Hx)",
+            },
+            {
+                "<leader>ap",
+                function()
+                    open_ai("pi")
                 end,
                 desc = "AI (Pi)",
             },
             {
                 "<leader>af",
                 function()
-                    local t = Snacks.terminal.get("pi")
-                    if t then
-                        t:send(vim.fn.expand("%"))
-                    end
+                    send_to_active_ai(vim.fn.expand("%"))
                 end,
                 desc = "AI send file",
             },
             {
-                "<leader>at",
+                "<leader>al",
                 function()
-                    local t = Snacks.terminal.get("pi")
-                    if t then
-                        t:send(vim.fn.expand("%") .. ":" .. vim.fn.line("."))
-                    end
+                    send_to_active_ai(vim.fn.expand("%") .. ":" .. vim.fn.line("."))
                 end,
                 desc = "AI send this line",
             },
@@ -317,6 +346,7 @@ return {
                 { title = "Trouble", ft = "trouble", size = { height = 15 } },
             },
             right = {
+                { title = "AI (Hx)", ft = "snacks_terminal", filter = function(buf) return vim.b[buf].snacks_terminal and vim.b[buf].snacks_terminal.id == "hx" end, size = { width = 0.3 } },
                 { title = "AI (Pi)", ft = "snacks_terminal", filter = function(buf) return vim.b[buf].snacks_terminal and vim.b[buf].snacks_terminal.id == "pi" end, size = { width = 0.3 } },
             },
             left = {

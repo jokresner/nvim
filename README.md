@@ -19,7 +19,7 @@ A heavily customized, QWERTZ-optimized Neovim 0.10+ environment tailored for Go,
 - `<leader>c`: code actions (`ca` action, `cr` rename, `cf` format, `cn`/`cp` references)
 - `<leader>x`: diagnostics (`xd` line, `xx` list, `xb` buffer, `xq` quickfix, `xl` loclist); `<leader>n`/`<leader>N` move next/previous
 - `<leader>t`: tests (`tn` nearest, `tf` file, `ta` all, `tl` last, `ts` summary, `to` output, `tO` output panel, `tw` watch)
-- `<leader>d`: debug, `<leader>g`: git (`gd` status, `gm` diff from main, `gM` diff with main, `gf` file diff from main, `gF` file diff with main, `gL` current line diff, `gl` lazygit), `<leader>a`: AI, `<leader>u`: UI/toggles, `<leader>m`: markdown
+- `<leader>d`: debug, `<leader>g`: git (`gd` status, `gm` diff from main, `gM` diff with main, `gf` file diff from main, `gF` file diff with main, `gL` current line diff, `gl` lazygit), `<leader>a`: AI (`aa` Hx, `ap` Pi, `af` send file, `al` send file and cursor line), `<leader>u`: UI/toggles, `<leader>m`: markdown
 
 QWERTZ constraint: avoid mappings that require `[` or `]`.
 
