@@ -20,16 +20,6 @@ return {
                     vim.b.miniindentscope_disable = true
                 end,
             })
-            require("mini.diff").setup({
-                mappings = {
-                    goto_first = "",
-                    goto_last = "",
-                    goto_prev = "<leader>H",
-                    goto_next = "<leader>h",
-                    apply = "gh",
-                    reset = "gH",
-                },
-            })
         end,
     },
     {

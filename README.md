@@ -7,7 +7,7 @@ A heavily customized, QWERTZ-optimized Neovim 0.10+ environment tailored for Go,
 - **UI & Dashboard:** `snacks.nvim` + `noice.nvim`
 - **Editing:** `mini.nvim` (AI, Surround, Comment) + `blink.cmp` + `supermaven-nvim`
 - **Files & Search:** `yazi.nvim` + `fff.nvim`
-- **Git:** `mini.diff` + `snacks.lazygit` + `codediff.nvim`
+- **Git:** `gitsigns.nvim` + `snacks.lazygit` + `codediff.nvim`
 - **Testing & Debug:** `neotest` + `nvim-dap` + `nvim-dap-view`
 
 
