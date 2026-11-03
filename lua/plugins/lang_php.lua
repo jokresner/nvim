@@ -9,11 +9,6 @@ end
 
 return {
     {
-        "WhoIsSethDaniel/mason-tool-installer.nvim",
-        opts_extend = { "ensure_installed" },
-        opts = { ensure_installed = { "intelephense" } },
-    },
-    {
         "stevearc/conform.nvim",
         optional = true,
         opts = function(_, opts)

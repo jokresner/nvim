@@ -73,6 +73,21 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end,
 })
 
+-- Diagnostics (LSP and nvim-lint) under the cursor, in every buffer.
+vim.api.nvim_create_autocmd("CursorHold", {
+    group = augroup("diagnostic_float"),
+    callback = function()
+        vim.diagnostic.open_float(nil, {
+            focusable = false,
+            close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+            border = "rounded",
+            source = "always",
+            prefix = " ",
+            scope = "cursor",
+        })
+    end,
+})
+
 vim.api.nvim_create_autocmd("TermOpen", {
     group = augroup("clean_term"),
     callback = function()

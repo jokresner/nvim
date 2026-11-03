@@ -42,7 +42,8 @@ local function configure_rustaceanvim()
             local package_path = pkg and pkg.get_install_path and pkg:get_install_path()
             if package_path and package_path ~= "" then
                 local codelldb = package_path .. "/extension/adapter/codelldb"
-                local library_path = package_path .. "/extension/lldb/lib/liblldb.so"
+                local lib = vim.fn.has("mac") == 1 and "liblldb.dylib" or "liblldb.so"
+                local library_path = package_path .. "/extension/lldb/lib/" .. lib
                 opts.dap = {
                     adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb, library_path),
                 }
