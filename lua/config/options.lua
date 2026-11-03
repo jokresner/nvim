@@ -1,13 +1,5 @@
 -- Pre-seed background before colorscheme loads to avoid mocha flash in light mode
-local bg_cache = vim.fn.stdpath("state") .. "/bg_state"
-local f = io.open(bg_cache, "r")
-if f then
-    local bg = f:read("*a")
-    f:close()
-    if bg == "dark" or bg == "light" then
-        vim.o.background = bg
-    end
-end
+require("core.theme").preseed(vim.fn.stdpath("state"))
 
 local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
 vim.env.PATH = mason_bin .. ":" .. vim.env.PATH
