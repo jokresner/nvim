@@ -57,7 +57,7 @@ return {
 }
 ```
 
-Run `nvim --headless -u NONE -l tests/run.lua`. It fails if two languages install the same tool, a formatter/linter has no installer or `external` entry, or a filetype has no parser.
+Run `devenv shell run-tests` (or `devenv test`; plain: `nvim --headless -u NONE -l tests/run.lua`). It fails if two languages install the same tool, a formatter/linter has no installer or `external` entry, or a filetype has no parser.
 
 Tests live in `tests/test_*.lua` (mini.test) and load only `lua/core` and `lua/langs`, never plugins. New logic goes into `lua/core/<name>.lua` with its dependencies passed in so it can be tested the same way.
 

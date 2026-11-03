@@ -1,0 +1,28 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: v0.12.6
+
+      # The tests load mini.test from where lazy.nvim installs mini.nvim; use the commit pinned in lazy-lock.json.
+      - name: Install mini.nvim at the locked commit
+        run: |
+          commit=$(jq -r '."mini.nvim".commit' lazy-lock.json)
+          dir="$HOME/.local/share/nvim/lazy/mini.nvim"
+          git clone --filter=blob:none https://github.com/echasnovski/mini.nvim "$dir"
+          git -C "$dir" checkout "$commit"
+
+      - name: Run tests
+        run: nvim --headless -u NONE -l tests/run.lua
