@@ -13,7 +13,7 @@ This configuration strives to provide a **full-fledged IDE feel** without sacrif
 
 `lua/plugins/` contains one file per domain. Each file returns a lazy.nvim plugin spec (or a list of specs). lazy.nvim scans the directory automatically — no registry, no boot list.
 
-- **Plugin files:** `lua/plugins/*.lua` — one per domain (e.g. `git.lua`, `lang_go.lua`, `testing.lua`)
+- **Plugin files:** `lua/plugins/*.lua` — one per domain (e.g. `git.lua`, `testing.lua`). Languages are the exception: they are data in `lua/langs/*.lua`, merged by `lua/core/lang.lua` through `lua/plugins/lang.lua`.
 - **LSP engine:** `lua/core/lsp_engine.lua` — private helper wiring mason → mason-lspconfig → blink capabilities. Called only from `lua/plugins/lsp.lua`.
 - **Global keymaps:** `lua/config/keymaps.lua` — non-plugin-dependent keymaps set at startup.
 - **Options/autocmds:** `lua/config/options.lua` and `lua/config/autocmds.lua` — loaded before lazy.
@@ -38,37 +38,34 @@ return {
 
 ## 3. How to Add a Language
 
-1. Create `lua/plugins/lang_<name>.lua` with `optional = true` injections into conform/lint/neotest/dap.
-2. Add the LSP server config to the `lsps` table in `lua/plugins/lsp.lua`.
+Create one file, `lua/langs/<name>.lua`, returning a plain data table. `lua/core/lang.lua` merges every language into lazy.nvim specs, one mason install list, the LSP server list and the treesitter parser list. Never write `opts.x = opts.x or {}` merge code; the module owns that.
 
 ```lua
--- lua/plugins/lang_example.lua
+-- lua/langs/example.lua  (every field is optional)
 return {
-    {
-        "stevearc/conform.nvim",
-        optional = true,
-        opts = function(_, opts)
-            opts.formatters_by_ft = opts.formatters_by_ft or {}
-            opts.formatters_by_ft.example = { "examplefmt" }
-        end,
-    },
-    {
-        "nvim-neotest/neotest",
-        optional = true,
-        dependencies = { "author/neotest-example" },
-        opts = function(_, opts)
-            opts.adapters = opts.adapters or {}
-            table.insert(opts.adapters, require("neotest-example"))
-        end,
-    },
+    ft = { "example" },
+    parsers = { "example" },
+    tools = { "examplefmt" },            -- mason packages
+    external = { "examplec" },           -- formatter/linter ids installed outside mason (nix, toolchain)
+    servers = { { server = "example_ls", config = {} } },  -- see core/lsp_engine.lua for the record fields
+    formatters_by_ft = { example = { "examplefmt" } },
+    linters_by_ft = { example = { "examplelint" } },
+    test = { plugin = "author/neotest-example", adapter = function() return require("neotest-example") end },
+    dap = { setup = function(dap) dap.adapters.example = {} end },
+    options = { tabstop = 2 },           -- buffer options on FileType
+    plugins = {},                        -- extra lazy specs only this language needs
 }
 ```
+
+Run `nvim --headless -u NONE -l tests/run.lua`. It fails if two languages install the same tool, a formatter/linter has no installer or `external` entry, or a filetype has no parser.
+
+Tests live in `tests/test_*.lua` (mini.test) and load only `lua/core` and `lua/langs`, never plugins. New logic goes into `lua/core/<name>.lua` with its dependencies passed in so it can be tested the same way.
 
 ## 4. Strict Codebase Rules
 
 1. **QWERTZ Layout Constraints:** The user operates on a German QWERTZ keyboard. The bracket keys `[` and `]` are painful to type (requiring `AltGr+8/9`). **Never** add or recommend keymaps relying on `[` or `]`. (e.g., Use `<leader>n`/`<leader>N` for diagnostics, or `<leader>h`/`<leader>H` for git hunks).
 2. **Native Treesitter:** Do not enable `highlight = { enable = true }` in `nvim-treesitter`. This config uses a native `vim.treesitter.start()` autocmd inside `lua/plugins/treesitter.lua`'s config function. The plugin is strictly for downloading parsers.
-3. **Spec Merging:** To add formatting or linting for a new language, use `optional = true` in the language's plugin file and mutate the `opts` table. Do not modify `tooling.lua` directly.
+3. **Spec Merging:** To add formatting, linting, tests or debugging for a language, add it to that language's file in `lua/langs/`. Do not modify `tooling.lua` or write `optional = true` specs by hand.
 4. **No Redundant Plugins:** Before installing a new tool, check if the core stack supports it:
    - Do not install `telescope.nvim` / `fzf-lua` → Use `snacks.picker`.
    - Do not install `nvim-tree` / `neo-tree` → Use `yazi.nvim` + `snacks.picker`.

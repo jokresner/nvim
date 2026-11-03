@@ -1,31 +1,18 @@
-local parsers = {
+-- Language parsers come from lua/langs via core.lang; these are the rest.
+local parsers = vim.list_extend({
     "bash",
     "css",
     "html",
-    "javascript",
     "latex",
     "scss",
     "svelte",
-    "tsx",
     "vue",
-    "go",
-    "gomod",
-    "gosum",
-    "json",
-    "lua",
-    "luadoc",
-    "markdown",
-    "markdown_inline",
-    "php",
     "query",
     "regex",
-    "rust",
     "toml",
-    "typst",
     "vim",
     "vimdoc",
-    "yaml",
-}
+}, require("core.lang").registry().parsers)
 
 return {
     {

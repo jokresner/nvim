@@ -10,7 +10,7 @@ end
 return {
     {
         "mfussenegger/nvim-dap",
-        dependencies = { "jay-babu/mason-nvim-dap.nvim", "igorlfs/nvim-dap-view" },
+        dependencies = { "igorlfs/nvim-dap-view" },
         keys = {
             {
                 "<leader>db",
@@ -69,17 +69,10 @@ return {
                 desc = "Toggle DAP view",
             },
         },
-        -- Base DAP owns UI, signs, and keymaps. Language Plugin Files inject
-        -- adapter tools through `ensure_installed` and adapter setup callbacks.
-        opts = {
-            ensure_installed = {},
-            adapters = {},
-        },
+        -- Base DAP owns UI, signs, and keymaps. Language files add adapter setup
+        -- callbacks through core.lang (`dap.setup`); adapters install via `tools`.
+        opts = { adapters = {} },
         config = function(_, opts)
-            require("mason-nvim-dap").setup({
-                ensure_installed = opts.ensure_installed,
-                handlers = {},
-            })
             for _, setup_adapter in ipairs(opts.adapters or {}) do
                 setup_adapter(require("dap"))
             end

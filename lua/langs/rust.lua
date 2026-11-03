@@ -54,52 +54,42 @@ local function configure_rustaceanvim()
 end
 
 return {
-    {
-        "WhoIsSethDaniel/mason-tool-installer.nvim",
-        opts_extend = { "ensure_installed" },
-        opts = { ensure_installed = { "codelldb" } },
+    ft = { "rust" },
+    parsers = { "rust" },
+    tools = { "codelldb" },
+    external = { "rustfmt", "bacon" }, -- rustup, nix
+    servers = {
+        -- rustaceanvim starts rust-analyzer itself; the record only carries attach keys.
+        {
+            server = "rust_analyzer",
+            client = "rust-analyzer",
+            adapter = "rustaceanvim",
+            keys = {
+                {
+                    "<leader>ca",
+                    function()
+                        vim.cmd.RustLsp("codeAction")
+                    end,
+                    desc = "Code action (Rust)",
+                },
+                {
+                    "<leader>dd",
+                    function()
+                        vim.cmd.RustLsp("debuggables")
+                    end,
+                    desc = "Rust debuggables",
+                },
+            },
+        },
     },
-    {
-        "mrcjkb/rustaceanvim",
-        version = "^5",
-        ft = { "rust" },
-        init = configure_rustaceanvim,
-        config = function()
-            local function map_rust_keys(bufnr)
-                vim.keymap.set("n", "<leader>ca", function()
-                    vim.cmd.RustLsp("codeAction")
-                end, { buffer = bufnr, silent = true, desc = "Code action (Rust)" })
-                vim.keymap.set("n", "<leader>dd", function()
-                    vim.cmd.RustLsp("debuggables")
-                end, { buffer = bufnr, silent = true, desc = "Rust debuggables" })
-            end
-
-            if vim.bo.filetype == "rust" then
-                map_rust_keys(0)
-            end
-            vim.api.nvim_create_autocmd("FileType", {
-                group = vim.api.nvim_create_augroup("rustaceanvim_keymaps", { clear = true }),
-                pattern = "rust",
-                callback = function(event)
-                    map_rust_keys(event.buf)
-                end,
-            })
-        end,
-    },
-    {
-        "stevearc/conform.nvim",
-        optional = true,
-        opts = function(_, opts)
-            opts.formatters_by_ft = opts.formatters_by_ft or {}
-            opts.formatters_by_ft.rust = { "rustfmt" }
-        end,
-    },
-    {
-        "mfussenegger/nvim-lint",
-        optional = true,
-        opts = function(_, opts)
-            opts.linters_by_ft = opts.linters_by_ft or {}
-            opts.linters_by_ft.rust = { "bacon" }
-        end,
+    formatters_by_ft = { rust = { "rustfmt" } },
+    linters_by_ft = { rust = { "bacon" } },
+    plugins = {
+        {
+            "mrcjkb/rustaceanvim",
+            version = "^5",
+            ft = { "rust" },
+            init = configure_rustaceanvim,
+        },
     },
 }

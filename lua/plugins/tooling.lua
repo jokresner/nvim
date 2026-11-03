@@ -1,15 +1,11 @@
 return {
     {
+        -- The only install channel: language files add tools and LSP servers
+        -- through core.lang (mason-lspconfig maps lspconfig names to packages).
         "WhoIsSethDaniel/mason-tool-installer.nvim",
-        dependencies = { "williamboman/mason.nvim" },
+        dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
         opts_extend = { "ensure_installed" },
-        opts = {
-            ensure_installed = {
-                "stylua",
-                "luacheck",
-                "tree-sitter-cli",
-            },
-        },
+        opts = { ensure_installed = { "tree-sitter-cli" } },
     },
     {
         "stevearc/conform.nvim",
@@ -49,21 +45,15 @@ return {
 
                 return { timeout_ms = 500, lsp_fallback = true }
             end,
-            formatters_by_ft = {
-                lua = { "stylua" },
-                json = { "jq" },
-                yaml = { "prettierd", "prettier" },
-                markdown = { "prettierd", "prettier" },
-            },
         },
     },
     {
         "mfussenegger/nvim-lint",
         event = { "BufReadPost", "BufNewFile", "BufWritePost" },
-        opts = { linters_by_ft = { lua = { "luacheck" } } },
+        opts = {},
         config = function(_, opts)
             local lint = require("lint")
-            lint.linters_by_ft = opts.linters_by_ft
+            lint.linters_by_ft = opts.linters_by_ft or {}
 
             local timer = vim.uv.new_timer()
             vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
