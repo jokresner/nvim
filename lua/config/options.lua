@@ -57,16 +57,6 @@ opt.wrap = true
 opt.linebreak = true
 opt.swapfile = false
 
--- Diagnostics defaults (previously set by the LSP engine, which no longer owns them)
-vim.diagnostic.config({
-    virtual_text = false,
-    signs = true,
-    underline = true,
-    update_in_insert = false,
-    severity_sort = true,
-    float = { border = "rounded", source = true },
-})
-
 -- Remove comment continuation on 'o'/'O'
 -- Placed in an autocmd so FileType plugins don't overwrite it.
 vim.api.nvim_create_autocmd("BufEnter", {
