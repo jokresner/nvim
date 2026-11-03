@@ -170,6 +170,8 @@ return {
                 },
             },
             bigfile = { enabled = true },
+            image = { enabled = true },
+            statuscolumn = { enabled = true },
             notifier = { enabled = true },
             picker = { enabled = true, ui_select = false },
             quickfile = { enabled = true },

@@ -54,6 +54,7 @@ return {
         priority = 1000,
         opts = {
             default_integrations = false,
+            auto_integrations = false,
             flavour = "auto",
             background = { light = "latte", dark = "mocha" },
             transparent_background = false,

@@ -1,4 +1,13 @@
 local parsers = {
+    "bash",
+    "css",
+    "html",
+    "javascript",
+    "latex",
+    "scss",
+    "svelte",
+    "tsx",
+    "vue",
     "go",
     "gomod",
     "gosum",
