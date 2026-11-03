@@ -37,7 +37,7 @@ return {
         dependencies = { "nvim-neotest/neotest-go" },
         opts = function(_, opts)
             opts.adapters = opts.adapters or {}
-            table.insert(opts.adapters, require("neotest-go"))
+            table.insert(opts.adapters, require("neotest-go")({ recursive_run = true }))
         end,
     },
     {

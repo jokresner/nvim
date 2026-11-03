@@ -2,6 +2,8 @@ return {
     {
         "nvim-neotest/neotest",
         dependencies = { "nvim-neotest/nvim-nio", "nvim-lua/plenary.nvim" },
+        -- load early so project-wide discovery has finished before "run all"
+        event = "VeryLazy",
         keys = {
             {
                 "<leader>tn",
@@ -61,9 +63,38 @@ return {
             },
         },
         opts = {
-            discovery = { enabled = false, concurrent = 1 },
+            discovery = { enabled = true, concurrent = 0 },
             running = { concurrent = true },
             summary = { animated = true },
+            consumers = {
+                -- LSP-style progress: neotest has no "done" event, so debounce the per-file discovery events
+                discovery_progress = function(client)
+                    local count, timer = 0, vim.uv.new_timer()
+                    local id = "neotest_discovery"
+                    client.listeners.discover_positions = function()
+                        count = count + 1
+                        vim.notify(("Discovering tests… %d files"):format(count), vim.log.levels.INFO, {
+                            id = id,
+                            title = "Neotest",
+                            timeout = false,
+                        })
+                        timer:stop()
+                        timer:start(
+                            800,
+                            0,
+                            vim.schedule_wrap(function()
+                                vim.notify(("Discovery done: %d files"):format(count), vim.log.levels.INFO, {
+                                    id = id,
+                                    title = "Neotest",
+                                    timeout = 2000,
+                                })
+                                count = 0
+                            end)
+                        )
+                    end
+                    return {}
+                end,
+            },
         },
         config = function(_, opts)
             local ns = vim.api.nvim_create_namespace("neotest")
