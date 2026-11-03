@@ -68,7 +68,7 @@ return {
         },
         config = function()
             setup_lsp_keymaps()
-            
+
             -- Show diagnostics under the cursor
             vim.api.nvim_create_autocmd("CursorHold", {
                 buffer = bufnr,
@@ -76,13 +76,13 @@ return {
                     local opts = {
                         focusable = false,
                         close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-                        border = 'rounded',
-                        source = 'always',
-                        prefix = ' ',
-                        scope = 'cursor',
+                        border = "rounded",
+                        source = "always",
+                        prefix = " ",
+                        scope = "cursor",
                     }
                     vim.diagnostic.open_float(nil, opts)
-                end
+                end,
             })
 
             require("core.lsp_engine").setup({
@@ -152,7 +152,18 @@ return {
                             },
                         },
                     },
-                    { server = "intelephense" },
+                    {
+                        server = "intelephense",
+                        config = {
+                            settings = {
+                                intelephense = {
+                                    telemetry = {
+                                        enabled = false,
+                                    },
+                                },
+                            },
+                        },
+                    },
                     {
                         server = "nixd",
                         ensure = false,
