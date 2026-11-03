@@ -14,4 +14,10 @@
 
 - **Global Keymaps**: `lua/config/keymaps.lua` — non-plugin-dependent keymaps (buffer nav, clipboard, scroll, escape) set eagerly at startup before lazy loads.
 
-- **AI Terminal**: the Snacks terminals running the `hx` and `pi` agents, opened with `<leader>aa` / `<leader>ap`. `<leader>af` and `<leader>al` send the current file or line to the last opened agent.
+- **AI Terminal**: `lua/core/ai_terminal.lua` — the Snacks terminals running the agent CLIs (`hx`, `pi`). The agent list lives at the top of `lua/plugins/ui.lua`; keymaps (`<leader>a<key>`, `<leader>af`, `<leader>al`) and the edgy views are generated from it. Also owns the one file reference format (`reference`), shared with `<leader>fl`.
+
+- **UI State**: `lua/core/ui_state.lua` — persisted UI toggles (`<leader>u…`) in `stdpath("state")/ui_toggles.json`, and the only owner of the diagnostic defaults, so a saved toggle is never overridden by LSP setup.
+
+- **Theme**: `lua/core/theme.lua` — owns the external theme file (`~/.local/state/theme/current.json`, wins when present) and the cache (`stdpath("state")/theme_cache.json`: background + colorscheme, written on every `ColorScheme` event, so the colorscheme picker is remembered).
+
+- **Tests**: `tests/test_*.lua`, run with `nvim --headless -u NONE -l tests/run.lua`. They load only `lua/core` and `lua/langs`, never plugins.

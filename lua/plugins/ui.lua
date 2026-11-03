@@ -1,38 +1,8 @@
-local active_ai
-
-local function open_ai(agent)
-    local terminal = Snacks.terminal(agent, {
-        id = agent,
-        win = {
-            style = "terminal",
-            border = "none",
-            width = 0.3,
-            position = "right",
-        },
-    })
-    active_ai = { id = agent, terminal = terminal }
-end
-
-local function send_to_active_ai(message)
-    if not active_ai then
-        vim.notify("Open an AI agent first", vim.log.levels.WARN)
-        return
-    end
-
-    local terminal = active_ai.terminal
-    if not terminal or not vim.api.nvim_buf_is_valid(terminal.buf) then
-        vim.notify("AI agent is not running: " .. active_ai.id, vim.log.levels.WARN)
-        return
-    end
-
-    local job_id = vim.b[terminal.buf].terminal_job_id
-    if not job_id then
-        vim.notify("AI agent has no active terminal job: " .. active_ai.id, vim.log.levels.WARN)
-        return
-    end
-
-    vim.api.nvim_chan_send(job_id, message)
-end
+-- Add an agent here; keymaps (<leader>a<key>) and the edgy view are generated from it.
+local ai_agents = {
+    { id = "hx", cmd = "hx", key = "a", title = "Hx" },
+    { id = "pi", cmd = "pi", key = "p", title = "Pi" },
+}
 
 return {
     {
@@ -40,34 +10,6 @@ return {
         priority = 1000,
         lazy = false,
         keys = {
-            {
-                "<leader>aa",
-                function()
-                    open_ai("hx")
-                end,
-                desc = "AI (Hx)",
-            },
-            {
-                "<leader>ap",
-                function()
-                    open_ai("pi")
-                end,
-                desc = "AI (Pi)",
-            },
-            {
-                "<leader>af",
-                function()
-                    send_to_active_ai(vim.fn.expand("%"))
-                end,
-                desc = "AI send file",
-            },
-            {
-                "<leader>al",
-                function()
-                    send_to_active_ai(vim.fn.expand("%") .. ":" .. vim.fn.line("."))
-                end,
-                desc = "AI send this line",
-            },
             {
                 "<leader>ut",
                 function()
@@ -180,6 +122,14 @@ return {
         },
         config = function(_, opts)
             require("snacks").setup(opts)
+            require("core.ai_terminal")
+                .new({
+                    agents = ai_agents,
+                    terminal = function(cmd, terminal_opts)
+                        return Snacks.terminal(cmd, terminal_opts)
+                    end,
+                })
+                .map_keys()
             require("core.ui_state").setup({
                 path = vim.fn.stdpath("state") .. "/ui_toggles.json",
                 toggle = require("snacks").toggle,
@@ -264,10 +214,7 @@ return {
                 { ft = "neotest-output-panel", size = { height = 15 } },
                 { title = "Trouble", ft = "trouble", size = { height = 15 } },
             },
-            right = {
-                { title = "AI (Hx)", ft = "snacks_terminal", filter = function(buf) return vim.b[buf].snacks_terminal and vim.b[buf].snacks_terminal.id == "hx" end, size = { width = 0.3 } },
-                { title = "AI (Pi)", ft = "snacks_terminal", filter = function(buf) return vim.b[buf].snacks_terminal and vim.b[buf].snacks_terminal.id == "pi" end, size = { width = 0.3 } },
-            },
+            right = require("core.ai_terminal").edgy_views(ai_agents),
             left = {
                 { title = "Symbols", ft = "snacks_picker", filter = function(buf) return vim.b[buf].snacks_picker_id == "lsp_symbols" end, size = { width = 0.2 } },
                 { title = "Neotest Summary", ft = "neotest-summary", size = { width = 0.2 } },

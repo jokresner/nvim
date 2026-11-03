@@ -5,9 +5,7 @@ vim.keymap.set("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Toggle alternate buf
 
 -- Copy path:line to clipboard
 vim.keymap.set("n", "<leader>fl", function()
-    local path = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
-    local line = vim.fn.line(".")
-    local value = path .. ":" .. line
+    local value = require("core.ai_terminal").reference(vim.fn.expand("%"), vim.fn.line("."))
     vim.fn.setreg("+", value)
     vim.notify("Copied " .. value)
 end, { desc = "Copy path:line" })
